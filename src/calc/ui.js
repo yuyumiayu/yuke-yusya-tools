@@ -88,7 +88,7 @@
   const SWEEP = ["w","a","i1","i2"];
   function save(){
     const s = {mode, sweep:SWEEP.filter(k=>$(k+"x").checked), xs:$("xs").value, xlv:$("xlv").value, xn4:$("xn4").checked,
-               xsw:$("xsw").checked, xsa:$("xsa").checked, xcap:$("xcap").value, kago:$("kago").checked};
+               xsw:$("xsw").checked, xsa:$("xsa").checked, xcap:$("xcap").value};
     FIELDS.forEach(k=>s[k]=$(k).value);
     try{ localStorage.setItem("yuke-calc-v2", JSON.stringify(s)); }catch(e){}
   }
@@ -104,7 +104,6 @@
     if (s.xsw !== undefined) $("xsw").checked = s.xsw;
     if (s.xsa !== undefined) $("xsa").checked = s.xsa;
     if (s.xcap) $("xcap").value = s.xcap;
-    if (s.kago !== undefined) $("kago").checked = s.kago;
   }
   function syncControls(){
     ["w","a"].forEach(t=>{
@@ -121,14 +120,15 @@
     cur = {ws, as, i1, i2};
     $("i1h").textContent = itemHint(i1); $("i2h").textContent = itemHint(i2);
     const res = resonances(ws.g, as.g, R);
-    const r = build(ws.g, ws.e, as.g, as.e, [i1,i2], res, {kago: $("kago").checked});
+    const r = build(ws.g, ws.e, as.g, as.e, [i1,i2], res);
     const m = r.mods, fx = [];
     if (m.wBase!==1) fx.push(`武器の基本値 ×${fmt(m.wBase)}`);
     if (m.wGrow!==1) fx.push(`武器の成長補正 ×${fmt(m.wGrow)}`);
     if (m.aBase!==1) fx.push(`防具の基本値 ×${fmt(m.aBase)}`);
     if (m.aGrow!==1) fx.push(`防具の成長補正 ×${fmt(m.aGrow)}`);
     if (r.exp) fx.push(`出発時レベル Lv${r.start}（経験値+${r.exp}）`);
-    if ($("kago").checked) fx.push("神様の加護（攻・防+2）");
+    if (r.kago.atk) fx.push("戦いの神様の加護（武器なし。攻+2〜3、計算は+2.5）");
+    if (r.kago.def) fx.push("守りの神様の加護（防具なし。防+2〜3、計算は+2.5）");
     $("fx").textContent = fx.length ? "効果中：" + fx.join("、") : "";
     const resTxt = x => x.calc && x.calc.pending ? `${x.name}（ステータスへの効果は未反映）`
       : x.calc ? `${x.name}（${x.effect}）` : x.name;
@@ -145,7 +145,7 @@
     $("bars").innerHTML = ["hp","atk","def"].map(k=>`<span>${LBL[k]}</span><span class="bar"><i style="width:${f.sub[k]/maxes[k]*100}%"></i></span><span class="v">${f.sub[k]}/${maxes[k]}</span>`).join("");
     $("crit").innerHTML = f.crit.map(c=>`<li class="${c.ok?"":"off"}"><span>${c.ok?"✓":"・"}</span><span class="pt">${c.pt}点</span><span>${LBL[c.key]} ${c.conds.map(([L,v],j)=>`Lv${L}≥${v}（${c.vals[j]}）`).join(" かつ ")}<small>${c.note}</small></span></li>`).join("");
 
-    const rows = [["基本値", r.base, sgn], ["成長補正", r.corr, sgn], ["Lv1", r.init, String], ["成長値", r.grow, fmt]];
+    const rows = [["基本値", r.base, sgn], ["成長補正", r.corr, sgn], ["Lv1", r.at(1), String], ["成長値", r.grow, fmt]];
     if (K.some(k=>r.resBase[k])) rows.splice(1, 0, ["うち共鳴", r.resBase, sgn]);
     if (r.start > 1) rows.splice(rows.length-1, 0, [`出発時 Lv${r.start}`, r.at(r.start), String]);
     $("st").innerHTML = rows.map(([n,v,f2])=>`<tr><td class="lbl">${n}</td>${K.map(k=>`<td>${f2(v[k])}</td>`).join("")}</tr>`).join("");
@@ -206,7 +206,7 @@
       i2: x("i2") ? {all:true} : {fixed:cur.i2},
       items: candsOf("i"),
       sort: $("xs").value === "forest" ? {by:"forest"} : {by:"stat", key:$("xs").value, lv:Math.max(1, Math.min(99, parseInt($("xlv").value,10) || 50))},
-      need4: $("xn4").checked, top: 30, kago: $("kago").checked,
+      need4: $("xn4").checked, top: 30,
     };
     const nP = itemPairs(s).length, nW = slotList(s.w).length, nA = slotList(s.a).length;
     return {s, nW, nA, nP, total: nW * nA * nP, any: SWEEP.some(x)};
@@ -319,7 +319,6 @@
   $("xgo").addEventListener("click", run);
   $("xstop").addEventListener("click", () => { if (running) finish(running.partial ? running.partial() : [], spec().s, 0, true); });
   SWEEP.forEach(k => $(k+"x").addEventListener("change", render));
-  $("kago").addEventListener("change", render);
   ["xs","xlv","xn4","xsw","xsa","xcap"].forEach(id => $(id).addEventListener(id === "xlv" ? "input" : "change", () => { sweepInfo(); save(); }));
 
   load(); render();
