@@ -1,0 +1,27 @@
+name: データの間違い
+description: 装備・道具の数値、強化上限・費用、共鳴などが違う
+title: "[データ] "
+labels: ["データの間違い"]
+body:
+  - type: input
+    id: target
+    attributes:
+      label: 対象
+      description: 装備・道具・共鳴などの名前
+      placeholder: 例）ハイランドメイル
+    validations:
+      required: true
+  - type: textarea
+    id: wrong
+    attributes:
+      label: 今の値と正しい値
+      placeholder: 例）強化上限が 60 になっているが、正しくは 70
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: 確かめた方法
+      description: wiki のページ、ゲーム内の画面など
+    validations:
+      required: true

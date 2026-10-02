@@ -1,0 +1,1223 @@
+[
+  {
+    "rarity": 1,
+    "name": "冒険者の服",
+    "base_defense": 5,
+    "max_enhance": 200,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 5,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "店",
+      "冒",
+      "試",
+      "財",
+      "死"
+    ],
+    "price": 200,
+    "sell_price": 20
+  },
+  {
+    "rarity": 1,
+    "name": "冒険者の鎧",
+    "base_defense": 9,
+    "max_enhance": 45,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 9,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "店",
+      "冒",
+      "試",
+      "財",
+      "死"
+    ],
+    "price": 500,
+    "sell_price": 50
+  },
+  {
+    "rarity": 1,
+    "name": "青銅の鎧",
+    "base_defense": 15,
+    "max_enhance": 45,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 15,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "店",
+      "試",
+      "財",
+      "飛",
+      "死"
+    ],
+    "price": 1000,
+    "sell_price": 100
+  },
+  {
+    "rarity": 1,
+    "name": "ナイトメイル",
+    "base_defense": 19,
+    "max_enhance": 45,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 19,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "防+1",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 1,
+      "eva": 0,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "店",
+      "試",
+      "財",
+      "飛",
+      "死",
+      "戦",
+      "染"
+    ],
+    "price": 3000,
+    "sell_price": 300
+  },
+  {
+    "rarity": 1,
+    "name": "ヘビーメイル",
+    "base_defense": 25,
+    "max_enhance": 90,
+    "base_text": "回-3",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 25,
+      "eva": -3,
+      "luk": 0
+    },
+    "growth_text": "防+2,回-1",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 2,
+      "eva": -1,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "店",
+      "飛",
+      "戦",
+      "染",
+      "水"
+    ],
+    "price": 4000,
+    "sell_price": 400
+  },
+  {
+    "rarity": 2,
+    "name": "バスターメイル",
+    "base_defense": 25,
+    "max_enhance": 45,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 25,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "HP+1,攻+1,防+2",
+    "growth": {
+      "hp": 1,
+      "atk": 1,
+      "def": 2,
+      "eva": 0,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "飛",
+      "死",
+      "戦",
+      "染",
+      "水",
+      "闇",
+      "王",
+      "森",
+      "沈",
+      "竜",
+      "忍"
+    ],
+    "price": 8000,
+    "sell_price": 800
+  },
+  {
+    "rarity": 2,
+    "name": "ミスリルメイル",
+    "base_defense": 29,
+    "max_enhance": 60,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 29,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "防+3",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 3,
+      "eva": 0,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "戦",
+      "染",
+      "水",
+      "闇",
+      "王",
+      "森",
+      "沈",
+      "竜",
+      "忍"
+    ],
+    "price": 10000,
+    "sell_price": 1000
+  },
+  {
+    "rarity": 2,
+    "name": "ドラゴンアーマー",
+    "base_defense": 30,
+    "max_enhance": 45,
+    "base_text": "攻+5",
+    "base": {
+      "hp": 0,
+      "atk": 5,
+      "def": 30,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "HP+3,攻+1,防+2",
+    "growth": {
+      "hp": 3,
+      "atk": 1,
+      "def": 2,
+      "eva": 0,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "飛",
+      "死",
+      "戦",
+      "染",
+      "水",
+      "王",
+      "森",
+      "沈",
+      "竜",
+      "忍"
+    ],
+    "price": 18000,
+    "sell_price": 1800
+  },
+  {
+    "rarity": 4,
+    "name": "グロウメイル",
+    "base_defense": 25,
+    "max_enhance": 60,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 25,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "HP+3,攻+2,防+2,回+1,運+1",
+    "growth": {
+      "hp": 3,
+      "atk": 2,
+      "def": 2,
+      "eva": 1,
+      "luk": 1
+    },
+    "ability": null,
+    "dungeons": [
+      "戦",
+      "闇"
+    ],
+    "price": 60000,
+    "sell_price": 6000
+  },
+  {
+    "rarity": 4,
+    "name": "幸運の鎧",
+    "base_defense": 30,
+    "max_enhance": 30,
+    "base_text": "運+25",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 30,
+      "eva": 0,
+      "luk": 25
+    },
+    "growth_text": "運+1",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 1
+    },
+    "ability": null,
+    "dungeons": [
+      "死",
+      "染"
+    ],
+    "price": 54000,
+    "sell_price": 5400
+  },
+  {
+    "rarity": 3,
+    "name": "生命の鎧",
+    "base_defense": 35,
+    "max_enhance": 45,
+    "base_text": "HP+50",
+    "base": {
+      "hp": 50,
+      "atk": 0,
+      "def": 35,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "HP+5,防+3",
+    "growth": {
+      "hp": 5,
+      "atk": 0,
+      "def": 3,
+      "eva": 0,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "戦"
+    ],
+    "price": 65000,
+    "sell_price": 6500
+  },
+  {
+    "rarity": 2,
+    "name": "プラチナメイル",
+    "base_defense": 39,
+    "max_enhance": 45,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 39,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "攻+1,防+4,回+3",
+    "growth": {
+      "hp": 0,
+      "atk": 1,
+      "def": 4,
+      "eva": 3,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "染",
+      "王",
+      "森",
+      "沈",
+      "竜",
+      "忍"
+    ],
+    "price": 33000,
+    "sell_price": 3300
+  },
+  {
+    "rarity": 2,
+    "name": "ブラッドメイル",
+    "base_defense": 35,
+    "max_enhance": 45,
+    "base_text": "HP+20,運-10",
+    "base": {
+      "hp": 20,
+      "atk": 0,
+      "def": 35,
+      "eva": 0,
+      "luk": -10
+    },
+    "growth_text": "HP+1,防+6,運-2",
+    "growth": {
+      "hp": 1,
+      "atk": 0,
+      "def": 6,
+      "eva": 0,
+      "luk": -2
+    },
+    "ability": null,
+    "dungeons": [
+      "染"
+    ],
+    "price": 35000,
+    "sell_price": 3500
+  },
+  {
+    "rarity": 3,
+    "name": "オフェンサー",
+    "base_defense": 35,
+    "max_enhance": 30,
+    "base_text": "攻+20",
+    "base": {
+      "hp": 0,
+      "atk": 20,
+      "def": 35,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "攻+2,防+2,回+1",
+    "growth": {
+      "hp": 0,
+      "atk": 2,
+      "def": 2,
+      "eva": 1,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "染"
+    ],
+    "price": 36000,
+    "sell_price": 3600
+  },
+  {
+    "rarity": 2,
+    "name": "エンハンスメイル",
+    "base_defense": 50,
+    "max_enhance": 90,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 50,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "防+6",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 6,
+      "eva": 0,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "水",
+      "闇",
+      "王",
+      "森",
+      "沈",
+      "忍",
+      "漆"
+    ],
+    "price": 20000,
+    "sell_price": 2000
+  },
+  {
+    "rarity": 2,
+    "name": "ルーンメイル",
+    "base_defense": 55,
+    "max_enhance": 45,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 55,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "HP+1,攻+1,防+7,回+5",
+    "growth": {
+      "hp": 1,
+      "atk": 1,
+      "def": 7,
+      "eva": 5,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "闇",
+      "王",
+      "森",
+      "沈",
+      "竜",
+      "忍",
+      "漆"
+    ],
+    "price": 22000,
+    "sell_price": 2200
+  },
+  {
+    "rarity": 2,
+    "name": "ハイランドメイル",
+    "base_defense": 70,
+    "max_enhance": 60,
+    "base_text": "HP+30",
+    "base": {
+      "hp": 30,
+      "atk": 0,
+      "def": 70,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "HP+1,防+8,回+6",
+    "growth": {
+      "hp": 1,
+      "atk": 0,
+      "def": 8,
+      "eva": 6,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "森",
+      "沈",
+      "光",
+      "忍",
+      "漆"
+    ],
+    "price": 24000,
+    "sell_price": 2400
+  },
+  {
+    "rarity": 2,
+    "name": "チェインメイル",
+    "base_defense": 75,
+    "max_enhance": 60,
+    "base_text": "HP+20",
+    "base": {
+      "hp": 20,
+      "atk": 0,
+      "def": 75,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "HP+3,攻+1,防+6",
+    "growth": {
+      "hp": 3,
+      "atk": 1,
+      "def": 6,
+      "eva": 0,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "漆"
+    ],
+    "price": 25000,
+    "sell_price": 2500
+  },
+  {
+    "rarity": 3,
+    "name": "身かわしの鎧",
+    "base_defense": 35,
+    "max_enhance": 30,
+    "base_text": "回+1000",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 35,
+      "eva": 1000,
+      "luk": 0
+    },
+    "growth_text": "防+4,回+15",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 4,
+      "eva": 15,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "水",
+      "忍"
+    ],
+    "price": 42000,
+    "sell_price": 4200
+  },
+  {
+    "rarity": 3,
+    "name": "龍鱗の鎧",
+    "base_defense": 60,
+    "max_enhance": 75,
+    "base_text": "HP+20",
+    "base": {
+      "hp": 20,
+      "atk": 0,
+      "def": 60,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "HP+5,防+7",
+    "growth": {
+      "hp": 5,
+      "atk": 0,
+      "def": 7,
+      "eva": 0,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "水"
+    ],
+    "price": 45000,
+    "sell_price": 4500
+  },
+  {
+    "rarity": 3,
+    "name": "ダークメイル",
+    "base_defense": 65,
+    "max_enhance": 90,
+    "base_text": "HP-10,攻-3,回-3",
+    "base": {
+      "hp": -10,
+      "atk": -3,
+      "def": 65,
+      "eva": -3,
+      "luk": 0
+    },
+    "growth_text": "HP-2,攻-1,防+8,運-3",
+    "growth": {
+      "hp": -2,
+      "atk": -1,
+      "def": 8,
+      "eva": 0,
+      "luk": -3
+    },
+    "ability": null,
+    "dungeons": [
+      "闇"
+    ],
+    "price": 48000,
+    "sell_price": 4800
+  },
+  {
+    "rarity": 4,
+    "name": "アークメイル",
+    "base_defense": 70,
+    "max_enhance": 75,
+    "base_text": "HP+10,攻+15,回+10",
+    "base": {
+      "hp": 10,
+      "atk": 15,
+      "def": 70,
+      "eva": 10,
+      "luk": 0
+    },
+    "growth_text": "HP+2,攻+2,防+5,回+3",
+    "growth": {
+      "hp": 2,
+      "atk": 2,
+      "def": 5,
+      "eva": 3,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "王"
+    ],
+    "price": 65000,
+    "sell_price": 6500
+  },
+  {
+    "rarity": 4,
+    "name": "太陽の鎧",
+    "base_defense": 65,
+    "max_enhance": 15,
+    "base_text": "回+10",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 65,
+      "eva": 10,
+      "luk": 0
+    },
+    "growth_text": "攻+3,防+6,回+5",
+    "growth": {
+      "hp": 0,
+      "atk": 3,
+      "def": 6,
+      "eva": 5,
+      "luk": 0
+    },
+    "ability": "武器基本値UP(30%増)*2",
+    "dungeons": [
+      "光"
+    ],
+    "price": 67000,
+    "sell_price": 6700
+  },
+  {
+    "rarity": 3,
+    "name": "甲冑",
+    "base_defense": 60,
+    "max_enhance": 150,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 60,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "防+7",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 7,
+      "eva": 0,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "漆"
+    ],
+    "price": 28000,
+    "sell_price": 2800
+  },
+  {
+    "rarity": 5,
+    "name": "漆黒の鎧",
+    "base_defense": 90,
+    "max_enhance": 15,
+    "base_text": "HP-20",
+    "base": {
+      "hp": -20,
+      "atk": 0,
+      "def": 90,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "HP-4,防+9",
+    "growth": {
+      "hp": -4,
+      "atk": 0,
+      "def": 9,
+      "eva": 0,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "漆"
+    ],
+    "price": 80000,
+    "sell_price": 8000
+  },
+  {
+    "rarity": 3,
+    "name": "忍装束",
+    "base_defense": 15,
+    "max_enhance": 100,
+    "base_text": "回+50",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 15,
+      "eva": 50,
+      "luk": 0
+    },
+    "growth_text": "防+3,回+10",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 3,
+      "eva": 10,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "忍"
+    ],
+    "price": 35000,
+    "sell_price": 3500
+  },
+  {
+    "rarity": 3,
+    "name": "黒霧の衣",
+    "base_defense": 45,
+    "max_enhance": 300,
+    "base_text": "HP-10",
+    "base": {
+      "hp": -10,
+      "atk": 0,
+      "def": 45,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "HP-1,防+5,運-1",
+    "growth": {
+      "hp": -1,
+      "atk": 0,
+      "def": 5,
+      "eva": 0,
+      "luk": -1
+    },
+    "ability": null,
+    "dungeons": [
+      "忍"
+    ],
+    "price": 40000,
+    "sell_price": 4000
+  },
+  {
+    "rarity": 3,
+    "name": "正宗紋の鎧",
+    "base_defense": 35,
+    "max_enhance": 500,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 35,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "防+4",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 4,
+      "eva": 0,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "忍"
+    ],
+    "price": 45000,
+    "sell_price": 4500
+  },
+  {
+    "rarity": 1,
+    "name": "鉄の鎧",
+    "base_defense": 30,
+    "max_enhance": 15,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 30,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "沈",
+      "漆"
+    ],
+    "price": 500,
+    "sell_price": 50
+  },
+  {
+    "rarity": 3,
+    "name": "銀の鎧",
+    "base_defense": 8,
+    "max_enhance": 15,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 8,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "沈"
+    ],
+    "price": 48000,
+    "sell_price": 4800
+  },
+  {
+    "rarity": 4,
+    "name": "金の鎧",
+    "base_defense": 6,
+    "max_enhance": 15,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 6,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "沈"
+    ],
+    "price": 100000,
+    "sell_price": 10000
+  },
+  {
+    "rarity": 5,
+    "name": "ダイヤの鎧",
+    "base_defense": 90,
+    "max_enhance": 15,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 90,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "防+5,運+3",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 5,
+      "eva": 0,
+      "luk": 3
+    },
+    "ability": null,
+    "dungeons": [
+      "沈"
+    ],
+    "price": 350000,
+    "sell_price": 35000
+  },
+  {
+    "rarity": 4,
+    "name": "オニのパンツ",
+    "base_defense": 15,
+    "max_enhance": 15,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 15,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "HP+1,防+1",
+    "growth": {
+      "hp": 1,
+      "atk": 0,
+      "def": 1,
+      "eva": 0,
+      "luk": 0
+    },
+    "ability": "武器成長補正UP(50%増)*3",
+    "dungeons": [
+      "イベント限定"
+    ],
+    "price": 10000,
+    "sell_price": 1000
+  },
+  {
+    "rarity": 4,
+    "name": "菱餅大鎧",
+    "base_defense": 30,
+    "max_enhance": 15,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 30,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "回-1",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": -1,
+      "luk": 0
+    },
+    "ability": "菱餅のかけら*4",
+    "dungeons": [
+      "イベント限定"
+    ],
+    "price": 10000,
+    "sell_price": 1000
+  },
+  {
+    "rarity": 4,
+    "name": "クッキーメイル",
+    "base_defense": 5,
+    "max_enhance": 15,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 5,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "ability": "敵寄せ(弱)",
+    "dungeons": [
+      "イベント限定"
+    ],
+    "price": 10000,
+    "sell_price": 1000
+  },
+  {
+    "rarity": 4,
+    "name": "端午の鎧",
+    "base_defense": 5,
+    "max_enhance": 55,
+    "base_text": "HP+5,攻+5,回+5,運+5",
+    "base": {
+      "hp": 5,
+      "atk": 5,
+      "def": 5,
+      "eva": 5,
+      "luk": 5
+    },
+    "growth_text": "回+5,運+5",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 5,
+      "luk": 5
+    },
+    "ability": null,
+    "dungeons": [
+      "イベント限定"
+    ],
+    "price": 10000,
+    "sell_price": 1000
+  },
+  {
+    "rarity": 4,
+    "name": "キッズマント",
+    "base_defense": 10,
+    "max_enhance": 15,
+    "base_text": "回+50",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 10,
+      "eva": 50,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "ability": "お菓子効果2倍*5",
+    "dungeons": [
+      "イベント限定"
+    ],
+    "price": 10000,
+    "sell_price": 1000
+  },
+  {
+    "rarity": 4,
+    "name": "ターキーメイル",
+    "base_defense": 10,
+    "max_enhance": 15,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 10,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "HP+2,回+2",
+    "growth": {
+      "hp": 2,
+      "atk": 0,
+      "def": 0,
+      "eva": 2,
+      "luk": 0
+    },
+    "ability": "経験値+100",
+    "dungeons": [
+      "イベント限定"
+    ],
+    "price": 10000,
+    "sell_price": 1000
+  },
+  {
+    "rarity": 4,
+    "name": "アニバーサリーメイル",
+    "base_defense": 15,
+    "max_enhance": 200,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 15,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "ability": "記念効果(9/30)*6",
+    "dungeons": [
+      "イベント限定"
+    ],
+    "price": 10000,
+    "sell_price": 1000
+  },
+  {
+    "rarity": 2,
+    "name": "セラミックメイル",
+    "base_defense": 150,
+    "max_enhance": 5,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 150,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "ability": null,
+    "dungeons": [
+      "店"
+    ],
+    "price": 250000,
+    "sell_price": 25000
+  },
+  {
+    "rarity": 2,
+    "name": "ふるびた鎧2",
+    "base_defense": null,
+    "max_enhance": null,
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": null,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": null,
+      "atk": null,
+      "def": null,
+      "eva": null,
+      "luk": null
+    },
+    "ability": null,
+    "dungeons": [],
+    "price": 5000,
+    "sell_price": 500,
+    "note": "元データ不明(？)、注記*7"
+  }
+]

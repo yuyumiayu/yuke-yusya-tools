@@ -1,0 +1,14 @@
+{
+  "name": "yuke-yusya-tools",
+  "private": true,
+  "description": "ゆけ！勇者の計算ツール集",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yuyumiayu/yuke-yusya-tools.git"
+  },
+  "scripts": {
+    "build": "python3 scripts/build_html.py",
+    "test": "node tests/calc/test_engine.js && node tests/enhance/test_enhance.js"
+  }
+}

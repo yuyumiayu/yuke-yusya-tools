@@ -1,0 +1,29 @@
+name: 不具合
+description: 計算結果がおかしい、画面が崩れる、など
+title: "[不具合] "
+labels: ["不具合"]
+body:
+  - type: dropdown
+    id: tool
+    attributes:
+      label: ツール
+      options: [成長予測, 強化屋, ツール一覧, その他]
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 入力した内容・操作
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期待した結果と、実際の結果
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: 使った端末・ブラウザ
+      placeholder: 例）iPhone の Safari、Windows の Chrome

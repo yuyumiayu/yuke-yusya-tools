@@ -1,0 +1,538 @@
+[
+  {
+    "kind": "weapon",
+    "name": "ショートソード",
+    "max": 200,
+    "cost": 100
+  },
+  {
+    "kind": "weapon",
+    "name": "ロングソード",
+    "max": 45,
+    "cost": 250
+  },
+  {
+    "kind": "weapon",
+    "name": "ブロンズソード",
+    "max": 45,
+    "cost": 500
+  },
+  {
+    "kind": "weapon",
+    "name": "ナイトソード",
+    "max": 45,
+    "cost": 1500
+  },
+  {
+    "kind": "weapon",
+    "name": "ヘビーソード",
+    "max": 80,
+    "cost": 2000
+  },
+  {
+    "kind": "weapon",
+    "name": "盗賊のナイフ",
+    "max": 30,
+    "cost": 10000
+  },
+  {
+    "kind": "weapon",
+    "name": "バスターソード",
+    "max": 45,
+    "cost": 4000
+  },
+  {
+    "kind": "weapon",
+    "name": "ミスリルソード",
+    "max": 60,
+    "cost": 5000
+  },
+  {
+    "kind": "weapon",
+    "name": "幸運の剣",
+    "max": 30,
+    "cost": 20000
+  },
+  {
+    "kind": "weapon",
+    "name": "ドラゴンソード",
+    "max": 45,
+    "cost": 9000
+  },
+  {
+    "kind": "weapon",
+    "name": "ディフェンダー",
+    "max": 30,
+    "cost": 13000
+  },
+  {
+    "kind": "weapon",
+    "name": "正宗",
+    "max": 500,
+    "cost": 22500
+  },
+  {
+    "kind": "weapon",
+    "name": "プラチナソード",
+    "max": 45,
+    "cost": 16500
+  },
+  {
+    "kind": "weapon",
+    "name": "ブラッドソード",
+    "max": 45,
+    "cost": 17500
+  },
+  {
+    "kind": "weapon",
+    "name": "妖刀黒雫",
+    "max": 300,
+    "cost": 20000
+  },
+  {
+    "kind": "weapon",
+    "name": "エンハンスソード",
+    "max": 90,
+    "cost": 10000
+  },
+  {
+    "kind": "weapon",
+    "name": "ルーンブレイド",
+    "max": 45,
+    "cost": 11000
+  },
+  {
+    "kind": "weapon",
+    "name": "クレイモア",
+    "max": 60,
+    "cost": 12000
+  },
+  {
+    "kind": "weapon",
+    "name": "レイピア",
+    "max": 60,
+    "cost": 12500
+  },
+  {
+    "kind": "weapon",
+    "name": "ダンスソード",
+    "max": 30,
+    "cost": 19000
+  },
+  {
+    "kind": "weapon",
+    "name": "水龍の剣",
+    "max": 75,
+    "cost": 22500
+  },
+  {
+    "kind": "weapon",
+    "name": "ダークブレイド",
+    "max": 90,
+    "cost": 24000
+  },
+  {
+    "kind": "weapon",
+    "name": "アークブレイド",
+    "max": 75,
+    "cost": 30000
+  },
+  {
+    "kind": "weapon",
+    "name": "竜神の剣",
+    "max": 75,
+    "cost": 30500
+  },
+  {
+    "kind": "weapon",
+    "name": "光輝の剣",
+    "max": 15,
+    "cost": 31500
+  },
+  {
+    "kind": "weapon",
+    "name": "漆黒の剣",
+    "max": 15,
+    "cost": 40000
+  },
+  {
+    "kind": "weapon",
+    "name": "くない",
+    "max": 100,
+    "cost": 17500
+  },
+  {
+    "kind": "weapon",
+    "name": "鉄のナイフ",
+    "max": 15,
+    "cost": 25
+  },
+  {
+    "kind": "weapon",
+    "name": "銀のナイフ",
+    "max": 15,
+    "cost": 4000
+  },
+  {
+    "kind": "weapon",
+    "name": "金のナイフ",
+    "max": 30,
+    "cost": 5000
+  },
+  {
+    "kind": "weapon",
+    "name": "ダイヤのナイフ",
+    "max": 60,
+    "cost": 50000
+  },
+  {
+    "kind": "weapon",
+    "name": "鉄の剣",
+    "max": 15,
+    "cost": 50
+  },
+  {
+    "kind": "weapon",
+    "name": "銀の剣",
+    "max": 15,
+    "cost": 8000
+  },
+  {
+    "kind": "weapon",
+    "name": "金の剣",
+    "max": 30,
+    "cost": 10000
+  },
+  {
+    "kind": "weapon",
+    "name": "ダイヤの剣",
+    "max": 90,
+    "cost": 100000
+  },
+  {
+    "kind": "weapon",
+    "name": "鉄の斧",
+    "max": 60,
+    "cost": 250
+  },
+  {
+    "kind": "weapon",
+    "name": "銀の斧",
+    "max": 15,
+    "cost": 16000
+  },
+  {
+    "kind": "weapon",
+    "name": "金の斧",
+    "max": 30,
+    "cost": 40000
+  },
+  {
+    "kind": "weapon",
+    "name": "オニの金棒",
+    "max": 15,
+    "cost": 5000
+  },
+  {
+    "kind": "weapon",
+    "name": "桜橘の刀",
+    "max": 90,
+    "cost": 5000
+  },
+  {
+    "kind": "weapon",
+    "name": "流星の剣",
+    "max": 15,
+    "cost": 5000
+  },
+  {
+    "kind": "weapon",
+    "name": "粋夏の刀",
+    "max": 90,
+    "cost": 5000
+  },
+  {
+    "kind": "weapon",
+    "name": "アニバーサリーソード",
+    "max": 200,
+    "cost": 5000
+  },
+  {
+    "kind": "weapon",
+    "name": "粽大刀",
+    "max": 55,
+    "cost": 8000
+  },
+  {
+    "kind": "weapon",
+    "name": "キャンディケイン",
+    "max": 5,
+    "cost": 5000
+  },
+  {
+    "kind": "weapon",
+    "name": "チョコバー",
+    "max": 15,
+    "cost": 5000
+  },
+  {
+    "kind": "weapon",
+    "name": "セラミックソード",
+    "max": 5,
+    "cost": 125000
+  },
+  {
+    "kind": "weapon",
+    "name": "サバイバルナイフ",
+    "max": 30,
+    "cost": 5000
+  },
+  {
+    "kind": "weapon",
+    "name": "竹刀",
+    "max": 5,
+    "cost": 100
+  },
+  {
+    "kind": "armor",
+    "name": "冒険者の服",
+    "max": 200,
+    "cost": 100
+  },
+  {
+    "kind": "armor",
+    "name": "冒険者の鎧",
+    "max": 45,
+    "cost": 250
+  },
+  {
+    "kind": "armor",
+    "name": "青銅の鎧",
+    "max": 45,
+    "cost": 500
+  },
+  {
+    "kind": "armor",
+    "name": "ナイトメイル",
+    "max": 45,
+    "cost": 1500
+  },
+  {
+    "kind": "armor",
+    "name": "ヘビーメイル",
+    "max": 90,
+    "cost": 2000
+  },
+  {
+    "kind": "armor",
+    "name": "バスターメイル",
+    "max": 45,
+    "cost": 4000
+  },
+  {
+    "kind": "armor",
+    "name": "ミスリルメイル",
+    "max": 60,
+    "cost": 5000
+  },
+  {
+    "kind": "armor",
+    "name": "幸運の鎧",
+    "max": 30,
+    "cost": 27000
+  },
+  {
+    "kind": "armor",
+    "name": "ドラゴンアーマー",
+    "max": 45,
+    "cost": 9000
+  },
+  {
+    "kind": "armor",
+    "name": "グロウメイル",
+    "max": 60,
+    "cost": 30000
+  },
+  {
+    "kind": "armor",
+    "name": "生命の鎧",
+    "max": 45,
+    "cost": 32500
+  },
+  {
+    "kind": "armor",
+    "name": "オフェンサー",
+    "max": 30,
+    "cost": 18000
+  },
+  {
+    "kind": "armor",
+    "name": "正宗紋の鎧",
+    "max": 500,
+    "cost": 22500
+  },
+  {
+    "kind": "armor",
+    "name": "プラチナメイル",
+    "max": 45,
+    "cost": 16500
+  },
+  {
+    "kind": "armor",
+    "name": "ブラッドメイル",
+    "max": 45,
+    "cost": 17500
+  },
+  {
+    "kind": "armor",
+    "name": "黒霧の衣",
+    "max": 300,
+    "cost": 20000
+  },
+  {
+    "kind": "armor",
+    "name": "エンハンスメイル",
+    "max": 90,
+    "cost": 10000
+  },
+  {
+    "kind": "armor",
+    "name": "ルーンメイル",
+    "max": 45,
+    "cost": 11000
+  },
+  {
+    "kind": "armor",
+    "name": "ハイランドメイル",
+    "max": 60,
+    "cost": 12000
+  },
+  {
+    "kind": "armor",
+    "name": "チェインメイル",
+    "max": 60,
+    "cost": 12500
+  },
+  {
+    "kind": "armor",
+    "name": "身かわしの鎧",
+    "max": 30,
+    "cost": 21000
+  },
+  {
+    "kind": "armor",
+    "name": "龍鱗の鎧",
+    "max": 75,
+    "cost": 22500
+  },
+  {
+    "kind": "armor",
+    "name": "ダークメイル",
+    "max": 90,
+    "cost": 24000
+  },
+  {
+    "kind": "armor",
+    "name": "アークメイル",
+    "max": 75,
+    "cost": 32500
+  },
+  {
+    "kind": "armor",
+    "name": "太陽の鎧",
+    "max": 15,
+    "cost": 33500
+  },
+  {
+    "kind": "armor",
+    "name": "甲冑",
+    "max": 150,
+    "cost": 14000
+  },
+  {
+    "kind": "armor",
+    "name": "漆黒の鎧",
+    "max": 15,
+    "cost": 34500,
+    "note": "費用は wiki の値。ほかの装備と同じ規則（価格の半分）なら 40,000G"
+  },
+  {
+    "kind": "armor",
+    "name": "忍装束",
+    "max": 100,
+    "cost": 17500
+  },
+  {
+    "kind": "armor",
+    "name": "鉄の鎧",
+    "max": 15,
+    "cost": 250
+  },
+  {
+    "kind": "armor",
+    "name": "銀の鎧",
+    "max": 15,
+    "cost": 24000
+  },
+  {
+    "kind": "armor",
+    "name": "金の鎧",
+    "max": 15,
+    "cost": 50000
+  },
+  {
+    "kind": "armor",
+    "name": "ダイヤの鎧",
+    "max": 15,
+    "cost": 175000
+  },
+  {
+    "kind": "armor",
+    "name": "オニのパンツ",
+    "max": 15,
+    "cost": 5000
+  },
+  {
+    "kind": "armor",
+    "name": "菱餅大鎧",
+    "max": 15,
+    "cost": 5000
+  },
+  {
+    "kind": "armor",
+    "name": "アニバーサリーメイル",
+    "max": 200,
+    "cost": 5000
+  },
+  {
+    "kind": "armor",
+    "name": "キッズマント",
+    "max": 15,
+    "cost": 5000
+  },
+  {
+    "kind": "armor",
+    "name": "ターキーメイル",
+    "max": 15,
+    "cost": 5000
+  },
+  {
+    "kind": "armor",
+    "name": "クッキーメイル",
+    "max": 15,
+    "cost": 5000
+  },
+  {
+    "kind": "armor",
+    "name": "セラミックメイル",
+    "max": 5,
+    "cost": 125000
+  },
+  {
+    "kind": "armor",
+    "name": "端午の鎧",
+    "max": 55,
+    "cost": 5000,
+    "note": "wiki に費用が載っていないため、価格の半分と推測"
+  }
+]

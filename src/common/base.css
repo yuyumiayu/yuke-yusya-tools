@@ -1,0 +1,52 @@
+:root{
+  --page:#dfe5ef; --ink:#1b2a63; --ink-soft:#4a5a8c;
+  --win:#1b2a63; --win-2:#223373; --line:#eef2ff; --text:#eef2ff; --muted:#a9b6e3;
+  --gold:#f5c542; --ok:#8fe3a2; --ng:#ff9a9a; --row:#26387d;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --page:#0c1330; --ink:#dfe5ff; --ink-soft:#8d9bd0; --win:#18245a; --win-2:#1f2e6c; --row:#223272; } }
+:root[data-theme="dark"]{ --page:#0c1330; --ink:#dfe5ff; --ink-soft:#8d9bd0; --win:#18245a; --win-2:#1f2e6c; --row:#223272; }
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--page);color:var(--ink);font:15px/1.6 "M PLUS 1p","Hiragino Sans","Noto Sans JP",system-ui,sans-serif}
+.dot{font-family:"DotGothic16","M PLUS 1p",monospace}
+.wrap{max-width:1000px;margin:0 auto;padding:18px 14px 40px}
+header h1{font-family:"DotGothic16",sans-serif;font-weight:400;font-size:26px;line-height:1.2;margin:4px 4px 2px;letter-spacing:.04em}
+header p{margin:0 4px 16px;color:var(--ink-soft);font-size:13px}
+.grid{display:grid;gap:18px}
+@media (min-width:820px){ .grid{grid-template-columns:1fr 1fr;align-items:start} .span{grid-column:1/-1} }
+/* RPGウィンドウ */
+.win{background:var(--win);color:var(--text);border:3px solid var(--line);border-radius:10px;box-shadow:0 0 0 3px var(--win);padding:14px 14px 16px;margin:3px}
+.win h2{font-family:"DotGothic16",sans-serif;font-weight:400;font-size:17px;margin:0 0 10px;color:var(--text)}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:3px}
+select,input[type=number]{font:inherit;color:var(--text);background:var(--win-2);border:2px solid var(--muted);border-radius:6px;padding:7px 8px;width:100%}
+select:focus-visible,input:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.enh{display:flex;gap:6px;margin-top:6px;align-items:center}
+.enh input{width:5.5em;text-align:center;font-family:"DotGothic16",monospace}
+.enh button{font:inherit;font-size:14px;color:var(--text);background:transparent;border:2px solid var(--muted);border-radius:6px;padding:6px 10px;cursor:pointer;min-width:44px}
+.enh button:hover{border-color:var(--line)}
+.enh .max{margin-left:auto;color:var(--gold);border-color:var(--gold)}
+.hint{font-size:12.5px;color:var(--muted);margin-top:4px;min-height:1em}
+.effects{font-size:13px;color:var(--gold);margin:4px 0 0}
+.effects:empty{display:none}
+.labrow{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:3px}
+.labrow label{margin:0}
+.seg{display:inline-flex;border:2px solid var(--muted);border-radius:6px;overflow:hidden}
+.seg button{font:inherit;font-size:12.5px;color:var(--muted);background:transparent;border:0;padding:3px 10px;cursor:pointer;min-height:30px}
+.seg button[aria-checked=true],.seg button[aria-pressed=true]{background:var(--line);color:var(--win)}
+.mat{margin:8px 0 0}
+.mat>label{font-size:12.5px}
+.synres{margin-top:10px;border:2px dashed var(--muted);border-radius:6px;padding:8px 10px;font-size:13px;line-height:1.75}
+.synres .big{font-family:"DotGothic16",monospace;font-size:20px;color:var(--gold)}
+.synres dl{display:grid;grid-template-columns:auto 1fr;gap:0 12px;margin:4px 0 0}
+.synres dt{color:var(--muted)} .synres dd{margin:0}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+/* 非公式の表示と出典（全ページ共通のフッター） */
+.credit{font-size:12px;color:var(--ink-soft);margin:24px 6px 0;padding-top:12px;border-top:1px solid var(--ink-soft);line-height:1.7}
+.credit p{margin:0 0 6px}
+.credit a{color:inherit}
+/* ツール一覧へ戻るリンク（各ツールの見出しの上） */
+.back{display:inline-flex;align-items:center;min-height:36px;margin:0 4px 2px;font-size:13px;color:var(--ink-soft);text-decoration:none}
+.back:hover,.back:focus-visible{color:var(--ink);text-decoration:underline}

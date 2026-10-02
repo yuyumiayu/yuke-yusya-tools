@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ゆけ！勇者 成長予測</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=M+PLUS+1p:wght@400;700&display=swap" rel="stylesheet">
+<style>
+__FILE:src/common/base.css__
+/* 森 */
+.score{display:flex;align-items:baseline;gap:10px;margin:2px 0 6px}
+.score .n{font-family:"DotGothic16",monospace;font-size:64px;line-height:1;color:var(--gold)}
+.score .of{font-family:"DotGothic16",monospace;font-size:18px;color:var(--muted)}
+.score.off .n{color:var(--muted);text-decoration:line-through;text-decoration-thickness:3px}
+.cut{font-size:13.5px;margin:2px 0}
+.cut b{font-weight:700}
+.ok{color:var(--ok)} .ng{color:var(--ng)}
+.bars{display:grid;grid-template-columns:auto 1fr auto;gap:6px 10px;align-items:center;margin:12px 0 8px;font-size:13px}
+.bar{height:10px;border:2px solid var(--muted);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--gold)}
+.bars .v{font-family:"DotGothic16",monospace}
+details{margin-top:8px}
+summary{cursor:pointer;color:var(--muted);font-size:13px}
+.crit{list-style:none;padding:0;margin:8px 0 0;font-size:13px}
+.crit li{display:grid;grid-template-columns:1.4em 2.6em 1fr;gap:4px;padding:4px 0;border-top:1px dashed #ffffff26}
+.crit li .pt{font-family:"DotGothic16",monospace}
+.crit li.off{color:var(--muted)}
+.crit small{display:block;color:var(--muted)}
+.guide{font-size:12.5px;color:var(--muted);margin:10px 0 0}
+/* 表 */
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:5px 6px;text-align:right}
+th{color:var(--muted);font-weight:400;font-size:12.5px}
+th:first-child,td:first-child{text-align:left}
+td{font-family:"DotGothic16",monospace}
+td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
+.stat tr+tr td{border-top:1px dashed #ffffff26}
+.lvbox{max-height:62vh;overflow:auto;margin:0 -4px;padding:0 4px}
+.lv thead th{position:sticky;top:0;background:var(--win);z-index:1}
+.lv tbody tr:nth-child(even){background:var(--row)}
+.lv tr.key td{color:var(--gold)}
+.lv tr.key td:first-child::after{content:" ◆";font-size:10px}
+/* 総当たり */
+.sweep{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;color:var(--muted);margin-left:auto;cursor:pointer}
+.sweep input{accent-color:var(--gold);width:16px;height:16px}
+.labrow .sweep+.seg{margin-left:6px}
+.field.on select{border-color:var(--gold)}
+.cands{display:grid;gap:4px}
+@media (min-width:820px){ .cands{grid-template-columns:1fr 1fr 1fr;align-items:start} }
+.xh{font-family:"DotGothic16",sans-serif;font-weight:400;font-size:15px;margin:14px 0 4px;color:var(--text)}
+.cands details{margin:0}
+.cands summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:8px;border:2px solid var(--gold);border-radius:6px;padding:8px 12px;color:var(--text);font-size:14px;min-height:44px}
+.cands summary::-webkit-details-marker{display:none}
+.cands summary::after{content:"▼";font-size:11px;color:var(--gold)}
+.cands details[open] summary::after{content:"▲"}
+.cands summary span{color:var(--gold);margin-left:auto;font-family:"DotGothic16",monospace}
+.clist b{cursor:pointer}
+.clist b:hover{color:var(--text)}
+.cbtn{display:flex;gap:6px;margin:6px 0}
+.cbtn button,.xrun button,.xres button{font:inherit;font-size:13px;color:var(--text);background:transparent;border:2px solid var(--muted);border-radius:6px;padding:4px 10px;cursor:pointer;min-height:36px}
+.clist{max-height:260px;overflow:auto;font-size:13px;border:1px dashed #ffffff26;border-radius:6px;padding:4px 8px}
+.clist b{display:block;color:var(--muted);font-weight:400;margin-top:4px}
+.clist label{display:flex;align-items:center;gap:6px;padding:2px 0;cursor:pointer}
+.clist input{accent-color:var(--gold)}
+.xopt{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin:12px 0 4px;font-size:13px;color:var(--muted)}
+.xopt select,.xopt input[type=number]{width:auto;padding:4px 6px}
+.xopt input[type=number]{width:4.5em}
+.xopt input[type=checkbox]{accent-color:var(--gold)}
+.xcount{font-size:13px;margin:6px 0}
+.xcount.long{color:var(--ng)}
+.xwarn{font-size:13px;color:var(--ng);margin:0 0 6px;border:2px solid var(--ng);border-radius:6px;padding:6px 10px}
+.xwarn span{font-size:15px}
+.xrun{display:flex;gap:10px;align-items:center}
+.xrun #xgo{color:var(--gold);border-color:var(--gold);min-width:88px}
+.xbar{flex:1}
+.xres{list-style:none;padding:0;margin:8px 0 0;font-size:13px}
+.xres li{display:grid;grid-template-columns:3.2em 1fr auto;gap:4px 10px;align-items:center;padding:6px 0;border-top:1px dashed #ffffff26}
+.xres .v{font-family:"DotGothic16",monospace;font-size:18px;color:var(--gold)}
+.xres small{display:block;color:var(--muted)}
+.kago{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);margin:2px 0 6px;cursor:pointer}
+.kago input{accent-color:var(--gold);width:16px;height:16px}
+.note{font-size:12.5px;color:var(--ink-soft);margin:16px 6px 0;line-height:1.7}
+@media (prefers-reduced-motion:no-preference){ .bar i{transition:width .25s} }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  __FILE:src/common/back.html__  <h1>ゆけ！勇者 成長予測</h1>
+  <p>装備と道具を選ぶと、Lv99までの予測ステータスと鍛錬の森の点数を出します。</p>
+</header>
+
+<div class="grid">
+  <section class="win" aria-labelledby="h-eq">
+    <h2 id="h-eq">そうび</h2>
+    <div class="field">
+      <div class="labrow"><label for="w">武器</label>
+        <label class="sweep"><input type="checkbox" id="wx"> 総当たり</label>
+        <div class="seg" role="radiogroup" aria-label="武器の入力方法"><button type="button" role="radio" aria-checked="true" data-slot="w" data-mode="plain">そのまま</button><button type="button" role="radio" aria-checked="false" data-slot="w" data-mode="synth">合成</button></div></div>
+      <div id="w-plain"><select id="w"></select><div class="enh"><button type="button" data-t="w" data-d="-1" aria-label="武器の強化値を1下げる">−1</button><input id="we" type="number" min="0" inputmode="numeric" aria-label="武器の強化値"><button type="button" data-t="w" data-d="1" aria-label="武器の強化値を1上げる">+1</button><button type="button" class="max" data-t="w" data-d="max">MAX</button></div></div>
+      <div id="w-synth" hidden>
+        <div class="mat"><label for="w1">素材1</label><select id="w1"></select></div>
+        <div class="mat"><label for="w2">素材2</label><select id="w2"></select></div>
+        <div class="mat"><label for="wse">合成後の強化値（神の祝福込み）</label><div class="enh"><button type="button" data-t="ws" data-d="-1" aria-label="合成した武器の強化値を1下げる">−1</button><input id="wse" type="number" min="0" inputmode="numeric"><button type="button" data-t="ws" data-d="1" aria-label="合成した武器の強化値を1上げる">+1</button><button type="button" class="max" data-t="ws" data-d="max">MAX</button></div></div>
+        <div class="synres" id="wsr" aria-live="polite"></div>
+      </div>
+      <div class="hint" id="wh"></div>
+    </div>
+    <div class="field">
+      <div class="labrow"><label for="a">防具</label>
+        <label class="sweep"><input type="checkbox" id="ax"> 総当たり</label>
+        <div class="seg" role="radiogroup" aria-label="防具の入力方法"><button type="button" role="radio" aria-checked="true" data-slot="a" data-mode="plain">そのまま</button><button type="button" role="radio" aria-checked="false" data-slot="a" data-mode="synth">合成</button></div></div>
+      <div id="a-plain"><select id="a"></select><div class="enh"><button type="button" data-t="a" data-d="-1" aria-label="防具の強化値を1下げる">−1</button><input id="ae" type="number" min="0" inputmode="numeric" aria-label="防具の強化値"><button type="button" data-t="a" data-d="1" aria-label="防具の強化値を1上げる">+1</button><button type="button" class="max" data-t="a" data-d="max">MAX</button></div></div>
+      <div id="a-synth" hidden>
+        <div class="mat"><label for="a1">素材1</label><select id="a1"></select></div>
+        <div class="mat"><label for="a2">素材2</label><select id="a2"></select></div>
+        <div class="mat"><label for="ase">合成後の強化値（神の祝福込み）</label><div class="enh"><button type="button" data-t="as" data-d="-1" aria-label="合成した防具の強化値を1下げる">−1</button><input id="ase" type="number" min="0" inputmode="numeric"><button type="button" data-t="as" data-d="1" aria-label="合成した防具の強化値を1上げる">+1</button><button type="button" class="max" data-t="as" data-d="max">MAX</button></div></div>
+        <div class="synres" id="asr" aria-live="polite"></div>
+      </div>
+      <div class="hint" id="ah"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><div class="labrow"><label for="i1">道具1</label><label class="sweep"><input type="checkbox" id="i1x"> 総当たり</label></div><select id="i1"></select><div class="hint" id="i1h"></div></div>
+      <div class="field"><div class="labrow"><label for="i2">道具2</label><label class="sweep"><input type="checkbox" id="i2x"> 総当たり</label></div><select id="i2"></select><div class="hint" id="i2h"></div></div>
+    </div>
+    <label class="kago"><input type="checkbox" id="kago"> 神様の加護（攻・防の初期値+2）</label>
+    <p class="effects" id="fx"></p>
+    <p class="effects" id="rx"></p>
+  </section>
+
+  <section class="win" aria-labelledby="h-f">
+    <h2 id="h-f">鍛錬の森 4F点数</h2>
+    <div class="score" id="sc"><span class="n" id="scn">0</span><span class="of">/ 99</span></div>
+    <p class="cut" id="c4"></p>
+    <p class="cut" id="c8"></p>
+    <div class="bars" id="bars"></div>
+    <details>
+      <summary>採点の内訳を見る</summary>
+      <ul class="crit" id="crit"></ul>
+    </details>
+    <p class="guide">目安：40点未満は死亡率2%以上、50点前後で1%前後。70点台でも死ぬことはある（wiki「鍛錬の森・武器防具組み合わせ例」の基準）。</p>
+  </section>
+
+  <section class="win span" aria-labelledby="h-x" id="sweep">
+    <h2 id="h-x">総当たり</h2>
+    <p class="guide" style="margin-top:0">上の「そうび」で「総当たり」にチェックした欄だけを、下の候補で入れ替えて探します。チェックしていない欄は今の選択のまま。総当たりする武器・防具は強化値MAXで計算します。</p>
+    <h3 class="xh">候補</h3>
+    <p class="guide" style="margin-top:0">総当たりで入れ替える装備・道具です。使わないものはチェックを外すと、次に開いたときも外れたままです。☆の見出しを押すと、そのレア度をまとめて切り替えます。</p>
+    <div class="cands">
+      <details id="cw"><summary>武器の候補を選ぶ <span></span></summary><div class="cbtn"><button type="button" data-all="1">全部選ぶ</button><button type="button" data-all="0">全部外す</button></div><div class="clist"></div></details>
+      <details id="ca"><summary>防具の候補を選ぶ <span></span></summary><div class="cbtn"><button type="button" data-all="1">全部選ぶ</button><button type="button" data-all="0">全部外す</button></div><div class="clist"></div></details>
+      <details id="ci"><summary>道具の候補を選ぶ <span></span></summary><div class="cbtn"><button type="button" data-all="1">全部選ぶ</button><button type="button" data-all="0">全部外す</button></div><div class="clist"></div></details>
+    </div>
+    <h3 class="xh">合成</h3>
+    <div class="xopt">
+      <label><input type="checkbox" id="xsw"> 武器は合成も探す</label>
+      <label><input type="checkbox" id="xsa"> 防具は合成も探す</label>
+      <label>合計レア度の上限 <select id="xcap"><option value="2">2</option><option value="3">3</option><option value="4" selected>4（今の上限）</option><option value="5">5</option><option value="6">6</option><option value="7">7（過去の上限）</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select></label>
+    </div>
+    <p class="guide" style="margin-top:0">合成は、候補の中の違う装備2つを強化値MAXで合成し、神の祝福+3で計算します。</p>
+    <h3 class="xh">並べ替えと絞り込み</h3>
+    <div class="xopt">
+      <label>並べ替え <select id="xs"><option value="forest">森4Fの点数</option><option value="hp">HP</option><option value="atk">攻</option><option value="def">防</option><option value="eva">回</option><option value="luk">運</option></select></label>
+      <label id="xlvl">レベル <input id="xlv" type="number" min="1" max="99" value="50" inputmode="numeric"></label>
+      <label><input type="checkbox" id="xn4" checked> 4F切捨基準を満たすものだけ</label>
+    </div>
+    <p class="xcount" id="xc"></p>
+    <p class="xwarn" id="xw" hidden><span aria-hidden="true">⚠</span> 時間がかかります。候補を絞るか、総当たりする欄を減らすと短くなります。</p>
+    <div class="xrun"><button type="button" id="xgo">探す</button><button type="button" id="xstop" hidden>やめる</button><span class="bar xbar"><i id="xp" style="width:0"></i></span></div>
+    <p class="guide" id="xmsg" aria-live="polite"></p>
+    <ol class="xres" id="xr"></ol>
+  </section>
+
+  <section class="win" aria-labelledby="h-s">
+    <h2 id="h-s">ステータスの内訳</h2>
+    <table class="stat"><thead><tr><th></th><th>HP</th><th>攻</th><th>防</th><th>回</th><th>運</th></tr></thead><tbody id="st"></tbody></table>
+  </section>
+
+  <section class="win" aria-labelledby="h-l">
+    <h2 id="h-l">レベル別の予測</h2>
+    <div class="lvbox"><table class="lv"><thead><tr><th>Lv</th><th>HP</th><th>攻</th><th>防</th><th>回</th><th>運</th></tr></thead><tbody id="lv"></tbody></table></div>
+  </section>
+</div>
+
+<p class="note">成長値は平均値です。合成は合成屋のwiki記載の仕様（基本値・補正はステータスごとに高い方、強化値は平均の切り上げ）で計算しています。レベルごとの値は端数を切り上げ、アビリティによる増加分も切り上げています。神様の加護は「神様の加護」にチェックを入れたときだけ入ります。共鳴はステータスに効くもの（ステータスアップは除く）だけ入れています。◆は森の採点に使うレベルです。</p>
+__FILE:src/common/footer.html__
+</div>
+
+<script id="data-w" type="application/json">__JSON:data/weapons.json__</script>
+<script id="data-a" type="application/json">__JSON:data/armors.json__</script>
+<script id="data-i" type="application/json">__JSON:data/items.json__</script>
+<script id="data-r" type="application/json">__JSON:data/resonances.json__</script>
+<script id="core">
+__FILE:src/calc/engine.js__
+__FILE:src/calc/search.js__
+</script>
+<script>
+__FILE:src/calc/ui.js__
+</script>
+</body>
+</html>

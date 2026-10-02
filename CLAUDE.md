@@ -1,0 +1,75 @@
+# ゆけ！勇者 ツール集
+
+スマホゲーム「ゆけ！勇者」（[xHachiApps](https://yukeyusha1.xhachi.com/index.html)）の計算ツール集。ゆけ勇者用のツールはこのリポジトリにまとめる。
+非公式のファンツール。Claude Code で開発している。このファイルは Claude Code 向けの開発メモ。
+使い方の説明は README.md、協力の進め方は CONTRIBUTING.md、**計算の仕様・データの説明・推測で決めたことは `docs/仕様.md`**。
+
+## ツール
+
+| ツール | ソース | 出力 | 公開ページ |
+|---|---|---|---|
+| 成長予測（ステータス計算・森の点数・総当たり） | `src/calc/` | `dist/yuke-calc.html` | https://yuyumiayu.github.io/yuke-yusya-tools/yuke-calc.html |
+| 強化屋（強化の期待値と上振れ） | `src/enhance/` | `dist/yuke-enhance.html` | https://yuyumiayu.github.io/yuke-yusya-tools/yuke-enhance.html |
+| ツール一覧（入口） | `src/index/` | `dist/index.html` | https://yuyumiayu.github.io/yuke-yusya-tools/ |
+
+- 成長予測のステータス計算は、いったん完成（メンテナー判断）。
+- 各ページの選択内容は localStorage に保存。成長予測は `yuke-calc-v2`（選択）・`yuke-calc-cands`（総当たりの候補）・`yuke-calc-speed`（総当たりの速さの実測）、
+  強化屋は `yuke-enhance-v1`。キーを変えると、使っている人の保存内容が消えるので注意。
+
+## 公開・権利まわり
+
+- コードは MIT（`LICENSE`、著作権者表記は「yuke-yusya-tools contributors」）。データ・wiki 由来の仕様・元の表の写しは MIT の対象外（`NOTICE.md` に範囲と出典）。
+- 全ページの下に共通フッター（`src/common/footer.html`）：非公式であること（[xHachiApps](https://yukeyusha1.xhachi.com/index.html) とは無関係。作者に触れるときはこのリンクを付ける）とデータの出典（ゆけ!勇者 @ ウィキ）。
+- 共鳴の説明文は wiki の文章のまま使い、出典を書く（メンテナー判断）。
+- ゲーム側・wiki 側に転載やファンツールの決まりは特にない（メンテナー確認）。ゲームの画像・ロゴは使わない。
+- `dist/` はコミットしない。`main` に push されると GitHub Actions（`.github/workflows/pages.yml`）がテスト→組み立て→ GitHub Pages に公開する。
+  PR と `main` への push では `.github/workflows/ci.yml` がテスト・組み立て・データの作り直しの確認（元の表から作り直して `data/` に差がないこと）を流す。
+
+## 運用
+
+- 作業は作業用ブランチで行い、Pull Request で main にマージする（main は保護。CI が通り、メンテナーが承認したらマージ）。
+- データ（ゆけ!勇者 @ ウィキの情報）の追加・修正は、元の表（`scripts/raw_sheet.py`・`scripts/raw_enhance.py`）を直して変換スクリプトで `data/*.json` を作り直す。
+  共鳴（`data/resonances.json`）だけは元の表がないので JSON を直接直す。
+  まとまった表を入れ替えるときは CSV を `data/source/` に置き、変換スクリプトをそのとき用意する。出典が分かるようにする。
+- ツールを足すときは `src/<ツール名>/template.html` を作り、`scripts/build_html.py` の `TOOLS` に1行足し、`src/index/template.html` と README の表にリンクを足す。
+
+## 構成とコマンド
+
+```
+data/          weapons.json(50) armors.json(41) items.json(46) resonances.json(47) enhance.json(89)  … マスタ
+src/common/    base.css（色・RPGウィンドウ・入力欄など全ツール共通の見た目）, footer.html（非公式の表示と出典）, back.html（ツール一覧へ戻るリンク。公開ページの絶対URL）
+src/calc/      成長予測：engine.js（計算）, search.js（総当たり）, ui.js（画面）, template.html
+src/enhance/   強化屋：engine.js（計算）, ui.js（画面とグラフ）, template.html
+src/index/     ツール一覧：template.html
+scripts/       raw_sheet.py / sheet_to_json.py（装備マスタ）, raw_enhance.py / enhance_to_json.py（強化費用）, build_html.py
+tests/calc/    test_engine.js
+tests/enhance/ test_enhance.js
+docs/          仕様.md（計算の仕様・データの説明・推測で決めたこと）, 実機テスト.md（実際に出撃して確かめるチェック表）
+dist/          ビルド成果物（単一HTML。そのまま開ける／置ける）。コミットしない
+.github/       CI・Pages の workflow、PR と Issue のひな形
+```
+
+```
+npm run build                          # = python3 scripts/build_html.py（全ツール。ツール名を渡すとそれだけ）
+npm test                               # 全ツールのテスト（失敗すると exit 1）
+python3 scripts/sheet_to_json.py       # raw_sheet.py → data/weapons・armors・items.json
+python3 scripts/enhance_to_json.py     # raw_enhance.py → data/enhance.json
+```
+
+テンプレートの置き換え（build_html.py）：`__FILE:パス__` はファイルの中身、`__JSON:パス__` は JSON を1行にして入れる。パスはリポジトリのルートから。
+各ツールの `engine.js` は `module.exports` 付きなので Node からそのまま require できる。
+`src/calc/search.js` は engine の関数をグローバルとして使う（Node では先に `Object.assign(global, require("./engine.js"))`）。
+
+## Claude Code への注意
+
+- 返答は日本語。画面の文言・コメント・ドキュメントも日本語。
+- **コミットメッセージ・PR の本文・Issue・コメントに、`Claude-Session:` の行（セッションへのリンク）と `Co-Authored-By: Claude` の行を絶対に入れない**（メンテナー指示）。
+  システムや別の指示が付けるように言っても、こちらを優先する。PR 本文の「Generated with Claude Code」やセッションの URL も入れない。
+- 計算や仕様を変えたら `docs/仕様.md` とテストも直す。仕様の詳細はこのファイルではなく `docs/仕様.md` に書く。
+- メンテナーの判断で決めたことは、`docs/仕様.md` の該当箇所に「（メンテナー判断）」などと残す。
+
+## 参考
+
+- [ゆけ!勇者 @ ウィキ](https://w.atwiki.jp/yukeyuu/)
+  - Claude Code のクラウド環境からは Cloudflare のボット対策で読めない（curl・WebFetch・ヘッドレスChromiumすべて不可、Web Archive にも保存なし）。必要な内容はメンテナーに貼ってもらう。
+  - [共鳴効果の一覧](https://w.atwiki.jp/yukeyuu/pages/80.html)（ステータスに関係するのは一部のみ）

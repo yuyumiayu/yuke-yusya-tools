@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ゆけ！勇者 強化屋</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=M+PLUS+1p:wght@400;700&display=swap" rel="stylesheet">
+<style>
+__FILE:src/common/base.css__
+.enh input[type=range]{flex:1;accent-color:var(--gold);min-width:0}
+.enh .num{width:4.5em}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:420px){ .pair{grid-template-columns:1fr} }
+.segrow{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin-bottom:12px;font-size:13px;color:var(--muted)}
+/* 結果 */
+.hero{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:2px 0 10px}
+.hero .n{font-family:"DotGothic16",monospace;font-size:56px;line-height:1;color:var(--gold)}
+.hero .l{font-size:13px;color:var(--muted)}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 12px}
+.tile{border:2px solid #ffffff26;border-radius:6px;padding:6px 8px}
+.tile span{display:block;font-size:12px;color:var(--muted)}
+.tile b{font-family:"DotGothic16",monospace;font-weight:400;font-size:20px}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0;font-size:13.5px}
+.facts dt{color:var(--muted)} .facts dd{margin:0}
+.facts .ng{color:var(--ng)}
+/* グラフ */
+.chart{position:relative;margin:4px 0 0}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart .tick{fill:var(--muted);font-size:11px;font-variant-numeric:tabular-nums}
+.chart .grid{stroke:#ffffff1f;stroke-width:1}
+.chart .axis{stroke:#ffffff40;stroke-width:1}
+.chart .ref{stroke:var(--text);stroke-width:1}
+.chart .reflbl{fill:var(--text);font-size:11px}
+.chart .hit{fill:transparent}
+.tip{position:absolute;pointer-events:none;background:var(--page);color:var(--ink);border:2px solid var(--line);border-radius:6px;padding:4px 8px;font-size:12.5px;line-height:1.5;white-space:nowrap;transform:translate(-50%,-100%);margin-top:-8px}
+.tip[hidden]{display:none}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted);margin:2px 0 6px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:5px}
+.tbl{max-height:40vh;overflow:auto;margin-top:6px}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:3px 6px;text-align:right;font-variant-numeric:tabular-nums}
+th{color:var(--muted);font-weight:400}
+th:first-child,td:first-child{text-align:left}
+td{font-family:"DotGothic16",monospace}
+tr+tr td{border-top:1px dashed #ffffff1a}
+details{margin-top:8px}
+summary{cursor:pointer;color:var(--muted);font-size:13px}
+.guide{font-size:12.5px;color:var(--muted);margin:10px 0 0}
+.dtf{gap:3px}
+.dtf input{width:2.6em;padding:7px 2px;text-align:center;font:inherit;font-family:"DotGothic16",monospace;color:var(--text);background:var(--win-2);border:2px solid var(--muted);border-radius:6px}
+.dtf input.y{width:3.8em}
+.dtf span{color:var(--muted)} .dtf .sp{width:6px}
+.dtf button{margin-left:6px;color:var(--gold);border-color:var(--gold)}
+.pverdict{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:6px 0 10px}
+.pverdict .n{font-family:"DotGothic16",monospace;font-size:34px;line-height:1.1}
+.pverdict .up{color:var(--gold)} .pverdict .down{color:var(--ng)} .pverdict .mid{color:var(--text)}
+.pverdict .l{font-size:13px;color:var(--muted)}
+.perr{color:var(--ng);font-size:13.5px;margin:8px 0 0}
+.note{font-size:12.5px;color:var(--ink-soft);margin:16px 6px 0;line-height:1.7}
+.note ul{margin:4px 0 0;padding-left:1.3em}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  __FILE:src/common/back.html__  <h1>ゆけ！勇者 強化屋</h1>
+  <p>同じ装備2つで強化したときに、強化値がどこまで上がるか（期待値と上振れ）を出します。</p>
+</header>
+
+<div class="grid">
+  <section class="win" aria-labelledby="h-in">
+    <h2 id="h-in">強化する装備</h2>
+    <div class="segrow">
+      <div class="seg" role="radiogroup" aria-label="装備の種類"><button type="button" role="radio" aria-checked="true" data-kind="weapon">武器</button><button type="button" role="radio" aria-checked="false" data-kind="armor">防具</button></div>
+    </div>
+    <div class="field"><label for="g">装備</label><select id="g"></select><div class="hint" id="gh"></div></div>
+    <div class="pair">
+      <div class="field"><label for="ba">ベース（強化される方）</label><div class="enh"><button type="button" data-t="ba" data-d="-1" aria-label="ベースの強化値を1下げる">−1</button><input id="ba" type="number" min="0" inputmode="numeric"><button type="button" data-t="ba" data-d="1" aria-label="ベースの強化値を1上げる">+1</button></div></div>
+      <div class="field"><label for="bb">素材（この数だけ判定）</label><div class="enh"><button type="button" data-t="bb" data-d="-1" aria-label="素材の強化値を1下げる">−1</button><input id="bb" type="number" min="0" inputmode="numeric"><button type="button" data-t="bb" data-d="1" aria-label="素材の強化値を1上げる">+1</button><button type="button" class="max" data-t="bb" data-d="max">MAX</button></div></div>
+    </div>
+    <div class="field"><label for="lv">強化屋Lv</label><div class="enh"><input id="lvr" type="range" min="1" max="99" aria-label="強化屋Lv（スライダー）"><input id="lv" class="num" type="number" min="1" max="99" inputmode="numeric"></div><div class="hint" id="lvh"></div></div>
+    <div class="segrow">
+      <span id="ore-l">強化鉱</span><div class="seg" role="radiogroup" aria-labelledby="ore-l"><button type="button" role="radio" data-ore="20">20</button><button type="button" role="radio" data-ore="40">40</button><button type="button" role="radio" data-ore="60">60</button></div>
+      <span id="bl-l">神の祝福</span><div class="seg" role="radiogroup" aria-labelledby="bl-l"><button type="button" role="radio" data-bless="3">+3</button><button type="button" role="radio" data-bless="0">なし</button></div>
+    </div>
+    <div class="field"><label for="tg">目標の強化値（この値以上になる確率を出します）</label><div class="enh"><button type="button" data-t="tg" data-d="-1" aria-label="目標を1下げる">−1</button><input id="tg" type="number" min="0" inputmode="numeric"><button type="button" data-t="tg" data-d="1" aria-label="目標を1上げる">+1</button><button type="button" class="max" data-t="tg" data-d="max">上限</button></div></div>
+  </section>
+
+  <section class="win" aria-labelledby="h-out">
+    <h2 id="h-out">結果</h2>
+    <div class="hero"><span class="l">期待値</span><span class="n" id="mean">+0</span><span class="l" id="meanl"></span></div>
+    <div class="tiles" id="tiles"></div>
+    <dl class="facts" id="facts"></dl>
+  </section>
+
+  <section class="win span" aria-labelledby="h-r">
+    <h2 id="h-r">逆引き：目標に届く素材</h2>
+    <p class="guide" style="margin:0 0 10px">上の「強化する装備」のベース・強化屋Lv・祝福で、目標の強化値に届くには素材が+いくつ要るかを、届く確率ごとに出します。</p>
+    <div id="rout"></div>
+  </section>
+
+  <section class="win span" aria-labelledby="h-p">
+    <h2 id="h-p">進行中の強化</h2>
+    <p class="guide" style="margin:0 0 10px">上の「強化する装備」の内容で強化中なら、始めた日時と最新ログの数字を入れると、ここまで上振れているか下振れているかが分かります。</p>
+    <div class="pair">
+      <div class="field"><label for="psY">強化を始めた日時</label><div class="enh dtf" role="group" aria-label="強化を始めた日時"><input id="psY" class="y" type="text" inputmode="numeric" maxlength="4" aria-label="年" autocomplete="off"><span>/</span><input id="psM" type="text" inputmode="numeric" maxlength="2" aria-label="月" autocomplete="off"><span>/</span><input id="psD" type="text" inputmode="numeric" maxlength="2" aria-label="日" autocomplete="off"><span class="sp"></span><input id="psH" type="text" inputmode="numeric" maxlength="2" aria-label="時" autocomplete="off"><span>:</span><input id="psI" type="text" inputmode="numeric" maxlength="2" aria-label="分" autocomplete="off"><button type="button" id="psnow">今</button></div></div>
+      <div class="field"><label for="pl">最新ログの「+○○へ強化された」の数字</label><div class="enh"><button type="button" data-t="pl" data-d="-1" aria-label="最新ログの数字を1下げる">−1</button><input id="pl" type="number" min="0" inputmode="numeric"><button type="button" data-t="pl" data-d="1" aria-label="最新ログの数字を1上げる">+1</button></div></div>
+    </div>
+    <div id="pout" aria-live="polite"></div>
+  </section>
+
+  <section class="win span" aria-labelledby="h-d">
+    <h2 id="h-d">結果の強化値の分布</h2>
+    <div class="legend" id="dleg"></div>
+    <div class="chart" id="dchart"></div>
+    <details><summary>数値の表を見る</summary><div class="tbl"><table><thead><tr><th>強化値</th><th>確率</th><th>この値以上</th></tr></thead><tbody id="dtbl"></tbody></table></div></details>
+  </section>
+
+  <section class="win span" aria-labelledby="h-l">
+    <h2 id="h-l">強化屋Lvごとの期待値と振れ幅</h2>
+    <div class="legend"><span><i style="background:var(--gold)"></i>期待値</span><span><i style="background:var(--gold);opacity:.35"></i>下位10%〜上位10%</span><span><i style="background:var(--text);border-radius:50%"></i>今のLv</span></div>
+    <div class="chart" id="lchart"></div>
+    <details><summary>数値の表を見る</summary><div class="tbl"><table><thead><tr><th>Lv</th><th>期待値</th><th>下位10%</th><th>上位10%</th><th>上位1%</th></tr></thead><tbody id="ltbl"></tbody></table></div></details>
+  </section>
+</div>
+
+<div class="note">
+  <b>計算のしかた</b>
+  <ul>
+    <li>ベース+a に素材+b を使うと、b 回判定されます。1回ごとに+1、クリティカルなら+2。</li>
+    <li>クリティカル率は強化屋Lvをそのままパーセントにした値（Lv30なら30%）。</li>
+    <li>結果は a＋b＋クリティカルの回数。そのあと神の祝福で+3。どちらも強化上限で止まり、超えた分の費用と時間もかかります。</li>
+    <li>費用は「+1あたりの費用」×b、時間は「強化鉱の数字（分）」×b。</li>
+    <li>乱数で試すのではなく、確率をそのまま計算しています（二項分布）。</li>
+  </ul>
+</div>
+__FILE:src/common/footer.html__
+</div>
+
+<script id="data-e" type="application/json">__JSON:data/enhance.json__</script>
+<script id="data-w" type="application/json">__JSON:data/weapons.json__</script>
+<script id="data-a" type="application/json">__JSON:data/armors.json__</script>
+<script>
+__FILE:src/enhance/engine.js__
+__FILE:src/enhance/ui.js__
+</script>
+</body>
+</html>

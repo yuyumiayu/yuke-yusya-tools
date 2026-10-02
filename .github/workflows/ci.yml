@@ -1,0 +1,22 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with: { node-version: 22 }
+      - run: npm test
+      - run: python3 scripts/build_html.py
+      # 元の表（scripts/raw_*.py）から作り直して、data/ と差がないこと
+      - name: データの作り直し漏れがないか
+        run: |
+          python3 scripts/sheet_to_json.py
+          python3 scripts/enhance_to_json.py
+          git diff --exit-code data/

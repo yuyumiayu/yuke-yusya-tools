@@ -1,0 +1,1313 @@
+[
+  {
+    "rarity": 1,
+    "name": "生命の木の葉",
+    "base_text": "HP+10",
+    "base": {
+      "hp": 10,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "店",
+      "冒",
+      "試",
+      "財",
+      "飛",
+      "死",
+      "戦",
+      "染",
+      "水",
+      "闇",
+      "王",
+      "鍛",
+      "竜",
+      "光",
+      "忍"
+    ],
+    "price": 500,
+    "sell_price": 50
+  },
+  {
+    "rarity": 1,
+    "name": "豪腕の木の葉",
+    "base_text": "攻+5",
+    "base": {
+      "hp": 0,
+      "atk": 5,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "店",
+      "試",
+      "財",
+      "飛",
+      "死",
+      "戦",
+      "染",
+      "水",
+      "闇",
+      "王",
+      "鍛",
+      "竜",
+      "光",
+      "忍"
+    ],
+    "price": 500,
+    "sell_price": 50
+  },
+  {
+    "rarity": 1,
+    "name": "守りの木の葉",
+    "base_text": "防+5",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 5,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "店",
+      "試",
+      "財",
+      "飛",
+      "死",
+      "戦",
+      "染",
+      "水",
+      "闇",
+      "王",
+      "鍛",
+      "竜",
+      "光",
+      "忍"
+    ],
+    "price": 2500,
+    "sell_price": 250
+  },
+  {
+    "rarity": 1,
+    "name": "回避の木の葉",
+    "base_text": "回+50",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 50,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "店",
+      "財",
+      "飛",
+      "死",
+      "戦",
+      "染",
+      "水",
+      "闇",
+      "王",
+      "鍛",
+      "竜",
+      "光",
+      "忍"
+    ],
+    "price": 500,
+    "sell_price": 50
+  },
+  {
+    "rarity": 2,
+    "name": "運気の木の葉",
+    "base_text": "運+3",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 3
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "試",
+      "財",
+      "死",
+      "戦",
+      "染",
+      "水",
+      "闇",
+      "王",
+      "鍛",
+      "竜",
+      "光",
+      "忍",
+      "漆"
+    ],
+    "price": 7500,
+    "sell_price": 750
+  },
+  {
+    "rarity": 5,
+    "name": "経験の木の葉",
+    "base_text": "運+3,経験値+50",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 3
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "王",
+      "鍛",
+      "沈"
+    ],
+    "price": 10000,
+    "sell_price": 1000
+  },
+  {
+    "rarity": 2,
+    "name": "生命の木の大葉",
+    "base_text": "HP+100",
+    "base": {
+      "hp": 100,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "水",
+      "王",
+      "鍛",
+      "竜",
+      "光",
+      "忍",
+      "漆"
+    ],
+    "price": 5000,
+    "sell_price": 500
+  },
+  {
+    "rarity": 2,
+    "name": "豪腕の木の大葉",
+    "base_text": "攻+50",
+    "base": {
+      "hp": 0,
+      "atk": 50,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "水",
+      "王",
+      "鍛",
+      "竜",
+      "光",
+      "忍",
+      "漆"
+    ],
+    "price": 5000,
+    "sell_price": 500
+  },
+  {
+    "rarity": 2,
+    "name": "守りの木の大葉",
+    "base_text": "防+30",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 30,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "水",
+      "王",
+      "鍛",
+      "竜",
+      "光",
+      "忍",
+      "漆"
+    ],
+    "price": 25000,
+    "sell_price": 2500
+  },
+  {
+    "rarity": 2,
+    "name": "回避の木の大葉",
+    "base_text": "回+200",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 200,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "水",
+      "鍛",
+      "竜",
+      "光",
+      "忍",
+      "漆"
+    ],
+    "price": 5000,
+    "sell_price": 500
+  },
+  {
+    "rarity": 2,
+    "name": "運気の木の大葉",
+    "base_text": "運+30",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 30
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "鍛",
+      "竜",
+      "光",
+      "忍",
+      "漆"
+    ],
+    "price": 75000,
+    "sell_price": 7500
+  },
+  {
+    "rarity": 2,
+    "name": "体力の木の大葉",
+    "base_text": "攻+50,防+15",
+    "base": {
+      "hp": 0,
+      "atk": 50,
+      "def": 15,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "鍛"
+    ],
+    "price": 20000,
+    "sell_price": 2000
+  },
+  {
+    "rarity": 3,
+    "name": "守護の木の大葉",
+    "base_text": "防+15,回+50",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 15,
+      "eva": 50,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "鍛"
+    ],
+    "price": 20000,
+    "sell_price": 2000
+  },
+  {
+    "rarity": 5,
+    "name": "経験の木の大葉",
+    "base_text": "運+3,経験値+100",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 3
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "王",
+      "鍛",
+      "沈",
+      "サ30"
+    ],
+    "price": 100000,
+    "sell_price": 10000
+  },
+  {
+    "rarity": 2,
+    "name": "生命の木の実",
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "HP+5",
+    "growth": {
+      "hp": 5,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "財",
+      "飛",
+      "死",
+      "戦",
+      "染",
+      "水",
+      "闇",
+      "王",
+      "鍛",
+      "竜",
+      "光",
+      "忍",
+      "漆"
+    ],
+    "price": 5000,
+    "sell_price": 500
+  },
+  {
+    "rarity": 2,
+    "name": "豪腕の木の実",
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "攻+2",
+    "growth": {
+      "hp": 0,
+      "atk": 2,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "財",
+      "飛",
+      "戦",
+      "染",
+      "水",
+      "闇",
+      "王",
+      "鍛",
+      "竜",
+      "光",
+      "忍",
+      "漆"
+    ],
+    "price": 5000,
+    "sell_price": 500
+  },
+  {
+    "rarity": 2,
+    "name": "守りの木の実",
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "防+2",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 2,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "戦",
+      "染",
+      "水",
+      "闇",
+      "王",
+      "鍛",
+      "竜",
+      "光",
+      "忍",
+      "漆",
+      "サ10"
+    ],
+    "price": 25000,
+    "sell_price": 2500
+  },
+  {
+    "rarity": 2,
+    "name": "回避の木の実",
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "回+5",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 5,
+      "luk": 0
+    },
+    "dungeons": [
+      "戦",
+      "染",
+      "水",
+      "王",
+      "鍛",
+      "竜",
+      "光",
+      "忍",
+      "漆"
+    ],
+    "price": 5000,
+    "sell_price": 500
+  },
+  {
+    "rarity": 3,
+    "name": "運気の木の実",
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "運+1",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 1
+    },
+    "dungeons": [
+      "試",
+      "死",
+      "水",
+      "闇",
+      "王",
+      "鍛",
+      "竜",
+      "光",
+      "忍",
+      "漆"
+    ],
+    "price": 75000,
+    "sell_price": 7500
+  },
+  {
+    "rarity": 2,
+    "name": "体力の木の実",
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "攻+2,防+1",
+    "growth": {
+      "hp": 0,
+      "atk": 2,
+      "def": 1,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "闇",
+      "鍛",
+      "竜",
+      "光",
+      "忍",
+      "漆",
+      "サ20"
+    ],
+    "price": 20000,
+    "sell_price": 2000
+  },
+  {
+    "rarity": 3,
+    "name": "守護の木の実",
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "防+1,回+2",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 1,
+      "eva": 2,
+      "luk": 0
+    },
+    "dungeons": [
+      "闇",
+      "鍛",
+      "竜",
+      "光",
+      "忍",
+      "漆"
+    ],
+    "price": 20000,
+    "sell_price": 2000
+  },
+  {
+    "rarity": 2,
+    "name": "生命の木の熟実",
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "HP+8",
+    "growth": {
+      "hp": 8,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "忍",
+      "漆"
+    ],
+    "price": 10000,
+    "sell_price": 1000
+  },
+  {
+    "rarity": 2,
+    "name": "豪腕の木の熟実",
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "攻+4",
+    "growth": {
+      "hp": 0,
+      "atk": 4,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "忍",
+      "漆"
+    ],
+    "price": 10000,
+    "sell_price": 1000
+  },
+  {
+    "rarity": 2,
+    "name": "守りの木の熟実",
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "防+4",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 4,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "忍",
+      "漆"
+    ],
+    "price": 50000,
+    "sell_price": 5000
+  },
+  {
+    "rarity": 2,
+    "name": "回避の木の熟実",
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "回+10",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 10,
+      "luk": 0
+    },
+    "dungeons": [
+      "忍"
+    ],
+    "price": 10000,
+    "sell_price": 1000
+  },
+  {
+    "rarity": 3,
+    "name": "運気の木の熟実",
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "運+2",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 2
+    },
+    "dungeons": [
+      "忍"
+    ],
+    "price": 150000,
+    "sell_price": 15000
+  },
+  {
+    "rarity": 1,
+    "name": "生命グミ",
+    "base_text": "HP+50",
+    "base": {
+      "hp": 50,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "店"
+    ],
+    "price": 5000,
+    "sell_price": 500
+  },
+  {
+    "rarity": 1,
+    "name": "豪腕グミ",
+    "base_text": "攻+25",
+    "base": {
+      "hp": 0,
+      "atk": 25,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "店"
+    ],
+    "price": 5000,
+    "sell_price": 500
+  },
+  {
+    "rarity": 1,
+    "name": "守りグミ",
+    "base_text": "防+15",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 15,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "店"
+    ],
+    "price": 25000,
+    "sell_price": 2500
+  },
+  {
+    "rarity": 1,
+    "name": "回避グミ",
+    "base_text": "回+25",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 25,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "店"
+    ],
+    "price": 5000,
+    "sell_price": 500
+  },
+  {
+    "rarity": 1,
+    "name": "生命キャンディ",
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "HP+1",
+    "growth": {
+      "hp": 1,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "店"
+    ],
+    "price": 10000,
+    "sell_price": 1000
+  },
+  {
+    "rarity": 1,
+    "name": "豪腕キャンディ",
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "攻+1",
+    "growth": {
+      "hp": 0,
+      "atk": 1,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "店"
+    ],
+    "price": 10000,
+    "sell_price": 1000
+  },
+  {
+    "rarity": 1,
+    "name": "守りキャンディ",
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "防+1",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 1,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "店"
+    ],
+    "price": 50000,
+    "sell_price": 5000
+  },
+  {
+    "rarity": 1,
+    "name": "回避キャンディ",
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "回+1",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 1,
+      "luk": 0
+    },
+    "dungeons": [
+      "店"
+    ],
+    "price": 10000,
+    "sell_price": 1000
+  },
+  {
+    "rarity": 1,
+    "name": "毒草",
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "HP攻防回運-1",
+    "growth": {
+      "hp": -1,
+      "atk": -1,
+      "def": -1,
+      "eva": -1,
+      "luk": -1
+    },
+    "dungeons": [
+      "鍛",
+      "竜"
+    ],
+    "price": 2000,
+    "sell_price": 200
+  },
+  {
+    "rarity": 3,
+    "name": "チョコ",
+    "base_text": "HP攻防経がランダム+30",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "イベントアイテム"
+    ],
+    "price": 1000,
+    "sell_price": 100
+  },
+  {
+    "rarity": 3,
+    "name": "高級チョコ",
+    "base_text": "HP攻防経がランダム+50",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "イベントアイテム"
+    ],
+    "price": 5000,
+    "sell_price": 500
+  },
+  {
+    "rarity": 3,
+    "name": "手作りチョコ",
+    "base_text": "HP攻防経がランダム+100",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "イベントアイテム"
+    ],
+    "price": 100,
+    "sell_price": 10
+  },
+  {
+    "rarity": 4,
+    "name": "スタミナドリンク",
+    "base_text": "HP+80",
+    "base": {
+      "hp": 80,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "HP+5",
+    "growth": {
+      "hp": 5,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "冒"
+    ],
+    "price": 25000,
+    "sell_price": 2500
+  },
+  {
+    "rarity": 4,
+    "name": "ニンニク",
+    "base_text": "攻+15 防+10",
+    "base": {
+      "hp": 0,
+      "atk": 15,
+      "def": 10,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "攻+2,防+1",
+    "growth": {
+      "hp": 0,
+      "atk": 2,
+      "def": 1,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "試"
+    ],
+    "price": 25000,
+    "sell_price": 2500
+  },
+  {
+    "rarity": 4,
+    "name": "力餅",
+    "base_text": "武器基本値100%増*1",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "財"
+    ],
+    "price": 25000,
+    "sell_price": 2500
+  },
+  {
+    "rarity": 4,
+    "name": "桜餅",
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "HP+2,攻防回運+1",
+    "growth": {
+      "hp": 2,
+      "atk": 1,
+      "def": 1,
+      "eva": 1,
+      "luk": 1
+    },
+    "dungeons": [
+      "イベントアイテム"
+    ],
+    "price": 25000,
+    "sell_price": 2500
+  },
+  {
+    "rarity": 4,
+    "name": "クリスマスケーキ",
+    "base_text": "攻防回運+5",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 5
+    },
+    "growth_text": "攻防回運+1",
+    "growth": {
+      "hp": 0,
+      "atk": 1,
+      "def": 1,
+      "eva": 1,
+      "luk": 1
+    },
+    "dungeons": [
+      "イベントアイテム"
+    ],
+    "price": 25000,
+    "sell_price": 2500
+  },
+  {
+    "rarity": 4,
+    "name": "短冊(赤)",
+    "base_text": "攻+30",
+    "base": {
+      "hp": 0,
+      "atk": 30,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "攻+3",
+    "growth": {
+      "hp": 0,
+      "atk": 3,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "イベントアイテム"
+    ],
+    "price": 10,
+    "sell_price": 1
+  },
+  {
+    "rarity": 4,
+    "name": "短冊(青)",
+    "base_text": "防+20",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 20,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "防+3",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 3,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "イベントアイテム"
+    ],
+    "price": 10,
+    "sell_price": 1
+  },
+  {
+    "rarity": 4,
+    "name": "短冊(黄)",
+    "base_text": "運+20",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 20
+    },
+    "growth_text": "運+2",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 2
+    },
+    "dungeons": [
+      "イベントアイテム"
+    ],
+    "price": 10,
+    "sell_price": 1
+  }
+]

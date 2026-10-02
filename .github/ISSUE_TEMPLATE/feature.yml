@@ -1,0 +1,12 @@
+name: 要望
+description: あったら便利な機能
+title: "[要望] "
+labels: ["要望"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: ほしい機能
+      description: どの場面で、何ができるとよいか
+    validations:
+      required: true
