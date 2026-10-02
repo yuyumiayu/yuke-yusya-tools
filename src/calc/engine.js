@@ -1,7 +1,7 @@
 // ===== 計算エンジン =====
 const K = ["hp","atk","def","eva","luk"];
 const INIT = {hp:30, atk:5, def:5, eva:5, luk:5};          // 加護なし
-const KAGO = {atk:2, def:2};                                 // 神様の加護：攻・防の初期値+2
+const KAGO = 2.5;                                            // 神様の加護：武器なしで攻、防具なしで防が+2〜3（平均の2.5で計算）
 const BASEGROW = {hp:5.5, atk:2.5, def:2.5, eva:2.3, luk:1.1};
 const clean = x => Math.round(x*1e6)/1e6;
 const up = x => Math.ceil(clean(x));                          // 切り上げ
@@ -42,7 +42,7 @@ function resonances(weapon, armor, list){
 }
 
 // res：発動中の共鳴（resonances() の戻り値）。calc を持つものだけステータスに効く。
-function build(weapon, wEnh, armor, aEnh, items, res, opt){
+function build(weapon, wEnh, armor, aEnh, items, res){
   items = items.filter(Boolean);
   res = res || [];
   const m = mods(weapon, armor, items);
@@ -57,13 +57,14 @@ function build(weapon, wEnh, armor, aEnh, items, res, opt){
   const resB = add(...res.map(r => (r.calc && r.calc.base) || {}));
   const base = add(wB, aB, resB, ...items.map(i=>pos(i.base)));
   const corr = add(wG, aG, ...items.map(i=>pos(i.growth)));
-  const init = add(INIT, base, opt && opt.kago ? KAGO : {});
+  const kago = {atk: weapon ? 0 : KAGO, def: armor ? 0 : KAGO};  // 装備せずに出発した欄だけ
+  const init = add(INIT, base, kago);
   const grow = vec(k => clean(BASEGROW[k] + corr[k]));
   if (grow.hp < 1) grow.hp = 1;                               // HP成長は1.0未満にしない
   const memo = {};                                            // 総当たりで同じレベルを何度も引くのでキャッシュ
   const at = L => memo[L] || (memo[L] = vec(k => up(init[k] + grow[k]*(L-1))));
   const exp = startExp(weapon, armor, items);
-  return {mods:m, res, resBase:resB, base, corr, init, grow, at, exp, start:startLevel(exp)};
+  return {mods:m, res, resBase:resB, kago, base, corr, init, grow, at, exp, start:startLevel(exp)};
 }
 
 const CUT4 = [

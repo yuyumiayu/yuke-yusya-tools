@@ -70,12 +70,16 @@ console.log(`${total-bad}/${total} rows match`);
     console.log(ok?"OK":"NG", "共鳴", label, got.names.join("/"), JSON.stringify(got.s)); if(!ok) bad++;
   }
 }
-// ===== 神様の加護（攻・防の初期値+2） =====
+// ===== 神様の加護（武器なしで攻、防具なしで防が+2〜3。平均の2.5で計算） =====
 {
-  const r0 = build(w("正宗"),0,a("ハイランドメイル"),60,[]), r1 = build(w("正宗"),0,a("ハイランドメイル"),60,[],[],{kago:true});
-  const d1 = r1.at(1), d0 = r0.at(1), d14 = r1.at(14), e14 = r0.at(14);
-  const ok = d1.atk === d0.atk + 2 && d1.def === d0.def + 2 && d1.hp === d0.hp && d14.atk === e14.atk + 2 && d14.def === e14.def + 2;
-  console.log(ok?"OK":"NG", "神様の加護：Lv1・Lv14 とも攻・防+2、HPは変わらない"); if(!ok) bad++;
+  const both = build(w("正宗"),0,a("ハイランドメイル"),60,[]);
+  const noW = build(null,0,a("ハイランドメイル"),60,[]), noA = build(w("正宗"),0,null,0,[]), none = build(null,0,null,0,[]);
+  const ok = both.kago.atk === 0 && both.kago.def === 0
+    && noW.kago.atk === 2.5 && noW.kago.def === 0 && noW.at(1).atk === 8 && noW.at(1).def === both.at(1).def
+    && noA.kago.atk === 0 && noA.kago.def === 2.5 && noA.at(1).def === 8 && noA.at(1).atk === both.at(1).atk
+    && none.at(1).atk === 8 && none.at(1).def === 8 && none.at(1).hp === 30
+    && none.at(14).atk === Math.ceil(7.5 + 2.5*13) && none.at(14).def === Math.ceil(7.5 + 2.5*13);
+  console.log(ok?"OK":"NG", "神様の加護：装備しない欄だけ+2.5（Lv1 は切り上げで8）、HPは変わらない"); if(!ok) bad++;
 }
 // ===== 出発時レベル（経験値テーブル：Lv2=10, Lv3=40, Lv4=90, Lv5=160, Lv6=250） =====
 {

@@ -8,7 +8,7 @@
 //   i1, i2: {fixed:道具|null} か {all:true}
 //   items:  総当たりする道具の候補（「なし」は自動で入る）
 //   sort:   {by:"forest"} か {by:"stat", key:"atk", lv:50}
-//   need4:  4F切捨基準を満たすものだけ残す, top: 残す件数, kago: 神様の加護あり
+//   need4:  4F切捨基準を満たすものだけ残す, top: 残す件数
 //   shard, shards: 並列で回すときの分担（武器×防具の組を shards 個に振り分ける）
 // }
 function itemPairs(spec){
@@ -59,7 +59,7 @@ function makeSearch(spec, R){
       const [w, a] = pairs[pi];
       if (qi === 0) res = resonances(w.g, a.g, R);
       const items = P[qi];
-      const r = build(w.g, w.e, a.g, a.e, items, res, {kago: spec.kago});
+      const r = build(w.g, w.e, a.g, a.e, items, res);
       const f = forest(r);
       if (!spec.need4 || f.ok4){
         const key = keyOf(r, f);

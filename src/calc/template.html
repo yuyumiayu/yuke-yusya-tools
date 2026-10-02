@@ -79,8 +79,6 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
 .xres li{display:grid;grid-template-columns:3.2em 1fr auto;gap:4px 10px;align-items:center;padding:6px 0;border-top:1px dashed #ffffff26}
 .xres .v{font-family:"DotGothic16",monospace;font-size:18px;color:var(--gold)}
 .xres small{display:block;color:var(--muted)}
-.kago{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);margin:2px 0 6px;cursor:pointer}
-.kago input{accent-color:var(--gold);width:16px;height:16px}
 .note{font-size:12.5px;color:var(--ink-soft);margin:16px 6px 0;line-height:1.7}
 @media (prefers-reduced-motion:no-preference){ .bar i{transition:width .25s} }
 </style>
@@ -125,7 +123,6 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
       <div class="field"><div class="labrow"><label for="i1">道具1</label><label class="sweep"><input type="checkbox" id="i1x"> 総当たり</label></div><select id="i1"></select><div class="hint" id="i1h"></div></div>
       <div class="field"><div class="labrow"><label for="i2">道具2</label><label class="sweep"><input type="checkbox" id="i2x"> 総当たり</label></div><select id="i2"></select><div class="hint" id="i2h"></div></div>
     </div>
-    <label class="kago"><input type="checkbox" id="kago"> 神様の加護（攻・防の初期値+2）</label>
     <p class="effects" id="fx"></p>
     <p class="effects" id="rx"></p>
   </section>
@@ -184,7 +181,7 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
   </section>
 </div>
 
-<p class="note">成長値は平均値です。合成は合成屋のwiki記載の仕様（基本値・補正はステータスごとに高い方、強化値は平均の切り上げ）で計算しています。レベルごとの値は端数を切り上げ、アビリティによる増加分も切り上げています。神様の加護は「神様の加護」にチェックを入れたときだけ入ります。共鳴はステータスに効くもの（ステータスアップは除く）だけ入れています。◆は森の採点に使うレベルです。</p>
+<p class="note">成長値は平均値です。合成は合成屋のwiki記載の仕様（基本値・補正はステータスごとに高い方、強化値は平均の切り上げ）で計算しています。レベルごとの値は端数を切り上げ、アビリティによる増加分も切り上げています。武器を装備しないと攻、防具を装備しないと防に神様の加護（+2〜3）が付きます。計算では平均の+2.5にしています。共鳴はステータスに効くもの（ステータスアップは除く）だけ入れています。◆は森の採点に使うレベルです。</p>
 __FILE:src/common/footer.html__
 </div>
 
