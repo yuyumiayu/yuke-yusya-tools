@@ -140,7 +140,7 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
     <p class="guide">目安：40点未満は死亡率2%以上、50点前後で1%前後。70点台でも死ぬことはある（wiki「鍛錬の森・武器防具組み合わせ例」の基準）。</p>
   </section>
 
-  <section class="win span" aria-labelledby="h-x" id="sweep">
+  <section class="win span" aria-labelledby="h-x" id="sweep" data-fold="calc-sweep">
     <h2 id="h-x">総当たり</h2>
     <p class="guide" style="margin-top:0">上の「そうび」で「総当たり」にチェックした欄だけを、下の候補で入れ替えて探します。チェックしていない欄は今の選択のまま。総当たりする武器・防具は強化値MAXで計算します。</p>
     <h3 class="xh">候補</h3>
@@ -170,12 +170,12 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
     <ol class="xres" id="xr"></ol>
   </section>
 
-  <section class="win" aria-labelledby="h-s">
+  <section class="win" aria-labelledby="h-s" data-fold="calc-stats">
     <h2 id="h-s">ステータスの内訳</h2>
     <table class="stat"><thead><tr><th></th><th>HP</th><th>攻</th><th>防</th><th>回</th><th>運</th></tr></thead><tbody id="st"></tbody></table>
   </section>
 
-  <section class="win" aria-labelledby="h-l">
+  <section class="win" aria-labelledby="h-l" data-fold="calc-levels">
     <h2 id="h-l">レベル別の予測</h2>
     <div class="lvbox"><table class="lv"><thead><tr><th>Lv</th><th>HP</th><th>攻</th><th>防</th><th>回</th><th>運</th></tr></thead><tbody id="lv"></tbody></table></div>
   </section>
@@ -195,6 +195,7 @@ __FILE:src/calc/search.js__
 </script>
 <script>
 __FILE:src/calc/ui.js__
+__FILE:src/common/fold.js__
 </script>
 </body>
 </html>

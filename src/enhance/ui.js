@@ -264,5 +264,6 @@
     render();
   }));
   writeInputs(); render();
-  if (window.ResizeObserver) new ResizeObserver(() => draw()).observe($("dchart"));
+  // 幅が変わったとき（折りたたんだ欄を開いたときも）に描き直す
+  if (window.ResizeObserver){ const ro = new ResizeObserver(() => draw()); ro.observe($("dchart")); ro.observe($("lchart")); }
 })();
