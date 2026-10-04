@@ -21,11 +21,11 @@ header p{margin:0 4px 16px;color:var(--ink-soft);font-size:13px}
 .win h2{font-family:"DotGothic16",sans-serif;font-weight:400;font-size:17px;margin:0 0 10px;color:var(--text)}
 /* 折りたためる欄（src/common/fold.js） */
 .win h2 .fold{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:8px;width:100%;cursor:pointer}
-.win h2 .fold::after{content:"▾";margin-left:auto;color:var(--muted);font-size:15px}
-.win h2 .fold:hover::after{color:var(--gold)}
+.win h2 .fold::after{content:"\25BC\FE0E";margin-left:auto;flex:none;display:flex;align-items:center;justify-content:center;width:34px;height:34px;box-sizing:border-box;border:2px solid var(--muted);border-radius:6px;color:var(--text);font-size:15px;line-height:1}
+.win h2 .fold:hover::after{color:var(--gold);border-color:var(--gold)}
 .win h2 .fold:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .win.folded h2{margin:0}
-.win.folded h2 .fold::after{content:"▸"}
+.win.folded h2 .fold::after{content:"\25B6\FE0E"}
 .win.folded > :not(h2){display:none}
 .field{margin-bottom:12px}
 .field label{display:block;font-size:13px;color:var(--muted);margin-bottom:3px}
