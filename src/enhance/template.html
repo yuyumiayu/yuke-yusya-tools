@@ -95,13 +95,13 @@ summary{cursor:pointer;color:var(--muted);font-size:13px}
     <dl class="facts" id="facts"></dl>
   </section>
 
-  <section class="win span" aria-labelledby="h-r">
+  <section class="win span" aria-labelledby="h-r" data-fold="enhance-reverse">
     <h2 id="h-r">逆引き：目標に届く素材</h2>
     <p class="guide" style="margin:0 0 10px">上の「強化する装備」のベース・強化屋Lv・祝福で、目標の強化値に届くには素材が+いくつ要るかを、届く確率ごとに出します。</p>
     <div id="rout"></div>
   </section>
 
-  <section class="win span" aria-labelledby="h-p">
+  <section class="win span" aria-labelledby="h-p" data-fold="enhance-progress">
     <h2 id="h-p">進行中の強化</h2>
     <p class="guide" style="margin:0 0 10px">上の「強化する装備」の内容で強化中なら、始めた日時と最新ログの数字を入れると、ここまで上振れているか下振れているかが分かります。</p>
     <div class="pair">
@@ -111,14 +111,14 @@ summary{cursor:pointer;color:var(--muted);font-size:13px}
     <div id="pout" aria-live="polite"></div>
   </section>
 
-  <section class="win span" aria-labelledby="h-d">
+  <section class="win span" aria-labelledby="h-d" data-fold="enhance-dist">
     <h2 id="h-d">結果の強化値の分布</h2>
     <div class="legend" id="dleg"></div>
     <div class="chart" id="dchart"></div>
     <details><summary>数値の表を見る</summary><div class="tbl"><table><thead><tr><th>強化値</th><th>確率</th><th>この値以上</th></tr></thead><tbody id="dtbl"></tbody></table></div></details>
   </section>
 
-  <section class="win span" aria-labelledby="h-l">
+  <section class="win span" aria-labelledby="h-l" data-fold="enhance-levels">
     <h2 id="h-l">強化屋Lvごとの期待値と振れ幅</h2>
     <div class="legend"><span><i style="background:var(--gold)"></i>期待値</span><span><i style="background:var(--gold);opacity:.35"></i>下位10%〜上位10%</span><span><i style="background:var(--text);border-radius:50%"></i>今のLv</span></div>
     <div class="chart" id="lchart"></div>
@@ -145,6 +145,7 @@ __FILE:src/common/footer.html__
 <script>
 __FILE:src/enhance/engine.js__
 __FILE:src/enhance/ui.js__
+__FILE:src/common/fold.js__
 </script>
 </body>
 </html>
