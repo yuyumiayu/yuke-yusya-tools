@@ -164,22 +164,35 @@
   document.querySelectorAll("[data-slot]").forEach(b=>b.addEventListener("click",()=>{ mode[b.dataset.slot] = b.dataset.mode; render(); }));
   FIELDS.forEach(id=>$(id).addEventListener(/e$/.test(id) ? "input" : "change", render));
   // ===== 総当たり =====
-  const CK = "yuke-calc-cands";                               // 候補から外した装備・道具の名前
+  const CK = "yuke-calc-cands";                               // 候補から外した装備・道具の名前と、指定した強化値（enh）
   const CL = {w:W, a:A, i:I};
-  let off = {w:[], a:[], i:[]};
+  let off = {w:[], a:[], i:[], enh:{w:{}, a:{}}};
   try{ off = Object.assign(off, JSON.parse(localStorage.getItem(CK)||"{}")); }catch(e){}
+  off.enh = Object.assign({w:{}, a:{}}, off.enh);
   const candsOf = t => CL[t].filter(x => !off[t].includes(x.name));
   const saveCands = () => { try{ localStorage.setItem(CK, JSON.stringify(off)); }catch(e){} };
   function fillCands(t){
     const groups = {};
     CL[t].forEach(x => (groups[x.rarity] ||= []).push(x));
     $("c"+t).querySelector(".clist").innerHTML = Object.keys(groups).sort().map(r => `<b data-r="${r}" role="button" tabindex="0">☆${r}</b>` +
-      groups[r].map(x => `<label><input type="checkbox" value="${esc(x.name)}"${off[t].includes(x.name) ? "" : " checked"}> ${esc(x.name)}</label>`).join("")).join("");
+      groups[r].map(x => {
+        const ck = `<label><input type="checkbox" value="${esc(x.name)}"${off[t].includes(x.name) ? "" : " checked"}> ${esc(x.name)}</label>`;
+        if (t === "i") return ck;
+        // 武器・防具：強化値の欄。空欄なら強化値MAX
+        const v = off.enh[t][x.name], mx = x.max_enhance || 0;
+        return `<div class="crow">${ck}<input type="number" class="cenh" min="0" max="${mx}" inputmode="numeric" data-n="${esc(x.name)}" placeholder="MAX" value="${v == null ? "" : v}" aria-label="${esc(x.name)}の強化値（空欄なら上限+${mx}）" title="空欄なら上限+${mx}"></div>`;
+      }).join("")).join("");
   }
   ["w","a","i"].forEach(t => {
     fillCands(t);
     const box = $("c"+t);
     box.querySelector(".clist").addEventListener("change", e => {
+      if (e.target.classList.contains("cenh")){                // 強化値：上限を超えたら上限に、空欄なら指定なし（MAX）
+        const n = e.target.dataset.n, mx = +e.target.max, v = parseInt(e.target.value, 10);
+        if (isNaN(v)){ delete off.enh[t][n]; e.target.value = ""; }
+        else { off.enh[t][n] = Math.max(0, Math.min(mx, v)); e.target.value = off.enh[t][n]; }
+        saveCands(); return;
+      }
       const n = e.target.value; off[t] = off[t].filter(x => x !== n); if (!e.target.checked) off[t].push(n);
       saveCands(); sweepInfo();
     });
@@ -200,8 +213,8 @@
   function spec(){
     const x = k => $(k+"x").checked, cap = +$("xcap").value;
     const s = {
-      w: x("w") ? {cands:candsOf("w"), synth:$("xsw").checked ? {cap} : null} : {fixed:{g:cur.ws.g, e:cur.ws.e}},
-      a: x("a") ? {cands:candsOf("a"), synth:$("xsa").checked ? {cap} : null} : {fixed:{g:cur.as.g, e:cur.as.e}},
+      w: x("w") ? {cands:candsOf("w"), synth:$("xsw").checked ? {cap} : null, enh:off.enh.w} : {fixed:{g:cur.ws.g, e:cur.ws.e}},
+      a: x("a") ? {cands:candsOf("a"), synth:$("xsa").checked ? {cap} : null, enh:off.enh.a} : {fixed:{g:cur.as.g, e:cur.as.e}},
       i1: x("i1") ? {all:true} : {fixed:cur.i1},
       i2: x("i2") ? {all:true} : {fixed:cur.i2},
       items: candsOf("i"),
