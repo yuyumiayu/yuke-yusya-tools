@@ -36,7 +36,7 @@
 ## 構成とコマンド
 
 ```
-data/          weapons.json(50) armors.json(41) items.json(46) resonances.json(47) enhance.json(89)  … マスタ
+data/          weapons.json(50) armors.json(41) items.json(42) resonances.json(47) enhance.json(89)  … マスタ
 src/common/    base.css（色・RPGウィンドウ・入力欄など全ツール共通の見た目）, footer.html（非公式の表示と出典）, back.html（ツール一覧へ戻るリンク。公開ページの絶対URL）, fold.js（`data-fold` を付けた欄を見出しで折りたたむ）
 src/calc/      成長予測：engine.js（計算）, search.js（総当たり）, ui.js（画面）, template.html
 src/enhance/   強化屋：engine.js（計算）, ui.js（画面とグラフ）, template.html
