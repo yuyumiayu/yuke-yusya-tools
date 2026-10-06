@@ -60,10 +60,15 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
 .clist b:hover{color:var(--text)}
 .cbtn{display:flex;gap:6px;margin:6px 0}
 .cbtn button,.xrun button,.xres button{font:inherit;font-size:13px;color:var(--text);background:transparent;border:2px solid var(--muted);border-radius:6px;padding:4px 10px;cursor:pointer;min-height:36px}
-.clist{max-height:260px;overflow:auto;font-size:13px;border:1px dashed #ffffff26;border-radius:6px;padding:4px 8px}
+.clist{max-height:420px;overflow:auto;font-size:13px;border:1px dashed #ffffff26;border-radius:6px;padding:4px 8px}
 .clist b{display:block;color:var(--muted);font-weight:400;margin-top:4px}
 .clist label{display:flex;align-items:center;gap:6px;padding:2px 0;cursor:pointer}
 .clist input{accent-color:var(--gold)}
+.clist .crow{display:flex;align-items:center;gap:6px}
+.clist .crow label{flex:1;min-width:0}
+.clist .cenh{width:4.6em;flex:none;font:inherit;font-size:13px;font-family:"DotGothic16",monospace;text-align:center;color:var(--text);background:var(--win-2);border:1px solid var(--muted);border-radius:4px;padding:3px 4px;margin:1px 0}
+.clist .cenh::placeholder{color:var(--muted)}
+.clist .crow:has(input[type=checkbox]:not(:checked)) .cenh{opacity:.45}
 .xopt{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin:12px 0 4px;font-size:13px;color:var(--muted)}
 .xopt select,.xopt input[type=number]{width:auto;padding:4px 6px}
 .xopt input[type=number]{width:4.5em}
@@ -142,7 +147,7 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
 
   <section class="win span" aria-labelledby="h-x" id="sweep" data-fold="calc-sweep">
     <h2 id="h-x">総当たり</h2>
-    <p class="guide" style="margin-top:0">上の「そうび」で「総当たり」にチェックした欄だけを、下の候補で入れ替えて探します。チェックしていない欄は今の選択のまま。総当たりする武器・防具は強化値MAXで計算します。</p>
+    <p class="guide" style="margin-top:0">上の「そうび」で「総当たり」にチェックした欄だけを、下の候補で入れ替えて探します。チェックしていない欄は今の選択のまま。総当たりする武器・防具は、候補の一覧で強化値を入れたものはその値、空欄なら強化値MAXで計算します。</p>
     <h3 class="xh">候補</h3>
     <p class="guide" style="margin-top:0">総当たりで入れ替える装備・道具です。使わないものはチェックを外すと、次に開いたときも外れたままです。☆の見出しを押すと、そのレア度をまとめて切り替えます。</p>
     <div class="cands">
@@ -156,7 +161,7 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
       <label><input type="checkbox" id="xsa"> 防具は合成も探す</label>
       <label>合計レア度の上限 <select id="xcap"><option value="2">2</option><option value="3">3</option><option value="4" selected>4（今の上限）</option><option value="5">5</option><option value="6">6</option><option value="7">7（過去の上限）</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select></label>
     </div>
-    <p class="guide" style="margin-top:0">合成は、候補の中の違う装備2つを強化値MAXで合成し、神の祝福+3で計算します。</p>
+    <p class="guide" style="margin-top:0">合成は、候補の中の違う装備2つを上と同じ強化値（空欄ならMAX）で合成し、神の祝福+3で計算します。</p>
     <h3 class="xh">並べ替えと絞り込み</h3>
     <div class="xopt">
       <label>並べ替え <select id="xs"><option value="forest">森4Fの点数</option><option value="hp">HP</option><option value="atk">攻</option><option value="def">防</option><option value="eva">回</option><option value="luk">運</option></select></label>

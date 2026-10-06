@@ -2,9 +2,10 @@
 // Web Worker・画面・Node のどこでも動く。engine.js の build / forest / resonances をグローバルとして使う
 // （画面と Worker では同じ script に続けて入れる。Node では先に Object.assign(global, require("./engine.js"))）。
 // spec = {
-//   w, a:   {fixed:{g, e}} か {cands:[装備…], synth:{cap:4}}（候補は強化値MAXで回す）
+//   w, a:   {fixed:{g, e}} か {cands:[装備…], synth:{cap:4}, enh:{名前:強化値}}
+//           候補は enh で指定した強化値（上限まで）で回す。指定がなければ強化値MAX。
 //           synth があれば、候補から違う装備2つを合成したものも入れる（同じ装備どうしはゲームで合成できない）。
-//           合計レア度が cap 以下の組だけ。素材は強化値MAX、神の祝福は+3。
+//           合計レア度が cap 以下の組だけ。素材の強化値は上と同じ（指定がなければMAX）、神の祝福は+3。
 //   i1, i2: {fixed:道具|null} か {all:true}
 //   items:  総当たりする道具の候補（「なし」は自動で入る）
 //   sort:   {by:"forest"} か {by:"stat", key:"atk", lv:50}
@@ -24,12 +25,14 @@ function itemPairs(spec){
 const BLESS_MAX = 3;
 function slotList(s){
   if (s.fixed) return [s.fixed];
-  const out = s.cands.map(g => ({g, e:g.max_enhance || 0}));
+  const enhOf = g => { const mx = g.max_enhance || 0, v = s.enh && s.enh[g.name];
+    return v == null ? mx : Math.max(0, Math.min(mx, v)); };
+  const out = s.cands.map(g => ({g, e:enhOf(g)}));
   if (s.synth){
     const c = s.cands;
     for (let x = 0; x < c.length; x++) for (let y = x + 1; y < c.length; y++){
       if (c[x].rarity + c[y].rarity > s.synth.cap) continue;
-      const r = synth(c[x], c[x].max_enhance || 0, c[y], c[y].max_enhance || 0, BLESS_MAX);
+      const r = synth(c[x], enhOf(c[x]), c[y], enhOf(c[y]), BLESS_MAX);
       out.push({g:r.gear, e:r.total});
     }
   }

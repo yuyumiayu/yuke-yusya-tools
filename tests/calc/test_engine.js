@@ -131,5 +131,14 @@ console.log(`${total-bad}/${total} rows match`);
   const sg = synth(w(sw.wParts[0]), w(sw.wParts[0]).max_enhance, w(sw.wParts[1]), w(sw.wParts[1]).max_enhance, 3);
   const direct = forest(build(sg.gear, sg.total, a("ハイランドメイル"), 60, sw.items.map(n=>n&&i(n)), resonances(sg.gear, a("ハイランドメイル"), R))).score;
   const ok5 = sw.score === direct && sw.we === sg.total; console.log(ok5?"OK":"NG", "総当たり 合成の結果を個別計算で確認", sw.w, "+"+sw.we, sw.score+"点"); if(!ok5) bad++;
+  // 強化値の指定（#7）：指定した装備はその値（0〜上限に収める）、指定なしはMAX。合成の素材も同じ値で平均を取り、祝福+3
+  const en = {"正宗":100, "ショートソード":999, "水龍の剣":-5};
+  const namesE = slotList({cands:c3, synth:{cap:4}, enh:en}).map(x => x.g.name + "+" + x.e).join(",");
+  const ok6 = namesE === "ショートソード+200,水龍の剣+0,正宗+100,ショートソード＋水龍の剣+103,ショートソード＋正宗+153"
+    && slotList({cands:c3, enh:{}}).map(x => x.e).join() === "200,75,500";
+  console.log(ok6?"OK":"NG", "総当たり 強化値の指定", namesE); if(!ok6) bad++;
+  const se = run({...base, w:{cands:[w("正宗")], enh:{"正宗":120}}, i2:{fixed:null}, top:1}).results()[0];
+  const ok7 = se.we === 120 && se.score === forest(build(w("正宗"), 120, a("ハイランドメイル"), 60, se.items.map(n=>n&&i(n)), resonances(w("正宗"), a("ハイランドメイル"), R))).score;
+  console.log(ok7?"OK":"NG", "総当たり 指定した強化値で回す（正宗+120）", se.score+"点"); if(!ok7) bad++;
 }
 process.exitCode = bad ? 1 : 0;
