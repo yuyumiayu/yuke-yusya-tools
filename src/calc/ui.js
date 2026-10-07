@@ -85,17 +85,25 @@
   }
 
   const FIELDS = ["w","we","a","ae","i1","i2","w1","w2","wse","a1","a2","ase"];
+  const PICKS = ["w","a","i1","i2","w1","w2","a1","a2"];
+  const listFor = k => k[0]==="i" ? I : listOf(k);
+  // 名前で保存する前の保存内容は、道具を番号で持っている。グミ4つを消す前の並びで名前に戻す
+  const OLD_ITEMS = (n => [...n.slice(0,26), "生命グミ","豪腕グミ","守りグミ","回避グミ", ...n.slice(26)])(I.map(g=>g.name));
   const SWEEP = ["w","a","i1","i2"];
   function save(){
     const s = {mode, sweep:SWEEP.filter(k=>$(k+"x").checked), xs:$("xs").value, xlv:$("xlv").value, xn4:$("xn4").checked,
                xsw:$("xsw").checked, xsa:$("xsa").checked, xcap:$("xcap").value};
     FIELDS.forEach(k=>s[k]=$(k).value);
+    // 装備・道具は名前でも保存する（データの行が増減しても選択がずれないように）
+    s.names = {}; PICKS.forEach(k=>{ const g = pick(k); s.names[k] = g ? g.name : ""; });
     try{ localStorage.setItem("yuke-calc-v2", JSON.stringify(s)); }catch(e){}
   }
   function load(){
     let s=null; try{ s = JSON.parse(localStorage.getItem("yuke-calc-v2")||"null"); }catch(e){}
     if(!s){ s = {w:String(W.findIndex(x=>x.name==="正宗")),we:"0",a:String(A.findIndex(x=>x.name==="ハイランドメイル")),ae:"60",i1:String(I.findIndex(x=>x.name==="生命の木の大葉")),i2:String(I.findIndex(x=>x.name==="体力の木の大葉"))}; }
-    FIELDS.forEach(k=>{ if(s[k]!==undefined) $(k).value = s[k]; });
+    if (s.names) PICKS.forEach(k=>{ const n = s.names[k]; if (n !== undefined) s[k] = n ? String(listFor(k).findIndex(g=>g.name===n)) : ""; });
+    else ["i1","i2"].forEach(k=>{ if (s[k]) s[k] = String(I.findIndex(g=>g.name===OLD_ITEMS[+s[k]])); });
+    FIELDS.forEach(k=>{ if(s[k]!==undefined) $(k).value = s[k] === "-1" ? "" : s[k]; });
     if (s.mode) Object.assign(mode, s.mode);
     if (s.sweep) SWEEP.forEach(k=>$(k+"x").checked = s.sweep.includes(k));
     if (s.xs) $("xs").value = s.xs;

@@ -110,7 +110,7 @@ console.log(`${total-bad}/${total} rows match`);
   // 正宗+0／ハイメ+60 で道具2つを総当たり → wiki 4F表の正宗+0行の最高点 64
   const base = {w:{fixed:{g:w("正宗"), e:0}}, a:{fixed:{g:a("ハイランドメイル"), e:60}}, i1:{all:true}, i2:{all:true}, items:I, need4:true, top:5};
   const s1 = run(base), r1 = s1.results();
-  const ok1 = s1.total === 47*48/2 && r1[0].score === 64;
+  const ok1 = s1.total === (I.length+1)*(I.length+2)/2 && r1[0].score === 64;   // 「なし」込みで順番違いをまとめた数
   console.log(ok1?"OK":"NG", "総当たり 道具2つ", s1.total, "通り 最高", r1[0].score); if(!ok1) bad++;
   // 分担して回しても1本で回したのと同じ上位になる
   const cands = {w:{cands:W.filter(x=>x.rarity===4)}, a:{cands:A.filter(x=>x.rarity<=2 && x.base.def!==null)}, i1:{fixed:i("生命の木の大葉")}, i2:{all:true}, items:I.slice(0,20), need4:false, top:10};
