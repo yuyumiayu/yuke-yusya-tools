@@ -78,15 +78,22 @@ function progress({a, b, max, lv, ore, start, now, latest, bless = 0}){
 // ===== 逆引き =====
 // 目標 target 以上になる確率が q 以上になる、一番小さい素材の強化値 b（0〜上限）。届かなければ null。
 // b を増やすほど確率は上がる（判定が増え、どれも+1以上）ので二分探索でよい。
-const REVERSE_PROBS = [0.9, 0.75, 0.5, 0.1];
+const REVERSE_PROBS = [0.9, 0.75, 0.5];
+const REVERSE_PCT = 10;                                      // 入力する届く確率（%）の初期値
+// 表に出す確率：決まった3つのあとに、入力した確率（1〜100% の整数にそろえる）を必ず足す。決まった確率と同じでも2回出す
+function reverseProbs(pct){
+  const v = Math.round(Number(pct));
+  return [...REVERSE_PROBS, (isNaN(v) ? REVERSE_PCT : Math.max(1, Math.min(100, v))) / 100];
+}
 function reverse({a, max, lv, bless = BLESS, target}, probs = REVERSE_PROBS){
   const pAt = b => enhance({a, b, max, lv, bless}).atLeast(target);
-  const top = pAt(max);
+  // 100% は「必ず届く」（一番悪い結果でも目標以上）で判定する。誤差の許しで「ほぼ100%」を届いたとしないため
+  const reach = (b, q) => q >= 1 ? enhance({a, b, max, lv, bless}).min >= target : pAt(b) >= q - 1e-12;
   return probs.map(q => {
-    if (top < q - 1e-12) return {q, b: null, p: top};
+    if (!reach(max, q)) return {q, b: null, p: pAt(max)};
     let lo = 0, hi = max;
-    while (lo < hi){ const mid = (lo + hi) >> 1; if (pAt(mid) >= q - 1e-12) hi = mid; else lo = mid + 1; }
+    while (lo < hi){ const mid = (lo + hi) >> 1; if (reach(mid, q)) hi = mid; else lo = mid + 1; }
     return {q, b: lo, p: pAt(lo)};
   });
 }
-if (typeof module !== "undefined") module.exports = {BLESS, critRate, critDist, enhance, byLevel, progress, REVERSE_PROBS, reverse};
+if (typeof module !== "undefined") module.exports = {BLESS, critRate, critDist, enhance, byLevel, progress, REVERSE_PROBS, REVERSE_PCT, reverseProbs, reverse};

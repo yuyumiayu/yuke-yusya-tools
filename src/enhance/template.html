@@ -40,6 +40,8 @@ __FILE:src/common/base.css__
 .legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:5px}
 .tbl{max-height:40vh;overflow:auto;margin-top:6px}
 table{border-collapse:collapse;width:100%;font-size:13px}
+#rout tr.mine td{color:var(--gold)}
+.enh .unit{color:var(--muted);margin-left:-2px}
 th,td{padding:3px 6px;text-align:right;font-variant-numeric:tabular-nums}
 th{color:var(--muted);font-weight:400}
 th:first-child,td:first-child{text-align:left}
@@ -97,7 +99,8 @@ summary{cursor:pointer;color:var(--muted);font-size:13px}
 
   <section class="win span" aria-labelledby="h-r" data-fold="enhance-reverse">
     <h2 id="h-r">逆引き：目標に届く素材</h2>
-    <p class="guide" style="margin:0 0 10px">上の「強化する装備」のベース・強化屋Lv・祝福で、目標の強化値に届くには素材が+いくつ要るかを、届く確率ごとに出します。</p>
+    <p class="guide" style="margin:0 0 10px">上の「強化する装備」のベース・強化屋Lv・祝福で、目標の強化値に届くには素材が+いくつ要るかを、届く確率ごとに出します。90%・75%・50% に加えて、下で入れた確率の行を一番下に出します。</p>
+    <div class="field"><label for="rq">届く確率（1〜100%）</label><div class="enh"><button type="button" data-t="rq" data-d="-1" aria-label="届く確率を1%下げる">−1</button><input id="rq" type="number" min="1" max="100" inputmode="numeric"><span class="unit">%</span><button type="button" data-t="rq" data-d="1" aria-label="届く確率を1%上げる">+1</button></div></div>
     <div id="rout"></div>
   </section>
 
