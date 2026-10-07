@@ -11,7 +11,7 @@
   const SVGNS = "http://www.w3.org/2000/svg";
 
   // ===== 入力 =====
-  const st = {kind:"weapon", g:"正宗", ba:100, bb:100, lv:30, ore:60, bless:3, tg:240, ps:"", pl:""};
+  const st = {kind:"weapon", g:"正宗", ba:100, bb:100, lv:30, ore:60, bless:3, tg:240, rq:REVERSE_PCT, ps:"", pl:""};
   const KEY = "yuke-enhance-v1";
   try{ Object.assign(st, JSON.parse(localStorage.getItem(KEY) || "{}")); }catch(e){}
   const save = () => { try{ localStorage.setItem(KEY, JSON.stringify(st)); }catch(e){} };
@@ -33,6 +33,7 @@
     st.bb = clamp(parseInt($("bb").value, 10), 0, g.max);
     st.lv = clamp(parseInt($("lv").value, 10), 1, 99);
     st.tg = clamp(parseInt($("tg").value, 10), 0, g.max);
+    st.rq = clamp(parseInt($("rq").value, 10), 1, 100);
     st.ps = readStart();
     const pl = parseInt($("pl").value, 10); st.pl = isNaN(pl) ? "" : clamp(pl, 0, g.max);
   }
@@ -40,6 +41,7 @@
     const g = gear();
     [["ba", st.ba], ["bb", st.bb], ["tg", st.tg]].forEach(([id, v]) => { $(id).value = v; $(id).max = g.max; });
     $("lv").value = st.lv; $("lvr").value = st.lv;
+    $("rq").value = st.rq;
     $("pl").value = st.pl; $("pl").max = g.max;
     document.querySelectorAll("[data-kind]").forEach(b => b.setAttribute("aria-checked", b.dataset.kind === st.kind));
     document.querySelectorAll("[data-ore]").forEach(b => b.setAttribute("aria-checked", +b.dataset.ore === st.ore));
@@ -211,9 +213,10 @@
   });
   function renderReverse(){
     const g = gear();
-    const rows = reverse({a:st.ba, max:g.max, lv:st.lv, bless:st.bless, target:st.tg});
+    const probs = reverseProbs(st.rq), rows = reverse({a:st.ba, max:g.max, lv:st.lv, bless:st.bless, target:st.tg}, probs);
+    // 最後の行が入力した確率（いつも一番下、決まった確率と同じでも別の行）
     $("rout").innerHTML = `<table><thead><tr><th>届く確率</th><th>必要な素材</th><th>そのときの確率</th></tr></thead><tbody>` +
-      rows.map(r => `<tr><td>${Math.round(r.q * 100)}%</td><td>${r.b === null ? "届かない" : "+" + r.b}</td><td>${r.b === null ? `上限+${g.max}でも ${pct(r.p)}` : pct(r.p)}</td></tr>`).join("") +
+      rows.map((r, i) => `<tr${i === rows.length - 1 ? ' class="mine"' : ""}><td>${Math.round(r.q * 100)}%${i === rows.length - 1 ? "（入力）" : ""}</td><td>${r.b === null ? "届かない" : "+" + r.b}</td><td>${r.b === null ? `上限+${g.max}でも ${pct(r.p)}` : pct(r.p)}</td></tr>`).join("") +
       `</tbody></table><p class="guide">目標 +${st.tg}（上の「目標の強化値」）、ベース +${st.ba}、強化屋Lv${st.lv}、祝福${st.bless ? "+3" : "なし"}。素材は上限 +${g.max} まで。</p>`;
   }
   function renderProgress(){
@@ -256,7 +259,7 @@
   document.querySelectorAll("[data-ore]").forEach(b => b.addEventListener("click", () => { st.ore = +b.dataset.ore; render(); }));
   document.querySelectorAll("[data-bless]").forEach(b => b.addEventListener("click", () => { st.bless = +b.dataset.bless; render(); }));
   $("g").addEventListener("change", () => { st.g = $("g").value; render(); });
-  ["ba", "bb", "tg", "lv"].forEach(id => $(id).addEventListener("input", render));
+  ["ba", "bb", "tg", "lv", "rq"].forEach(id => $(id).addEventListener("input", render));
   $("lvr").addEventListener("input", () => { $("lv").value = $("lvr").value; render(); });
   document.querySelectorAll(".enh button[data-t]").forEach(b => b.addEventListener("click", () => {
     const inp = $(b.dataset.t);

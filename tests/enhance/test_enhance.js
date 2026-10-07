@@ -1,4 +1,4 @@
-const {BLESS, critRate, critDist, enhance, byLevel, progress, reverse} = require("../../src/enhance/engine.js");
+const {BLESS, critRate, critDist, enhance, byLevel, progress, reverse, reverseProbs, REVERSE_PCT} = require("../../src/enhance/engine.js");
 const E = require("../../data/enhance.json"), W = require("../../data/weapons.json"), A = require("../../data/armors.json");
 let bad = 0;
 const check = (ok, label, detail="") => { console.log(ok ? "OK" : "NG", label, detail); if (!ok) bad++; };
@@ -94,6 +94,16 @@ check(critRate(1) === 0 && critRate(2) === 0.02 && critRate(99) === 0.99, "ク�
   check(R2.every(r => r.b === 2), "Lv1 なら確率によらず目標−ベースの素材（+2）");
   const R3 = reverse({a:100, max:200, lv:30, bless:3, target:50});
   check(R3.every(r => r.b === 0), "もう目標を超えていれば素材+0");
+  // 入力した届く確率（#11）：決まった3つのあとに必ず1行足す。1〜100% の整数にそろえる
+  const P = q => reverseProbs(q).join(",");
+  check(P(10) === "0.9,0.75,0.5,0.1" && P(75) === "0.9,0.75,0.5,0.75" && P(0) === "0.9,0.75,0.5,0.01" && P(150) === "0.9,0.75,0.5,1"
+    && P(33.4) === "0.9,0.75,0.5,0.33" && P("") === "0.9,0.75,0.5,0.01" && P(undefined) === `0.9,0.75,0.5,${REVERSE_PCT/100}`,
+    "入力した確率：一番下に足す（同じ値も2回）・範囲外は1〜100%・整数にそろえる", P(75));
+  const RQ = reverse(opt, reverseProbs(75));
+  check(RQ.length === 4 && RQ[3].b === RQ[1].b && RQ[3].q === 0.75, "入力した75%の行は、決まった75%の行と同じ素材");
+  // 100%：クリティカルが1回も出なくても届く素材（目標−ベース−祝福）
+  const R100 = reverse(opt, reverseProbs(100))[3];
+  check(R100.b === 300 - 100 - 3 && Math.abs(R100.p - 1) < 1e-12, "入力した100%は、クリティカルなしでも届く素材", "+" + R100.b);
 }
 console.log(bad ? `${bad} NG` : "all OK");
 process.exitCode = bad ? 1 : 0;
