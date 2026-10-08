@@ -28,10 +28,17 @@
   const synthOf = t => { const g1 = pick(t+"1"), g2 = pick(t+"2");
     return g1 && g2 ? synth(g1, maxOf(g1), g2, maxOf(g2), 0) : null; };
   const maxFor = t => { if (t.length === 2 && t[1] === "s"){ const s = synthOf(t[0]); return s ? s.enh + BLESS_MAX : 0; } return maxOf(pick(t)); };
+  // 数字の欄：入力中（フォーカスがある間）は欄に書き戻さない。範囲外なら端の値で計算し、欄から離れたら整える。
+  // 空欄のあいだは、打ち直す前（欄に入ったとき）の値で計算し、空欄のまま離れたらその値に戻す
+  const lastEnh = {};                                         // 強化値の欄（"w"/"a"/"ws"/"as"）の最後に使った値
+  let editing = null, beforeEnh = {}, beforeXlv = 50;
+  document.addEventListener("focusin", e => { editing = e.target; beforeEnh = {...lastEnh}; beforeXlv = xlvLast; });
   function clampEnh(t){
     const inp = $(t+"e"), mx = maxFor(t);
-    let v = parseInt(inp.value,10); if (isNaN(v)) v = 0;
-    v = Math.max(0, Math.min(mx, v)); inp.value = v; inp.max = mx; return v;
+    let v = parseInt(inp.value,10); if (isNaN(v)) v = (inp === editing ? beforeEnh[t] : lastEnh[t]) ?? 0;
+    v = Math.max(0, Math.min(mx, v)); lastEnh[t] = v;
+    if (inp !== editing) inp.value = v;
+    inp.max = mx; return v;
   }
   const sgn = v => (v>0?"+":"") + v;
   const fmt = v => Number.isInteger(v) ? String(v) : v.toFixed(1);
@@ -84,6 +91,9 @@
     return {g: s.gear, e};
   }
 
+  let xlvLast = 50;                                           // 並べ替えのレベル（1〜99）。空欄なら打ち直す前の値
+  const xlvVal = () => { const v = parseInt($("xlv").value,10);
+    xlvLast = isNaN(v) ? ($("xlv") === editing ? beforeXlv : xlvLast) : Math.max(1, Math.min(99, v)); return xlvLast; };
   const FIELDS = ["w","we","a","ae","i1","i2","w1","w2","wse","a1","a2","ase"];
   const PICKS = ["w","a","i1","i2","w1","w2","a1","a2"];
   const listFor = k => k[0]==="i" ? I : listOf(k);
@@ -94,6 +104,8 @@
     const s = {mode, sweep:SWEEP.filter(k=>$(k+"x").checked), xs:$("xs").value, xlv:$("xlv").value, xn4:$("xn4").checked,
                xsw:$("xsw").checked, xsa:$("xsa").checked, xcap:$("xcap").value};
     FIELDS.forEach(k=>s[k]=$(k).value);
+    ["w","a","ws","as"].forEach(t=>{ if (s[t+"e"] === "" && lastEnh[t] != null) s[t+"e"] = String(lastEnh[t]); });   // 入力中の空欄は直前の値で保存
+    s.xlv = String(xlvVal());
     // 装備・道具は名前でも保存する（データの行が増減しても選択がずれないように）
     s.names = {}; PICKS.forEach(k=>{ const g = pick(k); s.names[k] = g ? g.name : ""; });
     try{ localStorage.setItem("yuke-calc-v2", JSON.stringify(s)); }catch(e){}
@@ -165,12 +177,13 @@
   }
 
   document.querySelectorAll(".enh button").forEach(b=>b.addEventListener("click",()=>{
-    const t = b.dataset.t, inp = $(t+"e");
-    inp.value = b.dataset.d==="max" ? maxFor(t) : (parseInt(inp.value,10)||0) + (+b.dataset.d);
+    const t = b.dataset.t, inp = $(t+"e"), cur = parseInt(inp.value,10);
+    inp.value = b.dataset.d==="max" ? maxFor(t) : (isNaN(cur) ? beforeEnh[t] ?? lastEnh[t] ?? 0 : cur) + (+b.dataset.d);
     render();
   }));
   document.querySelectorAll("[data-slot]").forEach(b=>b.addEventListener("click",()=>{ mode[b.dataset.slot] = b.dataset.mode; render(); }));
   FIELDS.forEach(id=>$(id).addEventListener(/e$/.test(id) ? "input" : "change", render));
+  FIELDS.filter(id=>/e$/.test(id)).forEach(id=>$(id).addEventListener("focusout", () => { editing = null; render(); }));
   // ===== 総当たり =====
   const CK = "yuke-calc-cands";                               // 候補から外した装備・道具の名前と、指定した強化値（enh）
   const CL = {w:W, a:A, i:I};
@@ -226,7 +239,7 @@
       i1: x("i1") ? {all:true} : {fixed:cur.i1},
       i2: x("i2") ? {all:true} : {fixed:cur.i2},
       items: candsOf("i"),
-      sort: $("xs").value === "forest" ? {by:"forest"} : {by:"stat", key:$("xs").value, lv:Math.max(1, Math.min(99, parseInt($("xlv").value,10) || 50))},
+      sort: $("xs").value === "forest" ? {by:"forest"} : {by:"stat", key:$("xs").value, lv:xlvVal()},
       need4: $("xn4").checked, top: 30,
     };
     const nP = itemPairs(s).length, nW = slotList(s.w).length, nA = slotList(s.a).length;
@@ -341,6 +354,7 @@
   $("xstop").addEventListener("click", () => { if (running) finish(running.partial ? running.partial() : [], spec().s, 0, true); });
   SWEEP.forEach(k => $(k+"x").addEventListener("change", render));
   ["xs","xlv","xn4","xsw","xsa","xcap"].forEach(id => $(id).addEventListener(id === "xlv" ? "input" : "change", () => { sweepInfo(); save(); }));
+  $("xlv").addEventListener("focusout", () => { editing = null; $("xlv").value = xlvVal(); save(); });
 
   load(); render();
 })();
