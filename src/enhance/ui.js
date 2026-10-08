@@ -27,22 +27,29 @@
     $("g").value = st.g;
   }
   const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, isNaN(v) ? lo : v));
+  // 数字の欄：入力中（フォーカスがある間）は欄に書き戻さない。範囲外なら端の値で計算し、欄から離れたら整える。
+  // 空欄のあいだは、打ち直す前（欄に入ったとき）の値で計算し、空欄のまま離れたらその値に戻す
+  let editing = null, before = {};
+  document.addEventListener("focusin", e => { editing = e.target; before = {...st}; });
+  const num = (id, cur, lo, hi) => { const v = parseInt($(id).value, 10);
+    return clamp(isNaN(v) ? ($(id) === editing ? before[id] : cur) : v, lo, hi); };
+  const put = (id, v) => { if ($(id) !== editing) $(id).value = v; };
   function readInputs(){
     const g = gear();
-    st.ba = clamp(parseInt($("ba").value, 10), 0, g.max);
-    st.bb = clamp(parseInt($("bb").value, 10), 0, g.max);
-    st.lv = clamp(parseInt($("lv").value, 10), 1, 99);
-    st.tg = clamp(parseInt($("tg").value, 10), 0, g.max);
-    st.rq = clamp(parseInt($("rq").value, 10), 1, 100);
+    st.ba = num("ba", st.ba, 0, g.max);
+    st.bb = num("bb", st.bb, 0, g.max);
+    st.lv = num("lv", st.lv, 1, 99);
+    st.tg = num("tg", st.tg, 0, g.max);
+    st.rq = num("rq", st.rq, 1, 100);
     st.ps = readStart();
     const pl = parseInt($("pl").value, 10); st.pl = isNaN(pl) ? "" : clamp(pl, 0, g.max);
   }
   function writeInputs(){
     const g = gear();
-    [["ba", st.ba], ["bb", st.bb], ["tg", st.tg]].forEach(([id, v]) => { $(id).value = v; $(id).max = g.max; });
-    $("lv").value = st.lv; $("lvr").value = st.lv;
-    $("rq").value = st.rq;
-    $("pl").value = st.pl; $("pl").max = g.max;
+    [["ba", st.ba], ["bb", st.bb], ["tg", st.tg]].forEach(([id, v]) => { put(id, v); $(id).max = g.max; });
+    put("lv", st.lv); $("lvr").value = st.lv;
+    put("rq", st.rq);
+    put("pl", st.pl); $("pl").max = g.max;
     document.querySelectorAll("[data-kind]").forEach(b => b.setAttribute("aria-checked", b.dataset.kind === st.kind));
     document.querySelectorAll("[data-ore]").forEach(b => b.setAttribute("aria-checked", +b.dataset.ore === st.ore));
     document.querySelectorAll("[data-bless]").forEach(b => b.setAttribute("aria-checked", +b.dataset.bless === st.bless));
@@ -261,9 +268,10 @@
   $("g").addEventListener("change", () => { st.g = $("g").value; render(); });
   ["ba", "bb", "tg", "lv", "rq"].forEach(id => $(id).addEventListener("input", render));
   $("lvr").addEventListener("input", () => { $("lv").value = $("lvr").value; render(); });
+  ["ba", "bb", "tg", "lv", "rq", "pl"].forEach(id => $(id).addEventListener("focusout", () => { editing = null; render(); }));
   document.querySelectorAll(".enh button[data-t]").forEach(b => b.addEventListener("click", () => {
-    const inp = $(b.dataset.t);
-    inp.value = b.dataset.d === "max" ? gear().max : (parseInt(inp.value, 10) || 0) + (+b.dataset.d);
+    const inp = $(b.dataset.t), cur = parseInt(inp.value, 10);
+    inp.value = b.dataset.d === "max" ? gear().max : (isNaN(cur) ? +st[b.dataset.t] || 0 : cur) + (+b.dataset.d);
     render();
   }));
   writeInputs(); render();
