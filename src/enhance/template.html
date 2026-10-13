@@ -10,7 +10,6 @@
 <style>
 __FILE:src/common/base.css__
 .enh input[type=range]{flex:1;accent-color:var(--gold);min-width:0}
-.enh .num{width:4.5em}
 .pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media (max-width:420px){ .pair{grid-template-columns:1fr} }
 .segrow{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;margin-bottom:12px;font-size:13px;color:var(--muted)}
@@ -82,7 +81,7 @@ summary{cursor:pointer;color:var(--muted);font-size:13px}
       <div class="field"><label for="ba">ベース（強化される方）</label><div class="enh"><button type="button" data-t="ba" data-d="-1" aria-label="ベースの強化値を1下げる">−1</button><input id="ba" type="number" min="0" inputmode="numeric"><button type="button" data-t="ba" data-d="1" aria-label="ベースの強化値を1上げる">+1</button></div></div>
       <div class="field"><label for="bb">素材（この数だけ判定）</label><div class="enh"><button type="button" data-t="bb" data-d="-1" aria-label="素材の強化値を1下げる">−1</button><input id="bb" type="number" min="0" inputmode="numeric"><button type="button" data-t="bb" data-d="1" aria-label="素材の強化値を1上げる">+1</button><button type="button" class="max" data-t="bb" data-d="max">MAX</button></div></div>
     </div>
-    <div class="field"><label for="lv">強化屋Lv</label><div class="enh"><input id="lvr" type="range" min="1" max="99" aria-label="強化屋Lv（スライダー）"><input id="lv" class="num" type="number" min="1" max="99" inputmode="numeric"></div><div class="hint" id="lvh"></div></div>
+    <div class="field"><label for="lv">強化屋Lv</label><div class="enh"><input id="lvr" type="range" min="1" max="99" aria-label="強化屋Lv（スライダー）"></div><div class="enh"><button type="button" data-t="lv" data-d="-1" aria-label="強化屋Lvを1下げる">−1</button><input id="lv" type="number" min="1" max="99" inputmode="numeric"><button type="button" data-t="lv" data-d="1" aria-label="強化屋Lvを1上げる">+1</button></div><div class="hint" id="lvh"></div></div>
     <div class="segrow">
       <span id="ore-l">強化鉱</span><div class="seg" role="radiogroup" aria-labelledby="ore-l"><button type="button" role="radio" data-ore="20">20</button><button type="button" role="radio" data-ore="40">40</button><button type="button" role="radio" data-ore="60">60</button></div>
       <span id="bl-l">神の祝福</span><div class="seg" role="radiogroup" aria-labelledby="bl-l"><button type="button" role="radio" data-bless="3">+3</button><button type="button" role="radio" data-bless="0">なし</button></div>
