@@ -227,7 +227,10 @@
     box.querySelector(".clist").addEventListener("click", e => { const b = e.target.closest("b[data-r]"); if (b) toggleRarity(b.dataset.r); });
     box.querySelector(".clist").addEventListener("keydown", e => { const b = e.target.closest("b[data-r]"); if (b && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); toggleRarity(b.dataset.r); } });
     box.querySelectorAll("[data-all]").forEach(b => b.addEventListener("click", () => {
-      off[t] = b.dataset.all === "1" ? [] : CL[t].map(x => x.name); saveCands(); fillCands(t); sweepInfo();
+      // 全部選ぶ／全部外す／今のゲームにあるものだけ（in_game が false のものを外す）
+      const v = b.dataset.all;
+      off[t] = v === "1" ? [] : v === "game" ? CL[t].filter(x => x.in_game === false).map(x => x.name) : CL[t].map(x => x.name);
+      saveCands(); fillCands(t); sweepInfo();
     }));
   });
 
