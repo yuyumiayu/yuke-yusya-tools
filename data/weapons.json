@@ -27,7 +27,8 @@
       "試"
     ],
     "price": 200,
-    "sell_price": 20
+    "sell_price": 20,
+    "in_game": true
   },
   {
     "rarity": 1,
@@ -59,7 +60,8 @@
       "死"
     ],
     "price": 500,
-    "sell_price": 50
+    "sell_price": 50,
+    "in_game": true
   },
   {
     "rarity": 1,
@@ -92,7 +94,8 @@
       "死"
     ],
     "price": 1000,
-    "sell_price": 100
+    "sell_price": 100,
+    "in_game": true
   },
   {
     "rarity": 1,
@@ -126,7 +129,8 @@
       "染"
     ],
     "price": 3000,
-    "sell_price": 300
+    "sell_price": 300,
+    "in_game": true
   },
   {
     "rarity": 1,
@@ -157,7 +161,8 @@
       "染"
     ],
     "price": 4000,
-    "sell_price": 400
+    "sell_price": 400,
+    "in_game": true
   },
   {
     "rarity": 3,
@@ -185,7 +190,8 @@
       "財"
     ],
     "price": 20000,
-    "sell_price": 2000
+    "sell_price": 2000,
+    "in_game": true
   },
   {
     "rarity": 2,
@@ -224,7 +230,8 @@
       "忍"
     ],
     "price": 8000,
-    "sell_price": 800
+    "sell_price": 800,
+    "in_game": true
   },
   {
     "rarity": 2,
@@ -260,7 +267,8 @@
       "忍"
     ],
     "price": 10000,
-    "sell_price": 1000
+    "sell_price": 1000,
+    "in_game": true
   },
   {
     "rarity": 4,
@@ -291,7 +299,8 @@
       "沈"
     ],
     "price": 40000,
-    "sell_price": 4000
+    "sell_price": 4000,
+    "in_game": true
   },
   {
     "rarity": 2,
@@ -327,7 +336,8 @@
       "忍"
     ],
     "price": 18000,
-    "sell_price": 1800
+    "sell_price": 1800,
+    "in_game": true
   },
   {
     "rarity": 4,
@@ -356,7 +366,8 @@
       "染"
     ],
     "price": 26000,
-    "sell_price": 2600
+    "sell_price": 2600,
+    "in_game": true
   },
   {
     "rarity": 3,
@@ -384,7 +395,8 @@
       "戦"
     ],
     "price": 45000,
-    "sell_price": 4500
+    "sell_price": 4500,
+    "in_game": true
   },
   {
     "rarity": 2,
@@ -417,7 +429,8 @@
       "忍"
     ],
     "price": 33000,
-    "sell_price": 3300
+    "sell_price": 3300,
+    "in_game": true
   },
   {
     "rarity": 2,
@@ -445,7 +458,8 @@
       "染"
     ],
     "price": 35000,
-    "sell_price": 3500
+    "sell_price": 3500,
+    "in_game": true
   },
   {
     "rarity": 3,
@@ -473,7 +487,8 @@
       "染"
     ],
     "price": 40000,
-    "sell_price": 4000
+    "sell_price": 4000,
+    "in_game": true
   },
   {
     "rarity": 2,
@@ -508,7 +523,8 @@
       "漆"
     ],
     "price": 20000,
-    "sell_price": 2000
+    "sell_price": 2000,
+    "in_game": true
   },
   {
     "rarity": 2,
@@ -542,7 +558,8 @@
       "漆"
     ],
     "price": 22000,
-    "sell_price": 2200
+    "sell_price": 2200,
+    "in_game": true
   },
   {
     "rarity": 2,
@@ -574,7 +591,8 @@
       "漆"
     ],
     "price": 24000,
-    "sell_price": 2400
+    "sell_price": 2400,
+    "in_game": true
   },
   {
     "rarity": 2,
@@ -602,7 +620,8 @@
       "漆"
     ],
     "price": 25000,
-    "sell_price": 2500
+    "sell_price": 2500,
+    "in_game": false
   },
   {
     "rarity": 3,
@@ -632,7 +651,8 @@
       "忍"
     ],
     "price": 38000,
-    "sell_price": 3800
+    "sell_price": 3800,
+    "in_game": true
   },
   {
     "rarity": 3,
@@ -660,7 +680,8 @@
       "水"
     ],
     "price": 45000,
-    "sell_price": 4500
+    "sell_price": 4500,
+    "in_game": true
   },
   {
     "rarity": 3,
@@ -688,7 +709,8 @@
       "闇"
     ],
     "price": 48000,
-    "sell_price": 4800
+    "sell_price": 4800,
+    "in_game": true
   },
   {
     "rarity": 4,
@@ -716,7 +738,8 @@
       "王"
     ],
     "price": 60000,
-    "sell_price": 6000
+    "sell_price": 6000,
+    "in_game": true
   },
   {
     "rarity": 4,
@@ -744,7 +767,8 @@
       "竜"
     ],
     "price": 61000,
-    "sell_price": 6100
+    "sell_price": 6100,
+    "in_game": true
   },
   {
     "rarity": 4,
@@ -772,7 +796,8 @@
       "光"
     ],
     "price": 63000,
-    "sell_price": 6300
+    "sell_price": 6300,
+    "in_game": true
   },
   {
     "rarity": 5,
@@ -800,7 +825,8 @@
       "漆"
     ],
     "price": 80000,
-    "sell_price": 8000
+    "sell_price": 8000,
+    "in_game": false
   },
   {
     "rarity": 3,
@@ -828,7 +854,8 @@
       "忍"
     ],
     "price": 35000,
-    "sell_price": 3500
+    "sell_price": 3500,
+    "in_game": false
   },
   {
     "rarity": 1,
@@ -857,7 +884,8 @@
       "漆"
     ],
     "price": 50,
-    "sell_price": 5
+    "sell_price": 5,
+    "in_game": true
   },
   {
     "rarity": 3,
@@ -885,7 +913,8 @@
       "沈"
     ],
     "price": 8000,
-    "sell_price": 800
+    "sell_price": 800,
+    "in_game": true
   },
   {
     "rarity": 4,
@@ -913,7 +942,8 @@
       "沈"
     ],
     "price": 10000,
-    "sell_price": 1000
+    "sell_price": 1000,
+    "in_game": true
   },
   {
     "rarity": 5,
@@ -941,7 +971,8 @@
       "沈"
     ],
     "price": 100000,
-    "sell_price": 10000
+    "sell_price": 10000,
+    "in_game": true
   },
   {
     "rarity": 1,
@@ -970,7 +1001,8 @@
       "漆"
     ],
     "price": 100,
-    "sell_price": 10
+    "sell_price": 10,
+    "in_game": true
   },
   {
     "rarity": 3,
@@ -998,7 +1030,8 @@
       "沈"
     ],
     "price": 16000,
-    "sell_price": 1600
+    "sell_price": 1600,
+    "in_game": true
   },
   {
     "rarity": 4,
@@ -1026,7 +1059,8 @@
       "沈"
     ],
     "price": 20000,
-    "sell_price": 2000
+    "sell_price": 2000,
+    "in_game": true
   },
   {
     "rarity": 5,
@@ -1054,7 +1088,8 @@
       "沈"
     ],
     "price": 200000,
-    "sell_price": 20000
+    "sell_price": 20000,
+    "in_game": true
   },
   {
     "rarity": 1,
@@ -1083,7 +1118,8 @@
       "漆"
     ],
     "price": 500,
-    "sell_price": 50
+    "sell_price": 50,
+    "in_game": true
   },
   {
     "rarity": 3,
@@ -1111,7 +1147,8 @@
       "森"
     ],
     "price": 32000,
-    "sell_price": 3200
+    "sell_price": 3200,
+    "in_game": true
   },
   {
     "rarity": 4,
@@ -1139,7 +1176,8 @@
       "森"
     ],
     "price": 80000,
-    "sell_price": 8000
+    "sell_price": 8000,
+    "in_game": true
   },
   {
     "rarity": 4,
@@ -1167,7 +1205,8 @@
       "イベント限定"
     ],
     "price": 10000,
-    "sell_price": 1000
+    "sell_price": 1000,
+    "in_game": false
   },
   {
     "rarity": 4,
@@ -1195,7 +1234,8 @@
       "イベント限定"
     ],
     "price": 10000,
-    "sell_price": 1000
+    "sell_price": 1000,
+    "in_game": false
   },
   {
     "rarity": 4,
@@ -1223,7 +1263,8 @@
       "イベント限定"
     ],
     "price": 10000,
-    "sell_price": 1000
+    "sell_price": 1000,
+    "in_game": false
   },
   {
     "rarity": 4,
@@ -1251,7 +1292,8 @@
       "イベント限定"
     ],
     "price": 10000,
-    "sell_price": 1000
+    "sell_price": 1000,
+    "in_game": false
   },
   {
     "rarity": 4,
@@ -1279,7 +1321,8 @@
       "イベント限定"
     ],
     "price": 10000,
-    "sell_price": 1000
+    "sell_price": 1000,
+    "in_game": false
   },
   {
     "rarity": 4,
@@ -1307,7 +1350,8 @@
       "イベント限定"
     ],
     "price": 10000,
-    "sell_price": 1000
+    "sell_price": 1000,
+    "in_game": false
   },
   {
     "rarity": 4,
@@ -1335,7 +1379,8 @@
       "イベント限定"
     ],
     "price": 16000,
-    "sell_price": 1600
+    "sell_price": 1600,
+    "in_game": false
   },
   {
     "rarity": 4,
@@ -1363,7 +1408,8 @@
       "イベント限定"
     ],
     "price": 10000,
-    "sell_price": 1000
+    "sell_price": 1000,
+    "in_game": false
   },
   {
     "rarity": 4,
@@ -1391,7 +1437,8 @@
       "イベント限定"
     ],
     "price": 200,
-    "sell_price": 20
+    "sell_price": 20,
+    "in_game": false
   },
   {
     "rarity": 2,
@@ -1419,7 +1466,8 @@
       "店"
     ],
     "price": 250000,
-    "sell_price": 25000
+    "sell_price": 25000,
+    "in_game": true
   },
   {
     "rarity": 5,
@@ -1447,7 +1495,8 @@
       "サ"
     ],
     "price": 10000,
-    "sell_price": 1000
+    "sell_price": 1000,
+    "in_game": true
   },
   {
     "rarity": 2,
@@ -1474,6 +1523,7 @@
     "dungeons": [],
     "price": 5000,
     "sell_price": 500,
-    "note": "元データ不明(？)、注記*12"
+    "note": "元データ不明(？)、注記*12",
+    "in_game": false
   }
 ]

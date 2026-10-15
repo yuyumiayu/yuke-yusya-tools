@@ -30,6 +30,7 @@
 - 作業は作業用ブランチで行い、Pull Request で main にマージする（main は保護。CI が通り、メンテナーが承認したらマージ）。
 - データ（ゆけ!勇者 @ ウィキの情報）の追加・修正は、元の表（`scripts/raw_sheet.py`・`scripts/raw_enhance.py`）を直して変換スクリプトで `data/*.json` を作り直す。
   共鳴（`data/resonances.json`）だけは元の表がないので JSON を直接直す。
+  今のゲームにあるかどうか（`in_game`）は `scripts/sheet_to_json.py` の `NOT_IN_GAME`（今のゲームにないものの名前）で決める。
   まとまった表を入れ替えるときは CSV を `data/source/` に置き、変換スクリプトをそのとき用意する。出典が分かるようにする。
 - ツールを足すときは `src/<ツール名>/template.html` を作り、`scripts/build_html.py` の `TOOLS` に1行足し、`src/index/template.html` と README の表にリンクを足す。
 

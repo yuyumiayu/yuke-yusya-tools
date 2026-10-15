@@ -73,6 +73,26 @@ A.append({"rarity":2,"name":"ふるびた鎧2","base_defense":None,"max_enhance"
           "base":{"hp":0,"atk":0,"def":None,"eva":0,"luk":0},"growth_text":None,"growth":unk(),
           "ability":None,"dungeons":[],"price":5000,"sell_price":500,"note":"元データ不明(？)、注記*7"})
 I = items(ITEMS)
+
+# 今のゲームにないもの（データは前作の wiki の写しなので、今のゲームにないものも入っている。メンテナー確認、#16）
+# ここにないものは in_game: true。今のゲームに出たら、ここから名前を消す
+NOT_IN_GAME = {
+    "weapon": ["レイピア", "漆黒の剣", "くない", "ふるびた剣2",
+               "オニの金棒", "チョコバー", "桜橘の刀", "流星の剣", "粋夏の刀", "キャンディケイン", "粽大刀",
+               "アニバーサリーソード", "竹刀"],                                   # イベント限定の9件
+    "armor":  ["チェインメイル", "甲冑", "漆黒の鎧", "忍装束", "黒霧の衣", "正宗紋の鎧", "ふるびた鎧2",
+               "オニのパンツ", "菱餅大鎧", "クッキーメイル", "端午の鎧", "キッズマント", "ターキーメイル",
+               "アニバーサリーメイル"],                                          # イベント限定の7件
+    "item":   ["生命の木の熟実", "豪腕の木の熟実", "守りの木の熟実", "回避の木の熟実", "運気の木の熟実",
+               "生命キャンディ", "豪腕キャンディ", "守りキャンディ", "回避キャンディ",
+               "チョコ", "高級チョコ", "手作りチョコ", "桜餅", "クリスマスケーキ", "短冊(赤)", "短冊(青)", "短冊(黄)"],
+}
+for kind, d in [("weapon", W), ("armor", A), ("item", I)]:
+    names = {x["name"] for x in d}
+    missing = [n for n in NOT_IN_GAME[kind] if n not in names]
+    assert not missing, (kind, missing)
+    for x in d: x["in_game"] = x["name"] not in NOT_IN_GAME[kind]
+
 for fn, d in [("weapons.json", W), ("armors.json", A), ("items.json", I)]:
     json.dump(d, open(R/"data"/fn, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
     print(fn, len(d))
