@@ -43,6 +43,9 @@ td.wrap{white-space:normal;min-width:16em;max-width:28em;text-align:left}
 tr.out td{color:var(--muted)}
 tr.out td.name::after{content:"ない";margin-left:6px;font-size:11px;border:1px solid var(--muted);border-radius:4px;padding:0 4px}
 td .tag{font-size:11px;color:var(--gold);border:1px solid var(--gold);border-radius:4px;padding:0 4px}
+.rlink,.chip{font:inherit;font-size:12.5px;color:var(--gold);background:transparent;border:1px solid var(--gold);border-radius:4px;padding:1px 6px;cursor:pointer}
+.chip{font-size:14px;padding:6px 10px;border-width:2px;border-radius:6px;min-height:40px}
+.rlink:hover,.chip:hover{background:var(--gold);color:var(--win)}
 .empty{padding:16px;color:var(--muted);text-align:center;white-space:normal}
 .note{font-size:12.5px;color:var(--ink-soft);margin:16px 6px 0;line-height:1.7}
 .note ul{margin:4px 0 0;padding-left:1.3em}
@@ -69,6 +72,7 @@ td .tag{font-size:11px;color:var(--gold);border:1px solid var(--gold);border-rad
     <div class="field" id="f-dun"><label for="dun">入手場所</label><select id="dun"></select></div>
     <label class="chk" id="f-abi"><input type="checkbox" id="abi"> アビリティあり</label>
     <label class="chk" id="f-calc"><input type="checkbox" id="calc"> ステータスに効くものだけ</label>
+    <div class="field" id="f-for"><span class="flabel">装備で絞り込み中</span><button type="button" id="forx" class="chip" aria-label="装備での絞り込みを外す"></button></div>
     <div class="field"><label for="q">名前で検索</label><input id="q" type="search" placeholder="例：ドラゴン" autocomplete="off"></div>
   </div>
   <p class="count" aria-live="polite" id="cnt"></p>
@@ -79,7 +83,8 @@ td .tag{font-size:11px;color:var(--gold);border:1px solid var(--gold);border-rad
   <ul>
     <li>見出しを押すと、その列で並べ替えます。もう一度押すと、多い順と少ない順が入れ替わります。</li>
     <li>「MAX時」は、強化値MAXのときの攻撃力（防具は防御力）です。アビリティや共鳴の倍率は入れていません。</li>
-    <li>出発時補正・成長補正は、成長予測の計算に使っている値です。入手場所は wiki の表記（略称）のままです。</li>
+    <li>出発時補正・成長補正は、成長予測の計算に使っている値です。表の入手場所は1文字の略称、絞り込みは正式な名前です。</li>
+    <li>武器・防具の「共鳴」の列を押すと、共鳴タブでその装備が関係する共鳴だけを出します。</li>
     <li>「ない」は、今のゲームにないものです。共鳴は、武器か防具のどちらかが今のゲームにないと「ない」になります。</li>
   </ul>
 </div>
