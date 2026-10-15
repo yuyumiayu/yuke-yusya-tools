@@ -147,9 +147,9 @@ console.log(`${total-bad}/${total} rows match`);
   const cnt = d => [d.length, d.filter(x => x.in_game).length];
   const all = ["weapons", "armors", "items"].map(f => D(f));
   const ok = all.every(d => d.every(x => typeof x.in_game === "boolean"))
-    && cnt(all[0]).join() === "50,37" && cnt(all[1]).join() === "41,27" && cnt(all[2]).join() === "42,25"
+    && cnt(all[0]).join() === "50,37" && cnt(all[1]).join() === "41,27" && cnt(all[2]).join() === "38,25"
     && !all[0].find(x => x.name === "レイピア").in_game && all[0].find(x => x.name === "正宗").in_game
     && all.every(d => d.filter(x => (x.dungeons || []).some(g => g === "イベント限定" || g === "イベントアイテム")).every(x => !x.in_game));
-  console.log(ok?"OK":"NG", "今のゲームにあるもの：武器37/50・防具27/41・道具25/42、イベント限定はすべて「ない」"); if(!ok) bad++;
+  console.log(ok?"OK":"NG", "今のゲームにあるもの：武器37/50・防具27/41・道具25/38、イベント限定はすべて「ない」"); if(!ok) bad++;
 }
 process.exitCode = bad ? 1 : 0;
