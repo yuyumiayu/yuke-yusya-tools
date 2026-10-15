@@ -10,11 +10,12 @@
 |---|---|---|---|
 | 成長予測（ステータス計算・森の点数・総当たり） | `src/calc/` | `dist/yuke-calc.html` | https://yuyumiayu.github.io/yuke-yusya-tools/yuke-calc.html |
 | 強化屋（強化の期待値と上振れ） | `src/enhance/` | `dist/yuke-enhance.html` | https://yuyumiayu.github.io/yuke-yusya-tools/yuke-enhance.html |
+| 装備図鑑（データの一覧） | `src/catalog/` | `dist/yuke-catalog.html` | https://yuyumiayu.github.io/yuke-yusya-tools/yuke-catalog.html |
 | ツール一覧（入口） | `src/index/` | `dist/index.html` | https://yuyumiayu.github.io/yuke-yusya-tools/ |
 
 - 成長予測のステータス計算は、いったん完成（メンテナー判断）。
 - 各ページの選択内容は localStorage に保存。成長予測は `yuke-calc-v2`（選択）・`yuke-calc-cands`（総当たりの候補）・`yuke-calc-speed`（総当たりの速さの実測）、
-  強化屋は `yuke-enhance-v1`、欄の折りたたみは全ツール共通で `yuke-fold-v1`（たたんだ欄のキー）。キーを変えると、使っている人の保存内容が消えるので注意。
+  強化屋は `yuke-enhance-v1`、装備図鑑は `yuke-catalog-v1`（タブ・絞り込み・タブごとの並べ替え）、欄の折りたたみは全ツール共通で `yuke-fold-v1`（たたんだ欄のキー）。キーを変えると、使っている人の保存内容が消えるので注意。
 
 ## 公開・権利まわり
 
@@ -41,6 +42,7 @@ data/          weapons.json(50) armors.json(41) items.json(42) resonances.json(4
 src/common/    base.css（色・RPGウィンドウ・入力欄など全ツール共通の見た目）, footer.html（非公式の表示と出典）, back.html（ツール一覧へ戻るリンク。公開ページの絶対URL）, fold.js（`data-fold` を付けた欄を見出しで折りたたむ）
 src/calc/      成長予測：engine.js（計算）, search.js（総当たり）, ui.js（画面）, template.html
 src/enhance/   強化屋：engine.js（計算）, ui.js（画面とグラフ）, template.html
+src/catalog/   装備図鑑：ui.js（一覧・絞り込み・並べ替え）, template.html
 src/index/     ツール一覧：template.html
 scripts/       raw_sheet.py / sheet_to_json.py（装備マスタ）, raw_enhance.py / enhance_to_json.py（強化費用）, build_html.py
 tests/calc/    test_engine.js
