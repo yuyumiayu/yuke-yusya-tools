@@ -4,7 +4,12 @@
   const J = id => JSON.parse($(id).textContent);
   const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
   const K = ["hp","atk","def","eva","luk"], KL = {hp:"HP", atk:"攻", def:"防", eva:"回", luk:"運"};
-  const W = J("data-w"), A = J("data-a"), I = J("data-i"), R = J("data-r"), E = J("data-e");
+  const W = J("data-w"), A = J("data-a"), I = J("data-i"), R = J("data-r"), E = J("data-e"), N = J("data-n");
+  // 注釈（*2 など）：wiki のページごとに番号があるので、武器・防具・道具・共鳴で別。押すと内容を出す
+  const NK = {w:"weapon", a:"armor", i:"item", r:"resonance"};
+  const notes = (s, tab) => esc(s).replace(/\*(\d+)/g, (m, n) => (N[NK[tab]] || {})[n]
+    ? `<button type="button" class="nt" data-note="${tab}|${n}" aria-expanded="false" aria-label="注釈${n}を見る">※${n}</button>`
+    : `<span class="ntx">※${n}</span>`);
   const cost = {}; E.forEach(x => { cost[x.kind + "|" + x.name] = x.cost; });
   const inGame = {}; [...W, ...A].forEach(x => { inGame[x.name] = x.in_game; });
   // 入手場所：表は wiki の略称のまま、絞り込みは正式名称（メンテナー確認）。並びは絞り込みの選択肢の順
@@ -21,15 +26,17 @@
   // 列：key（並べ替えに使う値の名前）、見出し、グループ（2段目の見出しの上にまとめる名前）、値、表示
   const num = v => v === null || v === undefined ? `<span class="q">？</span>` : v === 0 ? `<span class="z">0</span>` : String(v);
   const stat = (g, k) => ({key:g + k, label:KL[k], grp:g === "b" ? "出発時補正" : "成長補正", val:x => x[g === "b" ? "base" : "growth"][k], cls:"num"});
-  const equipCols = (main, kind) => [
-    {key:"name", label:"名前", val:x => x.name, cls:"name", show:x => esc(x.name)},
+  const equipCols = (main, kind, tab) => [
+    // ふるびた剣2・鎧2 は注釈が note にあるので、名前の横に出す
+    {key:"name", label:"名前", val:x => x.name, cls:"name",
+      show:x => esc(x.name) + (x.note ? " " + notes((x.note.match(/\*\d+/g) || []).join(""), tab) : "")},
     {key:"rarity", label:"☆", val:x => x.rarity, cls:"num"},
     {key:"power", label:main === "atk" ? "攻撃力" : "防御力", val:x => x.base[main], cls:"num"},
     {key:"max", label:"強化上限", val:x => x.max_enhance, cls:"num"},
     {key:"maxp", label:"MAX時", val:x => x.base[main] === null ? null : x.base[main] + (x.max_enhance || 0), cls:"num"},
     ...K.filter(k => k !== main).map(k => stat("b", k)),
     ...K.map(k => stat("g", k)),
-    {key:"ability", label:"アビリティ", val:x => x.ability || "", cls:"l", show:x => x.ability ? esc(x.ability) : ""},
+    {key:"ability", label:"アビリティ", val:x => x.ability || "", cls:"l", show:x => x.ability ? notes(x.ability, tab) : ""},
     {key:"res", label:"共鳴", val:x => resOf(kind, x.name).length, cls:"num",
       show:x => { const n = resOf(kind, x.name).length;
         return n ? `<button type="button" class="rlink" data-res="${esc(x.name)}" data-kind="${kind}" aria-label="${esc(x.name)}の共鳴を見る">${n}件 ›</button>` : `<span class="z">0</span>`; }},
@@ -38,23 +45,23 @@
     {key:"cost", label:"強化費用(+1)", val:x => cost[kind + "|" + x.name] ?? null, cls:"num"},
   ];
   const TABS = {
-    w: {rows:W, cols:equipCols("atk", "weapon"), rarity:true, dun:true, abi:true},
-    a: {rows:A, cols:equipCols("def", "armor"), rarity:true, dun:true, abi:true},
+    w: {rows:W, cols:equipCols("atk", "weapon", "w"), rarity:true, dun:true, abi:true},
+    a: {rows:A, cols:equipCols("def", "armor", "a"), rarity:true, dun:true, abi:true},
     i: {rows:I, rarity:true, dun:true, cols:[
       {key:"name", label:"名前", val:x => x.name, cls:"name", show:x => esc(x.name)},
       {key:"rarity", label:"☆", val:x => x.rarity, cls:"num"},
       ...K.map(k => stat("b", k)),
       ...K.map(k => stat("g", k)),
       {key:"text", label:"説明", val:x => [x.base_text, x.growth_text].filter(Boolean).join(" ／ "), cls:"wrap",
-        show:x => esc([x.base_text && "出発時 " + x.base_text, x.growth_text && "成長 " + x.growth_text].filter(Boolean).join(" ／ "))},
+        show:x => notes([x.base_text && "出発時 " + x.base_text, x.growth_text && "成長 " + x.growth_text].filter(Boolean).join(" ／ "), "i")},
       {key:"dun", label:"入手場所", val:x => (x.dungeons || []).join("・"), cls:"l", show:x => esc((x.dungeons || []).join("・"))},
       {key:"price", label:"価格", val:x => x.price, cls:"num"},
     ]},
     r: {rows:R.map(x => ({...x, in_game: inGame[x.weapon] !== false && inGame[x.armor] !== false})), calc:true, cols:[
       {key:"weapon", label:"武器", val:x => x.weapon, cls:"name", show:x => esc(x.weapon)},
       {key:"armor", label:"防具", val:x => x.armor, cls:"l", show:x => esc(x.armor)},
-      {key:"rname", label:"共鳴", val:x => x.name, cls:"l", show:x => esc(x.name + (x.name_note || ""))},
-      {key:"effect", label:"効果", val:x => x.effect, cls:"wrap", show:x => esc(x.effect)},
+      {key:"rname", label:"共鳴", val:x => x.name, cls:"l", show:x => notes(x.name + (x.name_note || ""), "r")},
+      {key:"effect", label:"効果", val:x => x.effect, cls:"wrap", show:x => notes(x.effect, "r")},
       {key:"calc", label:"ステータス", val:x => x.calc ? 1 : 0, cls:"l",
         show:x => x.calc ? `<span class="tag">${x.calc.pending ? "未反映" : "効く"}</span>` : ""},
     ]},
@@ -142,6 +149,30 @@
   $("calc").addEventListener("change", () => { st.calc = $("calc").checked; render(); });
   $("q").addEventListener("input", () => { st.q = $("q").value; render(); });
   // 見出しを押すと並べ替え。同じ列をもう一度押すと向きが入れ替わる。3回目で元の並びに戻す
+  // 注釈：※ を押すと、そのそばに内容を出す。もう一度押す・ほかの所を押す・Esc で閉じる
+  const pop = $("pop");
+  let popFor = null;
+  function closeNote(){ if (popFor) popFor.setAttribute("aria-expanded", "false"); popFor = null; pop.hidden = true; }
+  function openNote(b){
+    const [tab, n] = b.dataset.note.split("|");
+    if (popFor === b){ closeNote(); return; }
+    closeNote();
+    pop.innerHTML = `<b>※${n}</b> ${esc(N[NK[tab]][n])}`;
+    pop.hidden = false; popFor = b; b.setAttribute("aria-expanded", "true");
+    const r = b.getBoundingClientRect(), w = Math.min(320, window.innerWidth - 16);
+    pop.style.width = w + "px";
+    pop.style.left = Math.max(8, Math.min(window.innerWidth - w - 8, r.left + r.width / 2 - w / 2)) + "px";
+    const h = pop.offsetHeight, below = r.bottom + 6;
+    pop.style.top = (below + h > window.innerHeight - 8 && r.top - h - 6 > 8 ? r.top - h - 6 : below) + "px";
+  }
+  document.addEventListener("click", e => {
+    const b = e.target.closest("button.nt");
+    if (b){ openNote(b); return; }
+    if (popFor && !pop.contains(e.target)) closeNote();
+  });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && popFor){ const b = popFor; closeNote(); b.focus(); } });
+  window.addEventListener("scroll", closeNote, true);
+  window.addEventListener("resize", closeNote);
   $("tbl").addEventListener("click", e => {
     // 共鳴の列：共鳴タブに切り替えて、その装備が関係する共鳴だけを出す（名前の検索は外す）
     const r = e.target.closest("button[data-res]");

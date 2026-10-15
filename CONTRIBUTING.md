@@ -17,7 +17,7 @@
    - データを直すときは `data/*.json` を直接直さず、元の表（`scripts/raw_sheet.py`・`scripts/raw_enhance.py`）を直してから
      `python3 scripts/sheet_to_json.py`・`python3 scripts/enhance_to_json.py` で作り直してください。
      作り直し忘れは自動のチェックで見つかります。
-   - 共鳴（`data/resonances.json`）だけは元の表がないので、JSON を直接直してください。
+   - 共鳴（`data/resonances.json`）と注釈（`data/notes.json`）は元の表がないので、JSON を直接直してください。
    - 装備・道具が今のゲームにあるかどうか（`in_game`）は、`scripts/sheet_to_json.py` の `NOT_IN_GAME` を直してから作り直してください。
    - 計算の仕様を変えるときは、`docs/仕様.md` の該当する節も直してください。
 3. 確かめる。

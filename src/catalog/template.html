@@ -46,6 +46,11 @@ td .tag{font-size:11px;color:var(--gold);border:1px solid var(--gold);border-rad
 .rlink,.chip{font:inherit;font-size:12.5px;color:var(--gold);background:transparent;border:1px solid var(--gold);border-radius:4px;padding:1px 6px;cursor:pointer}
 .chip{font-size:14px;padding:6px 10px;border-width:2px;border-radius:6px;min-height:40px}
 .rlink:hover,.chip:hover{background:var(--gold);color:var(--win)}
+.nt{font:inherit;font-size:11.5px;color:var(--gold);background:transparent;border:0;border-bottom:1px dotted var(--gold);padding:0 2px;margin:0 1px;cursor:pointer;min-height:0;line-height:1.2}
+.nt:hover,.nt[aria-expanded=true]{background:var(--gold);color:var(--win)}
+.ntx{font-size:11.5px;color:var(--muted)}
+.pop{position:fixed;z-index:10;background:var(--win-2);color:var(--text);border:2px solid var(--gold);border-radius:8px;padding:10px 12px;font-size:13px;line-height:1.6;box-shadow:0 6px 20px #0006;white-space:normal}
+.pop b{color:var(--gold);font-weight:400;margin-right:4px}
 .empty{padding:16px;color:var(--muted);text-align:center;white-space:normal}
 .note{font-size:12.5px;color:var(--ink-soft);margin:16px 6px 0;line-height:1.7}
 .note ul{margin:4px 0 0;padding-left:1.3em}
@@ -79,12 +84,14 @@ td .tag{font-size:11px;color:var(--gold);border:1px solid var(--gold);border-rad
   <div class="scroll"><table id="tbl"></table></div>
 </section>
 
+<div class="pop" id="pop" role="note" aria-live="polite" hidden></div>
 <div class="note">
   <ul>
     <li>見出しを押すと、その列で並べ替えます。もう一度押すと、多い順と少ない順が入れ替わります。</li>
     <li>「MAX時」は、強化値MAXのときの攻撃力（防具は防御力）です。アビリティや共鳴の倍率は入れていません。</li>
     <li>出発時補正・成長補正は、成長予測の計算に使っている値です。表の入手場所は1文字の略称、絞り込みは正式な名前です。</li>
     <li>武器・防具の「共鳴」の列を押すと、共鳴タブでその装備が関係する共鳴だけを出します。</li>
+    <li>※の付いた数字を押すと、wiki の注釈を出します。</li>
     <li>「ない」は、今のゲームにないものです。共鳴は、武器か防具のどちらかが今のゲームにないと「ない」になります。</li>
   </ul>
 </div>
@@ -96,6 +103,7 @@ __FILE:src/common/footer.html__
 <script id="data-i" type="application/json">__JSON:data/items.json__</script>
 <script id="data-r" type="application/json">__JSON:data/resonances.json__</script>
 <script id="data-e" type="application/json">__JSON:data/enhance.json__</script>
+<script id="data-n" type="application/json">__JSON:data/notes.json__</script>
 <script>
 __FILE:src/catalog/ui.js__
 </script>

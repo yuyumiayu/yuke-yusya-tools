@@ -30,7 +30,7 @@
 
 - 作業は作業用ブランチで行い、Pull Request で main にマージする（main は保護。CI が通り、メンテナーが承認したらマージ）。
 - データ（ゆけ!勇者 @ ウィキの情報）の追加・修正は、元の表（`scripts/raw_sheet.py`・`scripts/raw_enhance.py`）を直して変換スクリプトで `data/*.json` を作り直す。
-  共鳴（`data/resonances.json`）だけは元の表がないので JSON を直接直す。
+  共鳴（`data/resonances.json`）と、wiki の注釈（`data/notes.json`、*2 などの本文。武器・防具・道具・共鳴で番号が別）は元の表がないので JSON を直接直す。
   今のゲームにあるかどうか（`in_game`）は `scripts/sheet_to_json.py` の `NOT_IN_GAME`（今のゲームにないものの名前）で決める。
   まとまった表を入れ替えるときは CSV を `data/source/` に置き、変換スクリプトをそのとき用意する。出典が分かるようにする。
 - ツールを足すときは `src/<ツール名>/template.html` を作り、`scripts/build_html.py` の `TOOLS` に1行足し、`src/index/template.html` と README の表にリンクを足す。
@@ -38,7 +38,7 @@
 ## 構成とコマンド
 
 ```
-data/          weapons.json(50) armors.json(41) items.json(38) resonances.json(47) enhance.json(89)  … マスタ
+data/          weapons.json(50) armors.json(41) items.json(38) resonances.json(47) enhance.json(89) notes.json（注釈）  … マスタ
 src/common/    base.css（色・RPGウィンドウ・入力欄など全ツール共通の見た目）, footer.html（非公式の表示と出典）, back.html（ツール一覧へ戻るリンク。公開ページの絶対URL）, fold.js（`data-fold` を付けた欄を見出しで折りたたむ）
 src/calc/      成長予測：engine.js（計算）, search.js（総当たり）, ui.js（画面）, template.html
 src/enhance/   強化屋：engine.js（計算）, ui.js（画面とグラフ）, template.html
@@ -47,6 +47,7 @@ src/index/     ツール一覧：template.html
 scripts/       raw_sheet.py / sheet_to_json.py（装備マスタ）, raw_enhance.py / enhance_to_json.py（強化費用）, build_html.py
 tests/calc/    test_engine.js
 tests/enhance/ test_enhance.js
+tests/catalog/ test_catalog.js（注釈とデータの整合）
 docs/          仕様.md（計算の仕様・データの説明・推測で決めたこと）, 実機テスト.md（実際に出撃して確かめるチェック表）
 dist/          ビルド成果物（単一HTML。そのまま開ける／置ける）。コミットしない
 .github/       CI・Pages の workflow、PR と Issue のひな形
