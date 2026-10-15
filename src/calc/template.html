@@ -187,6 +187,7 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
 </div>
 
 <p class="note">成長値は平均値です。合成は合成屋のwiki記載の仕様（基本値・補正はステータスごとに高い方、強化値は平均の切り上げ）で計算しています。レベルごとの値は端数を切り上げ、アビリティによる増加分も切り上げています。武器を装備しないと攻、防具を装備しないと防に神様の加護（+2〜3）が付きます。計算では平均の+2.5にしています。共鳴はステータスに効くもの（ステータスアップは除く）だけ入れています。◆は森の採点に使うレベルです。</p>
+<section class="log" id="log" data-tool="calc" aria-label="更新履歴"></section>
 __FILE:src/common/footer.html__
 </div>
 
@@ -201,6 +202,10 @@ __FILE:src/calc/search.js__
 <script>
 __FILE:src/calc/ui.js__
 __FILE:src/common/fold.js__
+</script>
+<script id="data-log" type="application/json">__JSON:data/changelog.json__</script>
+<script>
+__FILE:src/common/changelog.js__
 </script>
 </body>
 </html>

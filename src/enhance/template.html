@@ -138,6 +138,7 @@ summary{cursor:pointer;color:var(--muted);font-size:13px}
     <li>乱数で試すのではなく、確率をそのまま計算しています（二項分布）。</li>
   </ul>
 </div>
+<section class="log" id="log" data-tool="enhance" aria-label="更新履歴"></section>
 __FILE:src/common/footer.html__
 </div>
 
@@ -148,6 +149,10 @@ __FILE:src/common/footer.html__
 __FILE:src/enhance/engine.js__
 __FILE:src/enhance/ui.js__
 __FILE:src/common/fold.js__
+</script>
+<script id="data-log" type="application/json">__JSON:data/changelog.json__</script>
+<script>
+__FILE:src/common/changelog.js__
 </script>
 </body>
 </html>

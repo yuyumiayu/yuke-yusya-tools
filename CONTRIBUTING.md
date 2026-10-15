@@ -20,6 +20,7 @@
    - 共鳴（`data/resonances.json`）と注釈（`data/notes.json`）は元の表がないので、JSON を直接直してください。
    - 装備・道具が今のゲームにあるかどうか（`in_game`）は、`scripts/sheet_to_json.py` の `NOT_IN_GAME` を直してから作り直してください。
    - 計算の仕様を変えるときは、`docs/仕様.md` の該当する節も直してください。
+   - 画面で分かる変更なら、更新履歴（`data/changelog.json`）の先頭に1行足してください（日付は空けておけば、マージするときにメンテナーが入れます）。
 3. 確かめる。
    ```
    npm test         # テストが全部通ること
