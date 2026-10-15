@@ -12,7 +12,15 @@ __FILE:src/common/base.css__
 [hidden]{display:none!important}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .flabel{display:block;font-size:13px;color:var(--muted);margin-bottom:3px}
-.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+.toprow{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;margin:0 0 12px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+/* 全画面：幅が十分なとき（1100px 以上）だけボタンを出す。押すと一覧の窓をブラウザの画面いっぱいに広げる */
+.fullbtn{display:none;font:inherit;font-size:13px;color:var(--gold);background:transparent;border:2px solid var(--gold);border-radius:6px;padding:6px 12px;cursor:pointer;min-height:40px;white-space:nowrap}
+.fullbtn:hover{background:var(--gold);color:var(--win)}
+@media (min-width:1100px){ .fullbtn{display:inline-flex;align-items:center} }
+.list.full{position:fixed;inset:10px;z-index:20;margin:0;display:flex;flex-direction:column;overflow:hidden}
+.list.full .scroll{flex:1;min-height:0;overflow:auto}
+body.fullon{overflow:hidden}
 .tabs button{font:inherit;font-size:14px;color:var(--text);background:transparent;border:2px solid var(--muted);border-radius:6px;padding:6px 14px;cursor:pointer;min-height:40px}
 .tabs button[aria-selected=true]{background:var(--line);color:var(--win);border-color:var(--line)}
 .filters{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:flex-end}
@@ -26,7 +34,8 @@ __FILE:src/common/base.css__
 .scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid #ffffff26;border-radius:6px}
 table{border-collapse:separate;border-spacing:0;font-size:13px;white-space:nowrap;min-width:100%}
 th,td{padding:6px 8px;border-bottom:1px solid #ffffff1f;text-align:right}
-th{position:sticky;top:0;background:var(--win-2);color:var(--muted);font-weight:400;font-size:12px}
+thead{position:sticky;top:0;z-index:3}   /* 見出しは2段なので、行ごとではなく見出し全体を上に止める */
+th{background:var(--win-2);color:var(--muted);font-weight:400;font-size:12px}
 thead tr:first-child th{border-bottom:0}
 th.grp{text-align:center;border-bottom:1px solid #ffffff1f}
 th button{all:unset;cursor:pointer;display:inline-flex;gap:3px;align-items:center}
@@ -49,7 +58,7 @@ td .tag{font-size:11px;color:var(--gold);border:1px solid var(--gold);border-rad
 .nt{font:inherit;font-size:11.5px;color:var(--gold);background:transparent;border:0;border-bottom:1px dotted var(--gold);padding:0 2px;margin:0 1px;cursor:pointer;min-height:0;line-height:1.2}
 .nt:hover,.nt[aria-expanded=true]{background:var(--gold);color:var(--win)}
 .ntx{font-size:11.5px;color:var(--muted)}
-.pop{position:fixed;z-index:10;background:var(--win-2);color:var(--text);border:2px solid var(--gold);border-radius:8px;padding:10px 12px;font-size:13px;line-height:1.6;box-shadow:0 6px 20px #0006;white-space:normal}
+.pop{position:fixed;z-index:30;background:var(--win-2);color:var(--text);border:2px solid var(--gold);border-radius:8px;padding:10px 12px;font-size:13px;line-height:1.6;box-shadow:0 6px 20px #0006;white-space:normal}
 .pop b{color:var(--gold);font-weight:400;margin-right:4px}
 .empty{padding:16px;color:var(--muted);text-align:center;white-space:normal}
 .note{font-size:12.5px;color:var(--ink-soft);margin:16px 6px 0;line-height:1.7}
@@ -63,13 +72,16 @@ td .tag{font-size:11px;color:var(--gold);border:1px solid var(--gold);border-rad
   <p>武器・防具・道具・共鳴のデータを一覧で見られます。絞り込みと並べ替えができます。</p>
 </header>
 
-<section class="win" aria-labelledby="h-c">
+<section class="win list" id="list" aria-labelledby="h-c">
   <h2 id="h-c" class="sr">一覧</h2>
-  <div class="tabs" role="tablist" aria-label="種類">
-    <button type="button" role="tab" data-tab="w">武器</button>
-    <button type="button" role="tab" data-tab="a">防具</button>
-    <button type="button" role="tab" data-tab="i">道具</button>
-    <button type="button" role="tab" data-tab="r">共鳴</button>
+  <div class="toprow">
+    <div class="tabs" role="tablist" aria-label="種類">
+      <button type="button" role="tab" data-tab="w">武器</button>
+      <button type="button" role="tab" data-tab="a">防具</button>
+      <button type="button" role="tab" data-tab="i">道具</button>
+      <button type="button" role="tab" data-tab="r">共鳴</button>
+    </div>
+    <button type="button" class="fullbtn" id="full" aria-pressed="false" title="一覧をブラウザの画面いっぱいに広げます（Esc で戻る）">全画面</button>
   </div>
   <div class="filters">
     <div class="field"><span class="flabel" id="gl">今のゲーム</span><div class="seg" role="radiogroup" aria-labelledby="gl"><button type="button" role="radio" data-game="all">すべて</button><button type="button" role="radio" data-game="in">ある</button><button type="button" role="radio" data-game="out">ない</button></div></div>
@@ -92,6 +104,7 @@ td .tag{font-size:11px;color:var(--gold);border:1px solid var(--gold);border-rad
     <li>出発時補正・成長補正は、成長予測の計算に使っている値です。表の入手場所は1文字の略称、絞り込みは正式な名前です。</li>
     <li>武器・防具の「共鳴」の列を押すと、共鳴タブでその装備が関係する共鳴だけを出します。</li>
     <li>※の付いた数字を押すと、wiki の注釈を出します。</li>
+    <li>画面の幅が十分なときは、一覧の右上の「全画面」で、一覧をブラウザの画面いっぱいに広げられます（もう一度押すか Esc で戻ります）。</li>
     <li>「ない」は、今のゲームにないものです。共鳴は、武器か防具のどちらかが今のゲームにないと「ない」になります。</li>
   </ul>
 </div>

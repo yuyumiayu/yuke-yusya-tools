@@ -69,7 +69,7 @@
 
   // ===== 状態（localStorage に保存） =====
   const KEY = "yuke-catalog-v1";
-  const st = {tab:"w", game:"all", rar:"", dun:"", abi:false, calc:false, q:"", sort:{}, rfor:null};   // rfor：共鳴を絞る装備 {kind, name}
+  const st = {tab:"w", game:"all", rar:"", dun:"", abi:false, calc:false, q:"", sort:{}, rfor:null, full:false};   // rfor：共鳴を絞る装備 {kind, name}
   try{ Object.assign(st, JSON.parse(localStorage.getItem(KEY) || "{}")); }catch(e){}
   if (!TABS[st.tab]) st.tab = "w";
   const save = () => { try{ localStorage.setItem(KEY, JSON.stringify(st)); }catch(e){} };
@@ -170,7 +170,12 @@
     if (b){ openNote(b); return; }
     if (popFor && !pop.contains(e.target)) closeNote();
   });
-  document.addEventListener("keydown", e => { if (e.key === "Escape" && popFor){ const b = popFor; closeNote(); b.focus(); } });
+  // Esc：注釈が開いていれば注釈を閉じる。なければ全画面から戻る
+  document.addEventListener("keydown", e => {
+    if (e.key !== "Escape") return;
+    if (popFor){ const b = popFor; closeNote(); b.focus(); return; }
+    if (st.full){ setFull(false); $("full").focus(); }
+  });
   window.addEventListener("scroll", closeNote, true);
   window.addEventListener("resize", closeNote);
   $("tbl").addEventListener("click", e => {
@@ -189,5 +194,18 @@
     render();
     const nb = $("tbl").querySelector(`button[data-sort="${key}"]`); if (nb) nb.focus();
   });
-  fillFilters(); render();
+  // ===== 全画面 =====
+  const wide = window.matchMedia("(min-width:1100px)");
+  function setFull(on){
+    st.full = on && wide.matches;
+    $("list").classList.toggle("full", st.full);
+    document.body.classList.toggle("fullon", st.full);
+    $("full").setAttribute("aria-pressed", st.full);
+    $("full").textContent = st.full ? "元に戻す" : "全画面";
+    closeNote(); save();
+  }
+  $("full").addEventListener("click", () => setFull(!st.full));
+  wide.addEventListener("change", () => { if (!wide.matches && st.full) setFull(false); });   // 幅が足りなくなったら戻す
+
+  fillFilters(); render(); setFull(st.full);
 })();
