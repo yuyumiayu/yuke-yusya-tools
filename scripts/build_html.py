@@ -10,6 +10,7 @@ R = pathlib.Path(__file__).resolve().parent.parent
 TOOLS = {                     # ツール名: 出力ファイル
     "calc": "yuke-calc.html",
     "enhance": "yuke-enhance.html",
+    "catalog": "yuke-catalog.html",
     "index": "index.html",            # ツール一覧（ウェブで公開するときの入口）
 }
 

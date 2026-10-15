@@ -97,8 +97,9 @@
   const FIELDS = ["w","we","a","ae","i1","i2","w1","w2","wse","a1","a2","ase"];
   const PICKS = ["w","a","i1","i2","w1","w2","a1","a2"];
   const listFor = k => k[0]==="i" ? I : listOf(k);
-  // 名前で保存する前の保存内容は、道具を番号で持っている。グミ4つを消す前の並びで名前に戻す
-  const OLD_ITEMS = (n => [...n.slice(0,26), "生命グミ","豪腕グミ","守りグミ","回避グミ", ...n.slice(26)])(I.map(g=>g.name));
+  // 名前で保存する前の保存内容は、道具を番号で持っている。グミ4つ・キャンディ4つを消す前の並びで名前に戻す
+  const OLD_ITEMS = (n => [...n.slice(0,26), "生命グミ","豪腕グミ","守りグミ","回避グミ",
+    "生命キャンディ","豪腕キャンディ","守りキャンディ","回避キャンディ", ...n.slice(26)])(I.map(g=>g.name));
   const SWEEP = ["w","a","i1","i2"];
   function save(){
     const s = {mode, sweep:SWEEP.filter(k=>$(k+"x").checked), xs:$("xs").value, xlv:$("xlv").value, xn4:$("xn4").checked,

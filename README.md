@@ -13,6 +13,7 @@
 |---|---|
 | [成長予測](https://yuyumiayu.github.io/yuke-yusya-tools/yuke-calc.html) | 武器・防具・道具から Lv1〜99 のステータスと鍛錬の森4Fの点数を出す。合成・共鳴・出発時レベルに対応。ベストな組み合わせの総当たりもできる。 |
 | [強化屋](https://yuyumiayu.github.io/yuke-yusya-tools/yuke-enhance.html) | 同じ装備2つで強化したときの結果を、期待値・上振れ・強化屋Lvごとの違いで見る。進行中の強化の上振れ・下振れの確認、目標に届く素材の逆引きもできる。 |
+| [装備図鑑](https://yuyumiayu.github.io/yuke-yusya-tools/yuke-catalog.html) | 武器・防具・道具・共鳴のデータを一覧で見る。今のゲームにあるか・レア度・入手場所などで絞り込み、攻撃力や補正で並べ替えられる。 |
 
 選んだ内容は、使っているブラウザの中（localStorage）にだけ保存されます。
 
@@ -30,6 +31,7 @@ data/          装備・道具・共鳴・強化のデータ（JSON）
 src/common/    全ツール共通の見た目（base.css）とフッター
 src/calc/      成長予測（engine.js：計算、search.js：総当たり、ui.js：画面、template.html）
 src/enhance/   強化屋（engine.js：計算、ui.js：画面とグラフ、template.html）
+src/catalog/   装備図鑑（ui.js：一覧・絞り込み・並べ替え、template.html）
 src/index/     ツール一覧
 scripts/       データの変換（raw_*.py → data/*.json）と組み立て（build_html.py）
 tests/         テスト

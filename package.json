@@ -9,6 +9,6 @@
   },
   "scripts": {
     "build": "python3 scripts/build_html.py",
-    "test": "node tests/calc/test_engine.js && node tests/enhance/test_enhance.js"
+    "test": "node tests/calc/test_engine.js && node tests/enhance/test_enhance.js && node tests/catalog/test_catalog.js"
   }
 }

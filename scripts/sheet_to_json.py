@@ -47,6 +47,8 @@ def equip(raw, power_key):
         })
     return out
 
+DUNGEON_ALIAS = {"鍛": "森"}   # 道具の元の表は鍛錬の森を「鍛」と書く。武器・防具の「森」にそろえる（メンテナー判断）
+
 def items(raw):
     out = []
     for line in raw.splitlines():
@@ -57,7 +59,7 @@ def items(raw):
         j = i
         while isnum(tok[j]): j += 1
         price, sell = split_prices(tok[i:j])
-        dungeons, r = tok[j:-1], rarity(tok[-1])
+        dungeons, r = [DUNGEON_ALIAS.get(d, d) for d in tok[j:-1]], rarity(tok[-1])
         out.append({"rarity": r, "name": name, "base_text": btxt, "base": base,
                     "growth_text": gtxt, "growth": growth,
                     "dungeons": dungeons, "price": price, "sell_price": sell})
@@ -84,7 +86,6 @@ NOT_IN_GAME = {
                "オニのパンツ", "菱餅大鎧", "クッキーメイル", "端午の鎧", "キッズマント", "ターキーメイル",
                "アニバーサリーメイル"],                                          # イベント限定の7件
     "item":   ["生命の木の熟実", "豪腕の木の熟実", "守りの木の熟実", "回避の木の熟実", "運気の木の熟実",
-               "生命キャンディ", "豪腕キャンディ", "守りキャンディ", "回避キャンディ",
                "チョコ", "高級チョコ", "手作りチョコ", "桜餅", "クリスマスケーキ", "短冊(赤)", "短冊(青)", "短冊(黄)"],
 }
 for kind, d in [("weapon", W), ("armor", A), ("item", I)]:
