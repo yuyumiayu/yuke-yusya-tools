@@ -108,6 +108,7 @@ td .tag{font-size:11px;color:var(--gold);border:1px solid var(--gold);border-rad
     <li>「ない」は、今のゲームにないものです。共鳴は、武器か防具のどちらかが今のゲームにないと「ない」になります。</li>
   </ul>
 </div>
+<section class="log" id="log" data-tool="catalog" aria-label="更新履歴"></section>
 __FILE:src/common/footer.html__
 </div>
 
@@ -119,6 +120,10 @@ __FILE:src/common/footer.html__
 <script id="data-n" type="application/json">__JSON:data/notes.json__</script>
 <script>
 __FILE:src/catalog/ui.js__
+</script>
+<script id="data-log" type="application/json">__JSON:data/changelog.json__</script>
+<script>
+__FILE:src/common/changelog.js__
 </script>
 </body>
 </html>

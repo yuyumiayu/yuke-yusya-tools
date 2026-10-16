@@ -51,6 +51,14 @@ select:focus-visible,input:focus-visible,button:focus-visible,summary:focus-visi
 .synres dl{display:grid;grid-template-columns:auto 1fr;gap:0 12px;margin:4px 0 0}
 .synres dt{color:var(--muted)} .synres dd{margin:0}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+/* 更新履歴（src/common/changelog.js。フッターの上） */
+.log{margin:22px 6px 0;font-size:12.5px;color:var(--ink-soft);line-height:1.7}
+.log h2{font-size:13px;margin:0 0 4px;color:var(--ink)}
+.log ul{list-style:none;margin:0;padding:0}
+.log li{display:flex;gap:12px}
+.log time{flex:none;font-family:"DotGothic16",monospace;color:var(--ink)}
+.log details{margin-top:2px}
+.log summary{cursor:pointer;color:var(--ink);width:max-content}
 /* 非公式の表示と出典（全ページ共通のフッター） */
 .credit{font-size:12px;color:var(--ink-soft);margin:24px 6px 0;padding-top:12px;border-top:1px solid var(--ink-soft);line-height:1.7}
 .credit p{margin:0 0 6px}
