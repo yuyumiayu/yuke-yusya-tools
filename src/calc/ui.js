@@ -287,11 +287,25 @@
     });
     $("xfm").hidden = !fm.length; $("xfm").textContent = fm.join(" ");
     SWEEP.forEach(k => $(k).closest(".field").classList.toggle("on", $(k+"x").checked));
+    // 入れ替える欄のボタンと、欄ごとのまとまり（入れ替えない欄は、何で固定されるかを1行で出す）
+    const on = k => $(k+"x").checked;
+    document.querySelectorAll("[data-sw]").forEach(b => b.setAttribute("aria-pressed", on(b.dataset.sw)));
+    const gearTxt = s => s.g ? `${esc(s.g.name)} +${s.e}` : "なし";
+    [["w", "武器", gearTxt(cur.ws)], ["a", "防具", gearTxt(cur.as)]].forEach(([k, L, txt]) => {
+      $("xo-"+k).hidden = on(k); $("xo-"+k).innerHTML = `${L}　入れ替えない：<b>${txt}</b> のまま`;
+      $("xsl-"+k).querySelector(".xbody").hidden = !on(k);
+    });
+    [["i1", "道具1"], ["i2", "道具2"]].forEach(([k, L]) => {
+      $("xo-"+k).hidden = on(k); $("xo-"+k).innerHTML = `${L}　入れ替えない：<b>${cur[k] ? esc(cur[k].name) : "なし"}</b> のまま`;
+    });
+    $("xsl-i").querySelector(".xbody").hidden = !on("i1") && !on("i2");
+    $("xh-i").firstChild.textContent = on("i1") && on("i2") ? "道具1・道具2" : on("i1") ? "道具1" : "道具2";
+    $("xsyn").hidden = !((on("w") && $("xsw").checked) || (on("a") && $("xsa").checked));   // 合計レア度の上限は合成を探すときだけ
     ["w","a","i"].forEach(t => $("c"+t).querySelector("summary span").textContent = `${candsOf(t).length}/${CL[t].length}`);
     $("xlvl").hidden = $("xs").value === "forest";
     if (running) return;
     const p = spec(), n = v => v.toLocaleString("ja-JP");
-    if (!p.any){ $("xc").textContent = "「そうび」で総当たりする欄にチェックを入れてください。"; $("xc").classList.remove("long"); $("xw").hidden = true; $("xgo").disabled = true; return; }
+    if (!p.any){ $("xc").textContent = "入れ替える欄を選んでください（上のボタンか、「そうび」の「総当たり」のチェック）。"; $("xc").classList.remove("long"); $("xw").hidden = true; $("xgo").disabled = true; return; }
     const sec = p.total * perCombo();
     const est = sec < 1 ? "1秒未満" : sec < 90 ? `約${Math.ceil(sec)}秒` : `約${Math.ceil(sec/60)}分`;
     const long = sec >= LONG_SEC;
@@ -384,7 +398,11 @@
   }
   $("xgo").addEventListener("click", run);
   $("xstop").addEventListener("click", () => { if (running) finish(running.partial ? running.partial() : [], spec().s, 0, true); });
+  // 入れ替える欄：そうびの「総当たり」のチェックと、総当たりの欄のボタンは同じもの
   SWEEP.forEach(k => $(k+"x").addEventListener("change", render));
+  document.querySelectorAll("[data-sw]").forEach(b => b.addEventListener("click", () => {
+    const k = b.dataset.sw; $(k+"x").checked = !$(k+"x").checked; render();
+  }));
   ["xs","xlv","xn4","xsw","xsa","xcap","xfw","xfa"].forEach(id => $(id).addEventListener(id === "xlv" ? "input" : "change", () => { sweepInfo(); save(); }));
   // 固定する素材の強化値：欄から離れたら、空欄はそのまま（MAX）、数字は 0〜上限にそろえる
   ["xfwe","xfae"].forEach(id => $(id).addEventListener("change", () => {
