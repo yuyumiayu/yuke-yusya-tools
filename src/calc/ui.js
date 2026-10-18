@@ -398,11 +398,10 @@
   }
   $("xgo").addEventListener("click", run);
   $("xstop").addEventListener("click", () => { if (running) finish(running.partial ? running.partial() : [], spec().s, 0, true); });
-  // 入れ替える欄：そうびの「総当たり」のチェックと、総当たりの欄のボタンは同じもの。入れ替えるようにしたら候補の一覧を開く
-  const openCands = k => { if ($(k+"x").checked) $(k[0] === "i" ? "ci" : "c"+k).open = true; };
-  SWEEP.forEach(k => $(k+"x").addEventListener("change", () => { openCands(k); render(); }));
+  // 入れ替える欄：そうびの「総当たり」のチェックと、総当たりの欄のボタンは同じもの
+  SWEEP.forEach(k => $(k+"x").addEventListener("change", render));
   document.querySelectorAll("[data-sw]").forEach(b => b.addEventListener("click", () => {
-    const k = b.dataset.sw; $(k+"x").checked = !$(k+"x").checked; openCands(k); render();
+    const k = b.dataset.sw; $(k+"x").checked = !$(k+"x").checked; render();
   }));
   ["xs","xlv","xn4","xsw","xsa","xcap","xfw","xfa"].forEach(id => $(id).addEventListener(id === "xlv" ? "input" : "change", () => { sweepInfo(); save(); }));
   // 固定する素材の強化値：欄から離れたら、空欄はそのまま（MAX）、数字は 0〜上限にそろえる
