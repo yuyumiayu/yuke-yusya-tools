@@ -73,6 +73,13 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
 .xopt select,.xopt input[type=number]{width:auto;padding:4px 6px}
 .xopt input[type=number]{width:4.5em}
 .xopt input[type=checkbox]{accent-color:var(--gold)}
+.fixrow{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;width:100%}
+.fix{display:inline-flex;flex-wrap:wrap;gap:6px 8px;align-items:center;border-left:2px solid var(--gold);padding-left:10px}
+.fix .fl{white-space:nowrap}
+.fix select{max-width:11em}
+.fix.off{opacity:.45}
+@media (max-width:520px){ .fix{width:100%} .fix select{flex:1;max-width:none} }
+.xres .ore{font-size:11.5px;color:var(--gold);border:1px solid var(--gold);border-radius:4px;padding:0 5px;margin-left:4px;white-space:nowrap}
 .xcount{font-size:13px;margin:6px 0}
 .xcount.long{color:var(--ng)}
 .xwarn{font-size:13px;color:var(--ng);margin:0 0 6px;border:2px solid var(--ng);border-radius:6px;padding:6px 10px}
@@ -157,11 +164,14 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
     </div>
     <h3 class="xh">合成</h3>
     <div class="xopt">
-      <label><input type="checkbox" id="xsw"> 武器は合成も探す</label>
-      <label><input type="checkbox" id="xsa"> 防具は合成も探す</label>
+      <div class="fixrow"><label><input type="checkbox" id="xsw"> 武器は合成も探す</label>
+        <span class="fix" id="xfwb"><span class="fl">片方の素材を固定</span><select id="xfw" aria-label="武器の合成で固定する素材"></select><span class="fl">強化値</span><input id="xfwe" type="number" min="0" inputmode="numeric" placeholder="MAX" aria-label="固定する武器の素材の強化値（空欄ならMAX）"></span></div>
+      <div class="fixrow"><label><input type="checkbox" id="xsa"> 防具は合成も探す</label>
+        <span class="fix" id="xfab"><span class="fl">片方の素材を固定</span><select id="xfa" aria-label="防具の合成で固定する素材"></select><span class="fl">強化値</span><input id="xfae" type="number" min="0" inputmode="numeric" placeholder="MAX" aria-label="固定する防具の素材の強化値（空欄ならMAX）"></span></div>
       <label>合計レア度の上限 <select id="xcap"><option value="2">2</option><option value="3">3</option><option value="4" selected>4（今の上限）</option><option value="5">5</option><option value="6">6</option><option value="7">7（過去の上限）</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select></label>
     </div>
-    <p class="guide" style="margin-top:0">合成は、候補の中の違う装備2つを上と同じ強化値（空欄ならMAX）で合成し、神の祝福+3で計算します。</p>
+    <p class="guide" style="margin-top:0">合成は、候補の中の違う装備2つを上と同じ強化値（空欄ならMAX）で合成し、神の祝福+3で計算します。片方の素材を固定すると、その素材と候補の装備1つを合成したものを探します（素の候補も入ります）。</p>
+    <p class="xwarn" id="xfm" hidden></p>
     <h3 class="xh">並べ替えと絞り込み</h3>
     <div class="xopt">
       <label>並べ替え <select id="xs"><option value="forest">森4Fの点数</option><option value="hp">HP</option><option value="atk">攻</option><option value="def">防</option><option value="eva">回</option><option value="luk">運</option></select></label>

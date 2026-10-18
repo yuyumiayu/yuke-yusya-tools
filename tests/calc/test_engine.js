@@ -140,6 +140,18 @@ console.log(`${total-bad}/${total} rows match`);
   const se = run({...base, w:{cands:[w("正宗")], enh:{"正宗":120}}, i2:{fixed:null}, top:1}).results()[0];
   const ok7 = se.we === 120 && se.score === forest(build(w("正宗"), 120, a("ハイランドメイル"), 60, se.items.map(n=>n&&i(n)), resonances(w("正宗"), a("ハイランドメイル"), R))).score;
   console.log(ok7?"OK":"NG", "総当たり 指定した強化値で回す（正宗+120）", se.score+"点"); if(!ok7) bad++;
+  // 片方の素材を固定（synth.pin）：固定した素材＋候補1つの合成だけ（同じ装備・上限を超える組は除く）。素の候補は入れたまま
+  const pin = {g:w("正宗"), e:500};
+  const namesP = cap => slotList({cands:c3, synth:{cap, pin}}).map(x => x.g.name + "+" + x.e).join(",");
+  const ok8 = namesP(4) === "ショートソード+200,水龍の剣+75,正宗+500,正宗＋ショートソード+353"
+    && namesP(6) === "ショートソード+200,水龍の剣+75,正宗+500,正宗＋ショートソード+353,正宗＋水龍の剣+291"
+    && slotList({cands:c3, synth:{cap:4, pin:{g:w("正宗"), e:100}}}).pop().e === Math.ceil((100+200)/2) + 3;
+  console.log(ok8?"OK":"NG", "総当たり 片方の素材を固定（正宗+500）", namesP(6)); if(!ok8) bad++;
+  // 結果に合成鉱（合計レア度、最低2）。素の装備は null
+  const sp = run({...base, w:{cands:c3, synth:{cap:4, pin}}, i1:{fixed:null}, i2:{fixed:null}, need4:false, top:10}).results();   // 素3つ＋合成1つの4通り
+  const syn = sp.find(x => x.wParts), plain = sp.find(x => !x.wParts);
+  const ok9 = sp.length === 4 && syn && syn.wOre === 4 && syn.wParts.join() === "正宗,ショートソード" && plain && plain.wOre === null && sp.every(x => x.aOre === null);
+  console.log(ok9?"OK":"NG", "総当たり 結果に合成鉱（正宗＋ショートソード → 合成鉱4）"); if(!ok9) bad++;
 }
 // ===== 今のゲームにあるか（in_game、#16） =====
 {

@@ -6,6 +6,7 @@
 //           候補は enh で指定した強化値（上限まで）で回す。指定がなければ強化値MAX。
 //           synth があれば、候補から違う装備2つを合成したものも入れる（同じ装備どうしはゲームで合成できない）。
 //           合計レア度が cap 以下の組だけ。素材の強化値は上と同じ（指定がなければMAX）、神の祝福は+3。
+//           synth.pin = {g, e} があれば、その素材（強化値 e）と候補の装備1つの合成だけを入れる（片方の素材を固定）。素の候補は入れたまま。
 //   i1, i2: {fixed:道具|null} か {all:true}
 //   items:  総当たりする道具の候補（「なし」は自動で入る）
 //   sort:   {by:"forest"} か {by:"stat", key:"atk", lv:50}
@@ -28,7 +29,14 @@ function slotList(s){
   const enhOf = g => { const mx = g.max_enhance || 0, v = s.enh && s.enh[g.name];
     return v == null ? mx : Math.max(0, Math.min(mx, v)); };
   const out = s.cands.map(g => ({g, e:enhOf(g)}));
-  if (s.synth){
+  if (s.synth && s.synth.pin){
+    const pin = s.synth.pin;
+    for (const g of s.cands){
+      if (g.name === pin.g.name || pin.g.rarity + g.rarity > s.synth.cap) continue;
+      const r = synth(pin.g, pin.e, g, enhOf(g), BLESS_MAX);
+      out.push({g:r.gear, e:r.total});
+    }
+  } else if (s.synth){
     const c = s.cands;
     for (let x = 0; x < c.length; x++) for (let y = x + 1; y < c.length; y++){
       if (c[x].rarity + c[y].rarity > s.synth.cap) continue;
@@ -82,6 +90,7 @@ function makeSearch(spec, R){
     key, score:f.score, ok4:f.ok4, ok8:f.ok8, start:r.start,
     w:w.g ? w.g.name : null, we:w.e, a:a.g ? a.g.name : null, ae:a.e, items:items.map(x => x ? x.name : null),
     wParts:w.g && w.g.parts || null, aParts:a.g && a.g.parts || null,
+    wOre:w.g && w.g.parts ? Math.max(2, w.g.rarity) : null, aOre:a.g && a.g.parts ? Math.max(2, a.g.rarity) : null,   // 合成鉱（合計レア度、最低2）
     res:r.res.map(x => x.name), lv14:r.at(14), lv50:r.at(50),
   }));
   return {total, step, results, get done(){ return done; }};
