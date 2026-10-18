@@ -21,6 +21,13 @@
   }
   ["w","a"].forEach(t=>{ fill($(t), listOf(t), "なし"); fill($(t+"1"), listOf(t), "選ぶ"); fill($(t+"2"), listOf(t), "選ぶ"); });
   fill($("i1"), I, "なし"); fill($("i2"), I, "なし");
+  // 総当たりの合成で固定する素材の選択（値は名前。保存も名前で持つ）
+  ["w","a"].forEach(t => {
+    const groups = {};
+    listOf(t).forEach(x => (groups[x.rarity] ||= []).push(x));
+    $("xf"+t).innerHTML = `<option value="">固定しない</option>` + Object.keys(groups).sort().map(r => `<optgroup label="☆${r}">` +
+      groups[r].map(x => `<option value="${esc(x.name)}">${esc(x.name)}</option>`).join("") + "</optgroup>").join("");
+  });
 
   const pick = id => { const v = $(id).value; return v === "" ? null : (id[0]==="i" ? I : listOf(id))[+v]; };
   const maxOf = x => x && x.max_enhance ? x.max_enhance : 0;
@@ -103,7 +110,8 @@
   const SWEEP = ["w","a","i1","i2"];
   function save(){
     const s = {mode, sweep:SWEEP.filter(k=>$(k+"x").checked), xs:$("xs").value, xlv:$("xlv").value, xn4:$("xn4").checked,
-               xsw:$("xsw").checked, xsa:$("xsa").checked, xcap:$("xcap").value};
+               xsw:$("xsw").checked, xsa:$("xsa").checked, xcap:$("xcap").value,
+               xfw:$("xfw").value, xfwe:$("xfwe").value, xfa:$("xfa").value, xfae:$("xfae").value};
     FIELDS.forEach(k=>s[k]=$(k).value);
     ["w","a","ws","as"].forEach(t=>{ if (s[t+"e"] === "" && lastEnh[t] != null) s[t+"e"] = String(lastEnh[t]); });   // 入力中の空欄は直前の値で保存
     s.xlv = String(xlvVal());
@@ -125,6 +133,7 @@
     if (s.xsw !== undefined) $("xsw").checked = s.xsw;
     if (s.xsa !== undefined) $("xsa").checked = s.xsa;
     if (s.xcap) $("xcap").value = s.xcap;
+    ["xfw","xfwe","xfa","xfae"].forEach(k => { if (s[k] !== undefined) $(k).value = s[k]; });
   }
   function syncControls(){
     ["w","a"].forEach(t=>{
@@ -238,8 +247,8 @@
   function spec(){
     const x = k => $(k+"x").checked, cap = +$("xcap").value;
     const s = {
-      w: x("w") ? {cands:candsOf("w"), synth:$("xsw").checked ? {cap} : null, enh:off.enh.w} : {fixed:{g:cur.ws.g, e:cur.ws.e}},
-      a: x("a") ? {cands:candsOf("a"), synth:$("xsa").checked ? {cap} : null, enh:off.enh.a} : {fixed:{g:cur.as.g, e:cur.as.e}},
+      w: x("w") ? {cands:candsOf("w"), synth:$("xsw").checked ? {cap, pin:pinOf("w")} : null, enh:off.enh.w} : {fixed:{g:cur.ws.g, e:cur.ws.e}},
+      a: x("a") ? {cands:candsOf("a"), synth:$("xsa").checked ? {cap, pin:pinOf("a")} : null, enh:off.enh.a} : {fixed:{g:cur.as.g, e:cur.as.e}},
       i1: x("i1") ? {all:true} : {fixed:cur.i1},
       i2: x("i2") ? {all:true} : {fixed:cur.i2},
       items: candsOf("i"),
@@ -257,8 +266,26 @@
   // 短い実行は Worker の起動時間が大きく効いて遅めに出るので、2秒以上かかったときだけ覚える
   const learnSpeed = (total, ms) => { if (total > 0 && ms >= 2000) try{ localStorage.setItem(SK, String(ms / 1000 / total)); }catch(e){} };
   let running = null;
+  // 合成で片方の素材を固定：選んだ素材と強化値（空欄ならMAX、上限まで）。固定しないなら null
+  function pinOf(t){
+    const g = listOf(t).find(x => x.name === $("xf"+t).value);
+    if (!g) return null;
+    const v = parseInt($("xf"+t+"e").value, 10), mx = g.max_enhance || 0;
+    return {g, e: isNaN(v) ? mx : Math.max(0, Math.min(mx, v))};
+  }
   function sweepInfo(){
     if (!cur) return;
+    // 固定の欄：合成を探すときだけ使える。組める相方がいなければ知らせる
+    const fm = [];
+    ["w","a"].forEach(t => {
+      const on = $(t+"x").checked && $("xs"+t).checked, pin = pinOf(t);
+      $("xf"+t+"b").classList.toggle("off", !$("xs"+t).checked);
+      const g = listOf(t).find(x => x.name === $("xf"+t).value);
+      $("xf"+t+"e").max = g ? g.max_enhance || 0 : "";
+      if (on && pin && !candsOf(t).some(c => c.name !== pin.g.name && pin.g.rarity + c.rarity <= +$("xcap").value))
+        fm.push(`固定した${pin.g.name}（☆${pin.g.rarity}）と組める${t === "w" ? "武器" : "防具"}が候補にありません。合計レア度の上限を上げるか、候補を見直してください。`);
+    });
+    $("xfm").hidden = !fm.length; $("xfm").textContent = fm.join(" ");
     SWEEP.forEach(k => $(k).closest(".field").classList.toggle("on", $(k+"x").checked));
     ["w","a","i"].forEach(t => $("c"+t).querySelector("summary span").textContent = `${candsOf(t).length}/${CL[t].length}`);
     $("xlvl").hidden = $("xs").value === "forest";
@@ -281,7 +308,8 @@
       const syn = [x.wParts && "武器は合成", x.aParts && "防具は合成"].filter(Boolean).join("・");
       const sub = [it, syn && `${syn}（祝福+${BLESS_MAX}込み）`, x.res.length ? "共鳴：" + x.res.join("・") : "", x.start > 1 ? `出発Lv${x.start}` : ""].filter(Boolean).join(" ／ ");
       const s = x.lv14;
-      return `<li><span class="v">${v}</span><span>${esc(x.w || "武器なし")} +${x.we} ／ ${esc(x.a || "防具なし")} +${x.ae}` +
+      const ore = n => n ? ` <span class="ore">合成鉱${n}</span>` : "";
+      return `<li><span class="v">${v}</span><span>${esc(x.w || "武器なし")} +${x.we}${ore(x.wOre)} ／ ${esc(x.a || "防具なし")} +${x.ae}${ore(x.aOre)}` +
         `<small>${esc(sub)}</small><small>Lv14 HP${s.hp} 攻${s.atk} 防${s.def}${byForest ? "" : ` ／ Lv${sp.sort.lv} ${LBL[sp.sort.key]}${x.key[0]}`}</small></span>` +
         `<button type="button" data-k="${k}">反映</button></li>`;
     }).join("");
@@ -357,7 +385,12 @@
   $("xgo").addEventListener("click", run);
   $("xstop").addEventListener("click", () => { if (running) finish(running.partial ? running.partial() : [], spec().s, 0, true); });
   SWEEP.forEach(k => $(k+"x").addEventListener("change", render));
-  ["xs","xlv","xn4","xsw","xsa","xcap"].forEach(id => $(id).addEventListener(id === "xlv" ? "input" : "change", () => { sweepInfo(); save(); }));
+  ["xs","xlv","xn4","xsw","xsa","xcap","xfw","xfa"].forEach(id => $(id).addEventListener(id === "xlv" ? "input" : "change", () => { sweepInfo(); save(); }));
+  // 固定する素材の強化値：欄から離れたら、空欄はそのまま（MAX）、数字は 0〜上限にそろえる
+  ["xfwe","xfae"].forEach(id => $(id).addEventListener("change", () => {
+    const v = parseInt($(id).value, 10), mx = +$(id).max || 0;
+    $(id).value = isNaN(v) ? "" : Math.max(0, Math.min(mx, v)); sweepInfo(); save();
+  }));
   $("xlv").addEventListener("focusout", () => { editing = null; $("xlv").value = xlvVal(); save(); });
 
   load(); render();
