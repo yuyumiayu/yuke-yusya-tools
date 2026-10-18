@@ -48,7 +48,18 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
 .labrow .sweep+.seg{margin-left:6px}
 .field.on select{border-color:var(--gold)}
 .cands{display:grid;gap:4px}
-@media (min-width:820px){ .cands{grid-template-columns:1fr 1fr 1fr;align-items:start} }
+/* 総当たり：入れ替える欄のボタンと、欄ごとのまとまり */
+.xslots{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 8px}
+.xslots button{font:inherit;font-size:13.5px;color:var(--muted);background:transparent;border:2px solid var(--muted);border-radius:6px;padding:6px 14px;cursor:pointer;min-height:40px}
+.xslots button[aria-pressed=true]{background:var(--gold);border-color:var(--gold);color:var(--win)}
+.xslots button[aria-pressed=true]::before{content:"✓ "}
+.xslot .xbody{border-left:3px solid var(--gold);padding:6px 0 8px 12px;margin:10px 0}
+.xhead{font-size:14px;color:var(--text);margin:0 0 6px}
+.xhead small{color:var(--gold);font-size:12px;margin-left:6px}
+.xoff{font-size:13px;color:var(--muted);padding:6px 0 6px 15px;border-left:3px solid #ffffff26;margin:6px 0}
+.xoff b{font-weight:400;color:var(--text)}
+.xslot .xopt{margin:8px 0 0}
+.xcommon{margin-top:14px;padding-top:10px;border-top:1px dashed #ffffff33}
 .xh{font-family:"DotGothic16",sans-serif;font-weight:400;font-size:15px;margin:14px 0 4px;color:var(--text)}
 .cands details{margin:0}
 .cands summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:8px;border:2px solid var(--gold);border-radius:6px;padding:8px 12px;color:var(--text);font-size:14px;min-height:44px}
@@ -154,25 +165,41 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
 
   <section class="win span" aria-labelledby="h-x" id="sweep" data-fold="calc-sweep">
     <h2 id="h-x">総当たり</h2>
-    <p class="guide" style="margin-top:0">上の「そうび」で「総当たり」にチェックした欄だけを、下の候補で入れ替えて探します。チェックしていない欄は今の選択のまま。総当たりする武器・防具は、候補の一覧で強化値を入れたものはその値、空欄なら強化値MAXで計算します。</p>
-    <h3 class="xh">候補</h3>
-    <p class="guide" style="margin-top:0">総当たりで入れ替える装備・道具です。使わないものはチェックを外すと、次に開いたときも外れたままです。☆の見出しを押すと、そのレア度をまとめて切り替えます。「今のゲームにあるものだけ」を押すと、今のゲームにない装備・道具をまとめて外します。</p>
-    <div class="cands">
-      <details id="cw"><summary>武器の候補を選ぶ <span></span></summary><div class="cbtn"><button type="button" data-all="1">全部選ぶ</button><button type="button" data-all="0">全部外す</button><button type="button" data-all="game">今のゲームにあるものだけ</button></div><div class="clist"></div></details>
-      <details id="ca"><summary>防具の候補を選ぶ <span></span></summary><div class="cbtn"><button type="button" data-all="1">全部選ぶ</button><button type="button" data-all="0">全部外す</button><button type="button" data-all="game">今のゲームにあるものだけ</button></div><div class="clist"></div></details>
-      <details id="ci"><summary>道具の候補を選ぶ <span></span></summary><div class="cbtn"><button type="button" data-all="1">全部選ぶ</button><button type="button" data-all="0">全部外す</button><button type="button" data-all="game">今のゲームにあるものだけ</button></div><div class="clist"></div></details>
+    <p class="guide" style="margin-top:0">入れ替える欄を選ぶと、その欄だけを候補で入れ替えて探します（上の「そうび」の「総当たり」のチェックと同じ）。ほかの欄は「そうび」の選択のままです。</p>
+    <h3 class="xh">入れ替える欄</h3>
+    <div class="xslots" role="group" aria-label="入れ替える欄">
+      <button type="button" data-sw="w" aria-pressed="false">武器</button><button type="button" data-sw="a" aria-pressed="false">防具</button><button type="button" data-sw="i1" aria-pressed="false">道具1</button><button type="button" data-sw="i2" aria-pressed="false">道具2</button>
     </div>
-    <h3 class="xh">合成</h3>
-    <div class="xopt">
-      <div class="fixrow"><label><input type="checkbox" id="xsw"> 武器は合成も探す</label>
-        <span class="fix" id="xfwb"><span class="fl">片方の素材を固定</span><select id="xfw" aria-label="武器の合成で固定する素材"></select><span class="fl">強化値</span><input id="xfwe" type="number" min="0" inputmode="numeric" placeholder="MAX" aria-label="固定する武器の素材の強化値（空欄ならMAX）"></span></div>
-      <div class="fixrow"><label><input type="checkbox" id="xsa"> 防具は合成も探す</label>
-        <span class="fix" id="xfab"><span class="fl">片方の素材を固定</span><select id="xfa" aria-label="防具の合成で固定する素材"></select><span class="fl">強化値</span><input id="xfae" type="number" min="0" inputmode="numeric" placeholder="MAX" aria-label="固定する防具の素材の強化値（空欄ならMAX）"></span></div>
-      <label>合計レア度の上限 <select id="xcap"><option value="2">2</option><option value="3">3</option><option value="4" selected>4（今の上限）</option><option value="5">5</option><option value="6">6</option><option value="7">7（過去の上限）</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select></label>
+    <p class="guide" style="margin:0">候補はチェックを外すと、次に開いたときも外れたままです。☆の見出しを押すと、そのレア度をまとめて切り替えます。武器・防具は、強化値を入れたものはその値、空欄なら強化値MAXで計算します。</p>
+    <div class="xslot" id="xsl-w">
+      <p class="xoff" id="xo-w"></p>
+      <div class="xbody"><div class="xhead">武器<small>入れ替える</small></div>
+        <div class="cands"><details id="cw" open><summary>武器の候補を選ぶ <span></span></summary><div class="cbtn"><button type="button" data-all="1">全部選ぶ</button><button type="button" data-all="0">全部外す</button><button type="button" data-all="game">今のゲームにあるものだけ</button></div><div class="clist"></div></details></div>
+        <div class="xopt"><div class="fixrow"><label><input type="checkbox" id="xsw"> 合成も探す</label>
+          <span class="fix" id="xfwb"><span class="fl">片方の素材を固定</span><select id="xfw" aria-label="武器の合成で固定する素材"></select><span class="fl">強化値</span><input id="xfwe" type="number" min="0" inputmode="numeric" placeholder="MAX" aria-label="固定する武器の素材の強化値（空欄ならMAX）"></span></div></div>
+      </div>
     </div>
-    <p class="guide" style="margin-top:0">合成は、候補の中の違う装備2つを上と同じ強化値（空欄ならMAX）で合成し、神の祝福+3で計算します。片方の素材を固定すると、その素材と候補の装備1つを合成したものを探します（素の候補も入ります）。</p>
+    <div class="xslot" id="xsl-a">
+      <p class="xoff" id="xo-a"></p>
+      <div class="xbody"><div class="xhead">防具<small>入れ替える</small></div>
+        <div class="cands"><details id="ca" open><summary>防具の候補を選ぶ <span></span></summary><div class="cbtn"><button type="button" data-all="1">全部選ぶ</button><button type="button" data-all="0">全部外す</button><button type="button" data-all="game">今のゲームにあるものだけ</button></div><div class="clist"></div></details></div>
+        <div class="xopt"><div class="fixrow"><label><input type="checkbox" id="xsa"> 合成も探す</label>
+          <span class="fix" id="xfab"><span class="fl">片方の素材を固定</span><select id="xfa" aria-label="防具の合成で固定する素材"></select><span class="fl">強化値</span><input id="xfae" type="number" min="0" inputmode="numeric" placeholder="MAX" aria-label="固定する防具の素材の強化値（空欄ならMAX）"></span></div></div>
+      </div>
+    </div>
+    <div class="xslot" id="xsl-i">
+      <p class="xoff" id="xo-i1"></p>
+      <p class="xoff" id="xo-i2"></p>
+      <div class="xbody"><div class="xhead" id="xh-i">道具<small>入れ替える</small></div>
+        <div class="cands"><details id="ci" open><summary>道具の候補を選ぶ <span></span></summary><div class="cbtn"><button type="button" data-all="1">全部選ぶ</button><button type="button" data-all="0">全部外す</button><button type="button" data-all="game">今のゲームにあるものだけ</button></div><div class="clist"></div></details></div>
+      </div>
+    </div>
+    <div class="xcommon">
+    <div id="xsyn">
+      <div class="xopt" style="margin-top:0"><label>合成の合計レア度の上限 <select id="xcap"><option value="2">2</option><option value="3">3</option><option value="4" selected>4（今の上限）</option><option value="5">5</option><option value="6">6</option><option value="7">7（過去の上限）</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select></label></div>
+      <p class="guide" style="margin-top:0">合成は、候補の中の違う装備2つを候補と同じ強化値（空欄ならMAX）で合成し、神の祝福+3で計算します。片方の素材を固定すると、その素材と候補の装備1つを合成したものを探します（素の候補も入ります）。</p>
+    </div>
     <p class="xwarn" id="xfm" hidden></p>
-    <h3 class="xh">並べ替えと絞り込み</h3>
     <div class="xopt">
       <label>並べ替え <select id="xs"><option value="forest">森4Fの点数</option><option value="hp">HP</option><option value="atk">攻</option><option value="def">防</option><option value="eva">回</option><option value="luk">運</option></select></label>
       <label id="xlvl">レベル <input id="xlv" type="number" min="1" max="99" value="50" inputmode="numeric"></label>
@@ -183,6 +210,7 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
     <div class="xrun"><button type="button" id="xgo">探す</button><button type="button" id="xstop" hidden>やめる</button><span class="bar xbar"><i id="xp" style="width:0"></i></span></div>
     <p class="guide" id="xmsg" aria-live="polite"></p>
     <ol class="xres" id="xr"></ol>
+    </div>
   </section>
 
   <section class="win" aria-labelledby="h-s" data-fold="calc-stats">
