@@ -10,23 +10,26 @@
   const mode = {w:"plain", a:"plain"};
   const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
-  function fill(sel, list, none){
-    const groups = {};
-    list.forEach((x,idx)=>{ (groups[x.rarity] ||= []).push([x,idx]); });
-    let h = `<option value="">${none}</option>`;
-    Object.keys(groups).sort().forEach(r=>{
-      h += `<optgroup label="☆${r}">` + groups[r].map(([x,idx])=>`<option value="${idx}">${esc(x.name)}</option>`).join("") + "</optgroup>";
-    });
-    sel.innerHTML = h;
+  // 選択肢と候補の一覧のまとまり。武器・防具はレア度ごと。道具は葉・大葉・実・熟実を種類ごと（レア度は見ない）にまとめ、
+  // それ以外はレア度ごと（メンテナー判断：道具はレア度を意識しない）。データにあるまとまりだけを、種類→☆の小さい順に並べる
+  const KINDS = ["葉","大葉","実","熟実"];
+  const groupName = (x, byKind) => (byKind && KINDS.find(k => x.name.endsWith("の木の" + k))) || "☆" + x.rarity;
+  function groupsOf(list, byKind){                            // [[まとまりの名前, [[装備, 番号]…]]…]。中は元の順
+    const g = new Map();
+    list.forEach((x, idx) => { const n = groupName(x, byKind); if (!g.has(n)) g.set(n, []); g.get(n).push([x, idx]); });
+    const order = n => KINDS.includes(n) ? KINDS.indexOf(n) - KINDS.length : +n.slice(1);
+    return [...g].sort((p, q) => order(p[0]) - order(q[0]));
+  }
+  function fill(sel, list, none, byKind){
+    sel.innerHTML = `<option value="">${none}</option>` + groupsOf(list, byKind).map(([n, xs]) =>
+      `<optgroup label="${n}">` + xs.map(([x,idx])=>`<option value="${idx}">${esc(x.name)}</option>`).join("") + "</optgroup>").join("");
   }
   ["w","a"].forEach(t=>{ fill($(t), listOf(t), "なし"); fill($(t+"1"), listOf(t), "選ぶ"); fill($(t+"2"), listOf(t), "選ぶ"); });
-  fill($("i1"), I, "なし"); fill($("i2"), I, "なし");
+  fill($("i1"), I, "なし", true); fill($("i2"), I, "なし", true);
   // 総当たりの合成で固定する素材の選択（値は名前。保存も名前で持つ）
   ["w","a"].forEach(t => {
-    const groups = {};
-    listOf(t).forEach(x => (groups[x.rarity] ||= []).push(x));
-    $("xf"+t).innerHTML = `<option value="">固定しない</option>` + Object.keys(groups).sort().map(r => `<optgroup label="☆${r}">` +
-      groups[r].map(x => `<option value="${esc(x.name)}">${esc(x.name)}</option>`).join("") + "</optgroup>").join("");
+    $("xf"+t).innerHTML = `<option value="">固定しない</option>` + groupsOf(listOf(t)).map(([n, xs]) => `<optgroup label="${n}">` +
+      xs.map(([x]) => `<option value="${esc(x.name)}">${esc(x.name)}</option>`).join("") + "</optgroup>").join("");
   });
 
   const pick = id => { const v = $(id).value; return v === "" ? null : (id[0]==="i" ? I : listOf(id))[+v]; };
@@ -203,10 +206,8 @@
   const candsOf = t => CL[t].filter(x => !off[t].includes(x.name));
   const saveCands = () => { try{ localStorage.setItem(CK, JSON.stringify(off)); }catch(e){} };
   function fillCands(t){
-    const groups = {};
-    CL[t].forEach(x => (groups[x.rarity] ||= []).push(x));
-    $("c"+t).querySelector(".clist").innerHTML = Object.keys(groups).sort().map(r => `<b data-r="${r}" role="button" tabindex="0">☆${r}</b>` +
-      groups[r].map(x => {
+    $("c"+t).querySelector(".clist").innerHTML = groupsOf(CL[t], t === "i").map(([n, xs]) => `<b data-g="${n}" role="button" tabindex="0">${n}</b>` +
+      xs.map(([x]) => {
         const ck = `<label><input type="checkbox" value="${esc(x.name)}"${off[t].includes(x.name) ? "" : " checked"}> ${esc(x.name)}</label>`;
         if (t === "i") return ck;
         // 武器・防具：強化値の欄。空欄なら強化値MAX
@@ -227,15 +228,15 @@
       const n = e.target.value; off[t] = off[t].filter(x => x !== n); if (!e.target.checked) off[t].push(n);
       saveCands(); sweepInfo();
     });
-    // ☆の見出し：そのレア度が全部入っていれば全部外し、そうでなければ全部入れる
-    const toggleRarity = r => {
-      const names = CL[t].filter(x => String(x.rarity) === r).map(x => x.name);
+    // まとまりの見出し（☆1・大葉など）：そのまとまりが全部入っていれば全部外し、そうでなければ全部入れる
+    const toggleGroup = g => {
+      const names = CL[t].filter(x => groupName(x, t === "i") === g).map(x => x.name);
       const allOn = names.every(n => !off[t].includes(n));
       off[t] = off[t].filter(n => !names.includes(n)); if (allOn) off[t].push(...names);
       saveCands(); fillCands(t); sweepInfo();
     };
-    box.querySelector(".clist").addEventListener("click", e => { const b = e.target.closest("b[data-r]"); if (b) toggleRarity(b.dataset.r); });
-    box.querySelector(".clist").addEventListener("keydown", e => { const b = e.target.closest("b[data-r]"); if (b && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); toggleRarity(b.dataset.r); } });
+    box.querySelector(".clist").addEventListener("click", e => { const b = e.target.closest("b[data-g]"); if (b) toggleGroup(b.dataset.g); });
+    box.querySelector(".clist").addEventListener("keydown", e => { const b = e.target.closest("b[data-g]"); if (b && (e.key === "Enter" || e.key === " ")){ e.preventDefault(); toggleGroup(b.dataset.g); } });
     box.querySelectorAll("[data-all]").forEach(b => b.addEventListener("click", () => {
       // 全部選ぶ／全部外す／今のゲームにあるものだけ（in_game が false のものを外す）
       const v = b.dataset.all;
