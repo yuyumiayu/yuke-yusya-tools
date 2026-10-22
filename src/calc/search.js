@@ -10,6 +10,7 @@
 //   i1, i2: {fixed:道具|null} か {all:true}
 //   items:  総当たりする道具の候補（「なし」は自動で入る）
 //   sort:   {by:"forest"} か {by:"stat", key:"atk", lv:50}
+//           同じ武器・防具で同じ値なら、道具が下位互換の組（なしを含む）を上位互換の組のすぐ上に並べる（itemOrder）
 //   need4:  4F切捨基準を満たすものだけ残す, top: 残す件数
 //   shard, shards: 並列で回すときの分担（武器×防具の組を shards 個に振り分ける）
 // }
@@ -22,6 +23,27 @@ function itemPairs(spec){
   const out = [];                                   // 両方回すときは順番違いを1つにまとめる
   for (let x = 0; x < pool.length; x++) for (let y = x; y < pool.length; y++) out.push([pool[x], pool[y]]);
   return out;
+}
+// 道具の組の上下。同じ点数なら、道具を使わない・下位互換の道具を使う組を先に並べるのに使う（メンテナーの方針：在庫を減らさない）。
+// 道具 x が y の上位互換か同じ：エンジンが読む値（基本値・成長補正・経験値・倍率）がどれも y 以上。
+// 「なし」は一番下（道具を使えば、なしより上）。負の値を持つ道具（毒草）はほかと比べない。
+// 組 X が組 Y の上位互換：並べ方のどちらかで、2つとも上位互換か同じ（中身が同じ組は除く）。
+// dom[i]：組 P[i] の上位互換の組の番号。cost[i]：組の格（道具の格の合計。上位互換なら必ず大きい）
+function itemOrder(P){
+  const items = [...new Set(P.flat())], at = new Map(items.map((x, i) => [x, i]));
+  const vals = items.map(x => { if (!x) return null;
+    const b = build(null, 0, null, 0, [x], []);
+    return [...K.map(k => b.base[k]), ...K.map(k => b.corr[k]), b.exp, ...Object.values(b.mods)]; });
+  const neg = items.map(x => !!x && K.some(k => x.base[k] < 0 || x.growth[k] < 0));
+  const ge = items.map((x, i) => items.map((y, j) => i === j ? true : !y ? !neg[i] : !x || neg[i] || neg[j] ? false
+    : vals[i].every((v, k) => v >= vals[j][k])));
+  const rank = [];                                            // 道具の格：なしは0、ほかは下位互換の格の一番上＋1
+  const rankOf = i => rank[i] != null ? rank[i] : (rank[i] = !items[i] ? 0
+    : 1 + Math.max(0, ...items.map((_, j) => j !== i && ge[i][j] && !ge[j][i] ? rankOf(j) : 0)));
+  const Q = P.map(([x, y]) => [at.get(x), at.get(y)]);
+  const geSet = (X, Y) => (ge[X[0]][Y[0]] && ge[X[1]][Y[1]]) || (ge[X[0]][Y[1]] && ge[X[1]][Y[0]]);
+  const dom = Q.map(Y => Q.reduce((o, X, j) => { if (geSet(X, Y) && !geSet(Y, X)) o.push(j); return o; }, []));
+  return {dom, cost:Q.map(X => rankOf(X[0]) + rankOf(X[1]))};
 }
 const BLESS_MAX = 3;
 function slotList(s){
@@ -55,33 +77,43 @@ function makeSearch(spec, R){
     if ((i * A.length + j) % shards === shard) pairs.push([W[i], A[j]]);
   const total = pairs.length * P.length;
   const sort = spec.sort || {by:"forest"};
+  const {dom, cost} = itemOrder(P);
   const best = [];
   let pi = 0, qi = 0, done = 0, res = null;
 
-  // 並べ替えの値。森は点数が同じなら Lv14 の HP+攻+防 が高い方を上にする。
+  // 並べ替えの値。森は点数が同じなら Lv14 の HP+攻+防 が高い方を上にする（ステータスで並べるときは見ない）。
   const keyOf = (r, f) => sort.by === "forest"
     ? [f.score, (s => s.hp + s.atk + s.def)(r.at(14))]
     : [r.at(Math.max(sort.lv, r.start))[sort.key], 0];
-  const better = (x, y) => x[0] !== y[0] ? x[0] > y[0] : x[1] > y[1];
+  // 武器・防具の1組ぶん（道具の組をすべて）ためてから順位表に入れる。キーは
+  // [点数, 同じ点数の上位互換の組も含めた Lv14 の一番上, −組の格, Lv14]。下位互換の組は上位互換の組のすぐ上に来る。
+  // ためるのは数字だけにして、順位表に入る組だけ計算し直す（計算結果を持ち続けると遅くなる）
+  const bK = [], bS = [], bOk = [];
+  function flush(w, a){
+    for (let i = 0; i < P.length; i++){
+      if (!bOk[i] || (best.length >= top && bK[i] < best[best.length-1].key[0])) continue;
+      let eff = bS[i];
+      for (const j of dom[i]) if (bOk[j] && bK[j] === bK[i] && bS[j] > eff) eff = bS[j];
+      const key = [bK[i], eff, -cost[i], bS[i]];
+      if (best.length < top || better(key, best[best.length-1].key)){
+        const r = build(w.g, w.e, a.g, a.e, P[i], res);
+        best.push({key, w, a, items:P[i], r, f:forest(r)});
+        best.sort((x, y) => better(x.key, y.key) ? -1 : better(y.key, x.key) ? 1 : 0);
+        if (best.length > top) best.pop();
+      }
+    }
+  }
 
   function step(n){
     const end = Math.min(total, done + n);
     while (done < end){
       const [w, a] = pairs[pi];
       if (qi === 0) res = resonances(w.g, a.g, R);
-      const items = P[qi];
-      const r = build(w.g, w.e, a.g, a.e, items, res);
-      const f = forest(r);
-      if (!spec.need4 || f.ok4){
-        const key = keyOf(r, f);
-        if (best.length < top || better(key, best[best.length-1].key)){
-          best.push({key, w, a, items, r, f});
-          best.sort((x, y) => better(x.key, y.key) ? -1 : better(y.key, x.key) ? 1 : 0);
-          if (best.length > top) best.pop();
-        }
-      }
+      const r = build(w.g, w.e, a.g, a.e, P[qi], res);
+      const f = forest(r), key = keyOf(r, f);
+      bK[qi] = key[0]; bS[qi] = key[1]; bOk[qi] = !spec.need4 || f.ok4;
       done++;
-      if (++qi === P.length){ qi = 0; pi++; }
+      if (++qi === P.length){ flush(w, a); qi = 0; pi++; }
     }
     return done >= total;
   }
@@ -98,8 +130,12 @@ function makeSearch(spec, R){
 
 // 分担して回した結果をまとめる
 function mergeResults(lists, top){
-  const better = (x, y) => x.key[0] !== y.key[0] ? x.key[0] > y.key[0] : x.key[1] > y.key[1];
-  return lists.flat().sort((x, y) => better(x, y) ? -1 : better(y, x) ? 1 : 0).slice(0, top || 30);
+  return lists.flat().sort((x, y) => better(x.key, y.key) ? -1 : better(y.key, x.key) ? 1 : 0).slice(0, top || 30);
+}
+// キー（数の並び）を前から比べて、x の方が上なら true
+function better(x, y){
+  for (let k = 0; k < x.length; k++) if (x[k] !== y[k]) return x[k] > y[k];
+  return false;
 }
 
 // Web Worker として読み込まれたとき
@@ -110,4 +146,4 @@ if (typeof importScripts === "function" && typeof window === "undefined"){
     self.postMessage({type:"done", done:s.done, total:s.total, results:s.results()});
   };
 }
-if (typeof module !== "undefined") module.exports = {makeSearch, mergeResults, itemPairs, slotList, BLESS_MAX};
+if (typeof module !== "undefined") module.exports = {makeSearch, mergeResults, itemPairs, itemOrder, slotList, BLESS_MAX};

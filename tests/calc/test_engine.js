@@ -152,6 +152,25 @@ console.log(`${total-bad}/${total} rows match`);
   const syn = sp.find(x => x.wParts), plain = sp.find(x => !x.wParts);
   const ok9 = sp.length === 4 && syn && syn.wOre === 4 && syn.wParts.join() === "正宗,ショートソード" && plain && plain.wOre === null && sp.every(x => x.aOre === null);
   console.log(ok9?"OK":"NG", "総当たり 結果に合成鉱（正宗＋ショートソード → 合成鉱4）"); if(!ok9) bad++;
+  // 道具の上下（itemOrder）：同じ点数なら、道具なし・下位互換の道具の組を上に並べる（メンテナーの方針：在庫を減らさない）
+  const {itemOrder, itemPairs} = require("../../src/calc/search.js");
+  const P = itemPairs({i1:{all:true}, i2:{all:true}, items:I}), {dom, cost} = itemOrder(P);
+  const nm = x => x && x.name;
+  const idx = (x, y) => P.findIndex(p => (nm(p[0]) === x && nm(p[1]) === y) || (nm(p[0]) === y && nm(p[1]) === x));
+  const above = (hi, lo) => dom[idx(...lo)].includes(idx(...hi));   // 組 hi が組 lo の上位互換
+  const okA = dom.every((d, k) => d.every(j => cost[j] > cost[k]))    // 上位互換の組は必ず格が上
+    && above(["体力の木の大葉", null], ["豪腕の木の大葉", null]) && !above(["豪腕の木の大葉", null], ["体力の木の大葉", null])
+    && above(["豪腕の木の大葉", null], ["豪腕の木の葉", null]) && above(["力餅", null], [null, null])
+    && above(["スタミナドリンク", "ニンニク"], ["豪腕の木の実", "生命の木の実"])   // 並べ方を入れ替えても比べる
+    && !above(["毒草", null], [null, null]) && !above([null, null], ["毒草", null])
+    && !above(["力餅", null], ["豪腕の木の葉", null]) && !above(["豪腕の木の葉", null], ["力餅", null]);
+  console.log(okA?"OK":"NG", "総当たり 道具の上下（体力の大葉＞豪腕の大葉＞豪腕の葉、力餅＞なし、毒草と力餅はほかと比べない）"); if(!okA) bad++;
+  const dr = {w:{fixed:{g:w("竜神の剣"), e:75}}, i1:{fixed:i("スタミナドリンク")}, i2:{all:true}, need4:true, top:10};
+  const order = sp => run(sp).results().map(x => `${x.score}:${x.items[1] || "なし"}`).join(",");
+  const oB1 = order({...dr, a:{fixed:{g:a("龍鱗の鎧"), e:75}}, items:["体力の木の大葉","豪腕の木の大葉","豪腕の木の葉"].map(i)});
+  const oB2 = order({...dr, a:{fixed:{g:a("アークメイル"), e:75}}, items:[i("力餅"), i("毒草")]});
+  const okB = oB1 === "99:豪腕の木の葉,99:豪腕の木の大葉,99:体力の木の大葉,92:なし" && oB2 === "97:なし,97:力餅,95:毒草";
+  console.log(okB?"OK":"NG", "総当たり 同じ点数なら下位互換・なしが上", oB1, "／", oB2); if(!okB) bad++;
 }
 // ===== 今のゲームにあるか（in_game、#16） =====
 {
