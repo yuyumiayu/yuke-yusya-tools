@@ -837,6 +837,214 @@
   },
   {
     "rarity": 1,
+    "name": "生命グミ",
+    "base_text": "HP+50",
+    "base": {
+      "hp": 50,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "店"
+    ],
+    "price": 5000,
+    "sell_price": 500,
+    "in_game": true
+  },
+  {
+    "rarity": 1,
+    "name": "豪腕グミ",
+    "base_text": "攻+25",
+    "base": {
+      "hp": 0,
+      "atk": 25,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "店"
+    ],
+    "price": 5000,
+    "sell_price": 500,
+    "in_game": true
+  },
+  {
+    "rarity": 1,
+    "name": "守りグミ",
+    "base_text": "防+15",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 15,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "店"
+    ],
+    "price": 25000,
+    "sell_price": 2500,
+    "in_game": true
+  },
+  {
+    "rarity": 1,
+    "name": "回避グミ",
+    "base_text": "回+25",
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 25,
+      "luk": 0
+    },
+    "growth_text": null,
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "店"
+    ],
+    "price": 5000,
+    "sell_price": 500,
+    "in_game": true
+  },
+  {
+    "rarity": 1,
+    "name": "生命キャンディ",
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "HP+1",
+    "growth": {
+      "hp": 1,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "店"
+    ],
+    "price": 10000,
+    "sell_price": 1000,
+    "in_game": true
+  },
+  {
+    "rarity": 1,
+    "name": "豪腕キャンディ",
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "攻+1",
+    "growth": {
+      "hp": 0,
+      "atk": 1,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "店"
+    ],
+    "price": 10000,
+    "sell_price": 1000,
+    "in_game": true
+  },
+  {
+    "rarity": 1,
+    "name": "守りキャンディ",
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "防+1",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 1,
+      "eva": 0,
+      "luk": 0
+    },
+    "dungeons": [
+      "店"
+    ],
+    "price": 50000,
+    "sell_price": 5000,
+    "in_game": true
+  },
+  {
+    "rarity": 1,
+    "name": "回避キャンディ",
+    "base_text": null,
+    "base": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 0,
+      "luk": 0
+    },
+    "growth_text": "回+1",
+    "growth": {
+      "hp": 0,
+      "atk": 0,
+      "def": 0,
+      "eva": 1,
+      "luk": 0
+    },
+    "dungeons": [
+      "店"
+    ],
+    "price": 10000,
+    "sell_price": 1000,
+    "in_game": true
+  },
+  {
+    "rarity": 1,
     "name": "毒草",
     "base_text": null,
     "base": {
