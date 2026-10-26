@@ -10,14 +10,14 @@
   const mode = {w:"plain", a:"plain"};
   const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
-  // 選択肢と候補の一覧のまとまり。武器・防具はレア度ごと。道具は葉・大葉・実・熟実を種類ごと（レア度は見ない）にまとめ、
-  // それ以外はレア度ごと（メンテナー判断：道具はレア度を意識しない）。データにあるまとまりだけを、種類→☆の小さい順に並べる
-  const KINDS = ["葉","大葉","実","熟実"];
-  const groupName = (x, byKind) => (byKind && KINDS.find(k => x.name.endsWith("の木の" + k))) || "☆" + x.rarity;
+  // 選択肢と候補の一覧のまとまり。武器・防具はレア度ごと。道具は葉・大葉・実・熟実・グミ・キャンディを種類ごと（レア度は見ない）に
+  // まとめ、それ以外はレア度ごと（メンテナー判断：道具はレア度を意識しない）。データにあるまとまりだけを、種類→☆の小さい順に並べる
+  const KINDS = [["葉","の木の葉"], ["大葉","の木の大葉"], ["実","の木の実"], ["熟実","の木の熟実"], ["グミ","グミ"], ["キャンディ","キャンディ"]];   // [名前, 道具の名前の終わり]
+  const groupName = (x, byKind) => (byKind && (KINDS.find(([, end]) => x.name.endsWith(end)) || [])[0]) || "☆" + x.rarity;
   function groupsOf(list, byKind){                            // [[まとまりの名前, [[装備, 番号]…]]…]。中は元の順
     const g = new Map();
     list.forEach((x, idx) => { const n = groupName(x, byKind); if (!g.has(n)) g.set(n, []); g.get(n).push([x, idx]); });
-    const order = n => KINDS.includes(n) ? KINDS.indexOf(n) - KINDS.length : +n.slice(1);
+    const order = n => { const k = KINDS.findIndex(([m]) => m === n); return k >= 0 ? k - KINDS.length : +n.slice(1); };
     return [...g].sort((p, q) => order(p[0]) - order(q[0]));
   }
   function fill(sel, list, none, byKind){
@@ -107,9 +107,9 @@
   const FIELDS = ["w","we","a","ae","i1","i2","w1","w2","wse","a1","a2","ase"];
   const PICKS = ["w","a","i1","i2","w1","w2","a1","a2"];
   const listFor = k => k[0]==="i" ? I : listOf(k);
-  // 名前で保存する前の保存内容は、道具を番号で持っている。グミ4つ・キャンディ4つを消す前の並びで名前に戻す
-  const OLD_ITEMS = (n => [...n.slice(0,26), "生命グミ","豪腕グミ","守りグミ","回避グミ",
-    "生命キャンディ","豪腕キャンディ","守りキャンディ","回避キャンディ", ...n.slice(26)])(I.map(g=>g.name));
+  // 名前で保存する前の保存内容は、道具を番号で持っている。その並びは、グミ・キャンディを戻した今の並びと同じ。
+  // 道具の行を途中に足したり消したりするときは、ここを前の並び（今の46件）のまま残す
+  const OLD_ITEMS = I.map(g=>g.name);
   const SWEEP = ["w","a","i1","i2"];
   function save(){
     const s = {mode, sweep:SWEEP.filter(k=>$(k+"x").checked), xs:$("xs").value, xlv:$("xlv").value, xn4:$("xn4").checked,
