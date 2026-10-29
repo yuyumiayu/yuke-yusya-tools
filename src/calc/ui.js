@@ -62,11 +62,14 @@
     if (x.ability) p.push(strip(x.ability));
     return p.join(" ／ ");
   }
+  // 効果がランダムな道具（チョコ3種）は計算に入れられない。選んだときはそう出し、総当たりの候補にも入れない（メンテナー判断）
+  const isRandom = x => /ランダム/.test(x.base_text || "");
   function itemHint(x){
     if(!x) return "";
     const p = [];
     if (x.base_text) p.push(strip(x.base_text));
     if (x.growth_text) p.push("成長 " + x.growth_text);
+    if (isRandom(x)) p.push("※この効果は計算に入れていません");
     return p.join(" ／ ");
   }
   function duration(min){
@@ -199,7 +202,10 @@
   FIELDS.filter(id=>/e$/.test(id)).forEach(id=>$(id).addEventListener("focusout", () => { editing = null; render(); }));
   // ===== 総当たり =====
   const CK = "yuke-calc-cands";                               // 候補から外した装備・道具の名前と、指定した強化値（enh）
-  const CL = {w:W, a:A, i:I};
+  const CL = {w:W, a:A, i:I.filter(x => !isRandom(x))};
+  const rnd = I.filter(isRandom).map(x => x.name);
+  $("ci-note").hidden = !rnd.length;
+  $("ci-note").textContent = `${rnd.join("・")}は効果がランダムで計算に入れられないので、候補に入れていません。`;
   let off = {w:[], a:[], i:[], enh:{w:{}, a:{}}};
   try{ off = Object.assign(off, JSON.parse(localStorage.getItem(CK)||"{}")); }catch(e){}
   off.enh = Object.assign({w:{}, a:{}}, off.enh);
