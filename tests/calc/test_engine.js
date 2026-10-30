@@ -177,10 +177,11 @@ console.log(`${total-bad}/${total} rows match`);
   const D = f => require(`../../data/${f}.json`);
   const cnt = d => [d.length, d.filter(x => x.in_game).length];
   const all = ["weapons", "armors", "items"].map(f => D(f));
+  const UNLOCKED = ["桜餅", "チョコ", "高級チョコ", "手作りチョコ"];   // イベントで解禁された道具（2026-10、メンテナー確認）
   const ok = all.every(d => d.every(x => typeof x.in_game === "boolean"))
-    && cnt(all[0]).join() === "50,37" && cnt(all[1]).join() === "41,27" && cnt(all[2]).join() === "46,33"
+    && cnt(all[0]).join() === "50,37" && cnt(all[1]).join() === "41,27" && cnt(all[2]).join() === "46,37"
     && !all[0].find(x => x.name === "レイピア").in_game && all[0].find(x => x.name === "正宗").in_game
-    && all.every(d => d.filter(x => (x.dungeons || []).some(g => g === "イベント限定" || g === "イベントアイテム")).every(x => !x.in_game));
-  console.log(ok?"OK":"NG", "今のゲームにあるもの：武器37/50・防具27/41・道具33/46、イベント限定はすべて「ない」"); if(!ok) bad++;
+    && all.every(d => d.filter(x => (x.dungeons || []).some(g => g === "イベント限定" || g === "イベントアイテム")).every(x => x.in_game === UNLOCKED.includes(x.name)));
+  console.log(ok?"OK":"NG", "今のゲームにあるもの：武器37/50・防具27/41・道具37/46、イベント限定はイベントで解禁されたもの（桜餅・チョコ3種）だけ「ある」"); if(!ok) bad++;
 }
 process.exitCode = bad ? 1 : 0;
