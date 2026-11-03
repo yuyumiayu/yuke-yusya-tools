@@ -21,7 +21,7 @@
 
 - コードは MIT（`LICENSE`、著作権者表記は「yuke-yusya-tools contributors」）。データ・wiki 由来の仕様・元の表の写しは MIT の対象外（`NOTICE.md` に範囲と出典）。
 - 全ページの下に共通フッター（`src/common/footer.html`）：非公式であること（[xHachiApps](https://yukeyusha1.xhachi.com/index.html) とは無関係。作者に触れるときはこのリンクを付ける）とデータの出典（ゆけ!勇者 @ ウィキ）、
-  報告の窓口（GitHub の Issue のひな形を選ぶ画面）とソースコード（このリポジトリ）へのリンク。
+  報告の窓口（GitHub の Issue のひな形を選ぶ画面と、メンテナーの LINE オープンチャット）とソースコード（このリポジトリ）へのリンク。
 - 共鳴の説明文は wiki の文章のまま使い、出典を書く（メンテナー判断）。
 - ゲーム側・wiki 側に転載やファンツールの決まりは特にない（メンテナー確認）。ゲームの画像・ロゴは使わない。
 - `dist/` はコミットしない。`main` に push されると GitHub Actions（`.github/workflows/pages.yml`）がテスト→組み立て→ GitHub Pages に公開する。
