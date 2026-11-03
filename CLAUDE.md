@@ -20,7 +20,8 @@
 ## 公開・権利まわり
 
 - コードは MIT（`LICENSE`、著作権者表記は「yuke-yusya-tools contributors」）。データ・wiki 由来の仕様・元の表の写しは MIT の対象外（`NOTICE.md` に範囲と出典）。
-- 全ページの下に共通フッター（`src/common/footer.html`）：非公式であること（[xHachiApps](https://yukeyusha1.xhachi.com/index.html) とは無関係。作者に触れるときはこのリンクを付ける）とデータの出典（ゆけ!勇者 @ ウィキ）。
+- 全ページの下に共通フッター（`src/common/footer.html`）：非公式であること（[xHachiApps](https://yukeyusha1.xhachi.com/index.html) とは無関係。作者に触れるときはこのリンクを付ける）とデータの出典（ゆけ!勇者 @ ウィキ）、
+  報告の窓口（GitHub の Issue のひな形を選ぶ画面）とソースコード（このリポジトリ）へのリンク。
 - 共鳴の説明文は wiki の文章のまま使い、出典を書く（メンテナー判断）。
 - ゲーム側・wiki 側に転載やファンツールの決まりは特にない（メンテナー確認）。ゲームの画像・ロゴは使わない。
 - `dist/` はコミットしない。`main` に push されると GitHub Actions（`.github/workflows/pages.yml`）がテスト→組み立て→ GitHub Pages に公開する。
@@ -39,7 +40,7 @@
 
 ```
 data/          weapons.json(50) armors.json(41) items.json(46) resonances.json(47) enhance.json(89) notes.json（注釈） changelog.json（更新履歴）  … マスタ
-src/common/    base.css（色・RPGウィンドウ・入力欄など全ツール共通の見た目）, footer.html（非公式の表示と出典）, back.html（ツール一覧へ戻るリンク。公開ページの絶対URL）, fold.js（`data-fold` を付けた欄を見出しで折りたたむ）, changelog.js（更新履歴を出す）
+src/common/    base.css（色・RPGウィンドウ・入力欄など全ツール共通の見た目）, footer.html（非公式の表示・出典・報告先）, back.html（ツール一覧へ戻るリンク。公開ページの絶対URL）, fold.js（`data-fold` を付けた欄を見出しで折りたたむ）, changelog.js（更新履歴を出す）
 src/calc/      成長予測：engine.js（計算）, search.js（総当たり）, ui.js（画面）, template.html
 src/enhance/   強化屋：engine.js（計算）, ui.js（画面とグラフ）, template.html
 src/catalog/   装備図鑑：ui.js（一覧・絞り込み・並べ替え）, template.html
