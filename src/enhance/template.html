@@ -79,7 +79,7 @@ summary{cursor:pointer;color:var(--muted);font-size:13px}
     <div class="field"><label for="g">装備</label><select id="g"></select><div class="hint" id="gh"></div></div>
     <div class="pair">
       <div class="field"><label for="ba">ベース（強化される方）</label><div class="enh"><button type="button" data-t="ba" data-d="-1" aria-label="ベースの強化値を1下げる">−1</button><input id="ba" type="number" min="0" inputmode="numeric"><button type="button" data-t="ba" data-d="1" aria-label="ベースの強化値を1上げる">+1</button></div></div>
-      <div class="field"><label for="bb">素材（この数だけ判定）</label><div class="enh"><button type="button" data-t="bb" data-d="-1" aria-label="素材の強化値を1下げる">−1</button><input id="bb" type="number" min="0" inputmode="numeric"><button type="button" data-t="bb" data-d="1" aria-label="素材の強化値を1上げる">+1</button><button type="button" class="max" data-t="bb" data-d="max">MAX</button></div></div>
+      <div class="field"><label for="bb">素材（この数だけ判定。+0 は+1 扱い）</label><div class="enh"><button type="button" data-t="bb" data-d="-1" aria-label="素材の強化値を1下げる">−1</button><input id="bb" type="number" min="0" inputmode="numeric"><button type="button" data-t="bb" data-d="1" aria-label="素材の強化値を1上げる">+1</button><button type="button" class="max" data-t="bb" data-d="max">MAX</button></div><div class="hint" id="bbh"></div></div>
     </div>
     <div class="field"><label for="lv">強化屋Lv</label><div class="enh"><input id="lvr" type="range" min="1" max="99" aria-label="強化屋Lv（スライダー）"></div><div class="enh"><button type="button" data-t="lv" data-d="-1" aria-label="強化屋Lvを1下げる">−1</button><input id="lv" type="number" min="1" max="99" inputmode="numeric"><button type="button" data-t="lv" data-d="1" aria-label="強化屋Lvを1上げる">+1</button></div><div class="hint" id="lvh"></div></div>
     <div class="segrow">
@@ -131,7 +131,7 @@ summary{cursor:pointer;color:var(--muted);font-size:13px}
 <div class="note">
   <b>計算のしかた</b>
   <ul>
-    <li>ベース+a に素材+b を使うと、b 回判定されます。1回ごとに+1、クリティカルなら+2。</li>
+    <li>ベース+a に素材+b を使うと、b 回判定されます。1回ごとに+1、クリティカルなら+2。素材が+0 のときは+1 として扱われます（例：0+0=1、1+0=2）。</li>
     <li>クリティカル率は強化屋Lvをそのままパーセントにした値（Lv30なら30%）。</li>
     <li>結果は a＋b＋クリティカルの回数。そのあと神の祝福で+3。どちらも強化上限で止まり、超えた分の費用と時間もかかります。</li>
     <li>費用は「+1あたりの費用」×b、時間は「強化鉱の数字（分）」×b。</li>
