@@ -28,6 +28,10 @@ check(critRate(1) === 0 && critRate(2) === 0.02 && critRate(99) === 0.99, "ク�
   check(r.min === 6 && r.max === 6 && near(r.mean, 6), "ショートソード+1＋+2、Lv1、祝福あり → +6（1+2+3）");
   const r2 = enhance({a:100, b:98, max:200, lv:1});
   check(r2.max === 200 && near(r2.capP, 1) && near(r2.waste, 1), "198になったショートソードは祝福+3でも200（1無駄）");
+  // 素材が+0 なら+1として扱う（wiki の例：0+0=1、0+1=1、1+0=2、1+1=2）。クリティカルも起き、費用・時間も1回分
+  const ex = [[0,0],[0,1],[1,0],[1,1]].map(([a, b]) => enhance({a, b, max:200, lv:1, bless:0}).mean).join();
+  const z = enhance({a:0, b:0, max:200, lv:30, bless:0, cost:100, ore:60});
+  check(ex === "1,1,2,2" && near(z.atLeast(2), 0.3) && z.totalCost === 100 && z.minutes === 60, "素材+0 は+1扱い（0+0=1、0+1=1、1+0=2、1+1=2。Lv30 で+2 が30%、費用・時間1回分）", ex);
   const r3 = enhance({a:0, b:100, max:500, lv:30});
   check(near(r3.mean, 100 + 30 + BLESS, 1e-9), "正宗+0＋+100、Lv30 → 期待値133（100＋100×30%＋3）", r3.mean);
   const r4 = enhance({a:0, b:100, max:500, lv:30, bless:0});
@@ -94,6 +98,8 @@ check(critRate(1) === 0 && critRate(2) === 0.02 && critRate(99) === 0.99, "ク�
   check(R2.every(r => r.b === 2), "Lv1 なら確率によらず目標−ベースの素材（+2）");
   const R3 = reverse({a:100, max:200, lv:30, bless:3, target:50});
   check(R3.every(r => r.b === 0), "もう目標を超えていれば素材+0");
+  const R4 = reverse({a:10, max:200, lv:1, bless:0, target:11}, [1]), R5 = reverse({a:10, max:200, lv:1, bless:0, target:12}, [1]);
+  check(R4[0].b === 0 && R5[0].b === 2, "+1 で足りるなら素材+0（+0 は+1扱い）、+2 要るなら+2", R4[0].b, R5[0].b);
   // 入力した届く確率（#11）：決まった3つのあとに必ず1行足す。1〜100% の整数にそろえる
   const P = q => reverseProbs(q).join(",");
   check(P(10) === "0.9,0.75,0.5,0.1" && P(75) === "0.9,0.75,0.5,0.75" && P(0) === "0.9,0.75,0.5,0.01" && P(150) === "0.9,0.75,0.5,1"

@@ -2,7 +2,9 @@
 // 同じ装備を2つ使う。ベースが+a、素材が+bなら判定は b 回で、1回ごとに+1（クリティカルなら+2）。
 // 結果は a＋b＋クリティカル回数。そのあと神の祝福で+3。どちらも強化上限で止まる。
 // 費用は「+1あたりの費用」×b、時間は「強化鉱の分数」×b。上限を超えた分もかかる。
+// 素材が+0 のときは+1として扱う（判定1回・クリティカルあり・費用と時間も1回分。wiki・メンテナー確認）。例：0+0=1、1+0=2
 const BLESS = 3;
+const turns = b => Math.max(1, b);                            // 判定の回数
 const critRate = lv => lv >= 2 ? Math.min(lv, 99) / 100 : 0;   // 強化屋Lv2以上で約Lv%（Lv1は0%）
 
 // 判定 n 回でクリティカルが k 回になる確率（k = 0..n）。二項分布を対数で計算してアンダーフローを避ける
@@ -18,6 +20,7 @@ function critDist(n, p){
 
 // 強化1回ぶんの結果。{a, b, max, lv, bless(0か3), cost(+1あたり), ore(分)}
 function enhance({a, b, max, lv, bless = BLESS, cost = 0, ore = 20}){
+  b = turns(b);
   const p = critRate(lv), ck = critDist(b, p);
   const byV = new Map();                                       // 最終の強化値 → 確率
   let mean = 0, capP = 0, waste = 0;
@@ -54,6 +57,7 @@ function byLevel(opt){
 // 開始から強化鉱の分数ごとに1回判定される（開始が9:22・強化鉱60なら 10:22, 11:22, …）。
 // {a, b, max, lv, ore, start(ms), now(ms), latest(最新ログの「+○○へ強化された」の数字、なければ null), bless(最終の見込みに足す祝福)}
 function progress({a, b, max, lv, ore, start, now, latest, bless = 0}){
+  b = turns(b);
   const step = ore * 60000, p = critRate(lv);
   const n = Math.max(0, Math.min(b, Math.floor((now - start) / step)));   // 判定済みの回数
   const out = {n, b, p, next: n < b ? start + (n + 1) * step : null, end: start + b * step, done: n >= b};
@@ -77,7 +81,7 @@ function progress({a, b, max, lv, ore, start, now, latest, bless = 0}){
 }
 // ===== 逆引き =====
 // 目標 target 以上になる確率が q 以上になる、一番小さい素材の強化値 b（0〜上限）。届かなければ null。
-// b を増やすほど確率は上がる（判定が増え、どれも+1以上）ので二分探索でよい。
+// b を増やすほど確率は上がる（判定が増え、どれも+1以上）ので二分探索でよい。+0 は+1と同じなので、+1で足りるときは+0と出す（メンテナー判断）。
 const REVERSE_PROBS = [0.9, 0.75, 0.5];
 const REVERSE_PCT = 10;                                      // 入力する届く確率（%）の初期値
 // 表に出す確率：決まった3つのあとに、入力した確率（1〜100% の整数にそろえる）を必ず足す。決まった確率と同じでも2回出す

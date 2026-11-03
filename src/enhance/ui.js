@@ -168,6 +168,7 @@
     const g = gear();
     $("gh").textContent = `上限 +${g.max} ／ +1あたり ${n0(g.cost)}G` + (g.note ? ` ／ ${g.note}` : "");
     $("lvh").textContent = st.lv >= 2 ? `クリティカル率 ${st.lv}%（判定1回ごとに、この確率で+2）` : "Lv1 ではクリティカルは起きません（Lv2 から）";
+    $("bbh").textContent = st.bb === 0 ? "素材の+0 は+1 として扱われます（判定1回）" : "";
     const opt = {a:st.ba, b:st.bb, max:g.max, lv:st.lv, bless:st.bless, cost:g.cost, ore:st.ore};
     const r = enhance(opt);
     $("mean").textContent = "+" + r.mean.toFixed(1);
