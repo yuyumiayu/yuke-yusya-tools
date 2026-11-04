@@ -33,7 +33,7 @@
     {key:"rarity", label:"☆", val:x => x.rarity, cls:"num"},
     {key:"power", label:main === "atk" ? "攻撃力" : "防御力", val:x => x.base[main], cls:"num"},
     {key:"max", label:"強化上限", val:x => x.max_enhance, cls:"num"},
-    {key:"maxp", label:"MAX時", val:x => x.base[main] === null ? null : x.base[main] + (x.max_enhance || 0), cls:"num"},
+    {key:"maxp", label:main === "atk" ? "MAX時攻撃力" : "MAX時防御力", val:x => x.base[main] === null ? null : x.base[main] + (x.max_enhance || 0), cls:"num"},
     ...K.filter(k => k !== main).map(k => stat("b", k)),
     ...K.map(k => stat("g", k)),
     {key:"ability", label:"アビリティ", val:x => x.ability || "", cls:"l", show:x => x.ability ? notes(x.ability, tab) : ""},
