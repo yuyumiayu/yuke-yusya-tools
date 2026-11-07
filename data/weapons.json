@@ -855,7 +855,7 @@
     ],
     "price": 35000,
     "sell_price": 3500,
-    "in_game": false
+    "in_game": true
   },
   {
     "rarity": 1,
