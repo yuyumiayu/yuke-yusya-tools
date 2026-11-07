@@ -727,7 +727,7 @@
     ],
     "price": 10000,
     "sell_price": 1000,
-    "in_game": false
+    "in_game": true
   },
   {
     "rarity": 2,
@@ -754,7 +754,7 @@
     ],
     "price": 10000,
     "sell_price": 1000,
-    "in_game": false
+    "in_game": true
   },
   {
     "rarity": 2,
@@ -781,7 +781,7 @@
     ],
     "price": 50000,
     "sell_price": 5000,
-    "in_game": false
+    "in_game": true
   },
   {
     "rarity": 2,
@@ -807,7 +807,7 @@
     ],
     "price": 10000,
     "sell_price": 1000,
-    "in_game": false
+    "in_game": true
   },
   {
     "rarity": 3,
@@ -833,7 +833,7 @@
     ],
     "price": 150000,
     "sell_price": 15000,
-    "in_game": false
+    "in_game": true
   },
   {
     "rarity": 1,
