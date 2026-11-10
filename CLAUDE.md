@@ -25,6 +25,11 @@
 - 共鳴の説明文は wiki の文章のまま使い、出典を書く（メンテナー判断）。
 - ゲーム側・wiki 側に転載やファンツールの決まりは特にない（メンテナー確認）。ゲームの画像・ロゴは使わない。
 - `dist/` はコミットしない。`main` に push されると GitHub Actions（`.github/workflows/pages.yml`）がテスト→組み立て→ GitHub Pages に公開する。
+  組み立て（build）は読み取りの権限だけで動かし、公開の権限（pages・id-token）は deploy の job だけに渡す。Actions はコミットの番号で固定する（`# v7.0.1` のように版を添える）。
+- セキュリティ（`SECURITY.md`）：脆弱性は GitHub の非公開の報告で受ける。
+  各ページには組み立てのときに CSP を入れる（`scripts/build_html.py`）。動くのは、ページに入っている script 要素だけ（中身のハッシュで許す）。
+  そのため、HTML の `onclick=` などのイベント属性・外部のスクリプト・`eval` は動かない。外部のものを足すときは CSP も直す。
+  データは `<` を `\u003c` にして埋め込む。画面に文字を出すときは `textContent` か `esc()` を通す。localStorage の保存内容は、形を確かめてから使う。
   PR と `main` への push では `.github/workflows/ci.yml` がテスト・組み立て・データの作り直しの確認（元の表から作り直して `data/` に差がないこと）を流す。
 
 ## 運用
@@ -49,7 +54,7 @@ scripts/       raw_sheet.py / sheet_to_json.py（装備マスタ）, raw_enhance
 tests/calc/    test_engine.js
 tests/enhance/ test_enhance.js
 tests/catalog/ test_catalog.js（注釈とデータの整合）
-tests/common/  test_changelog.js（更新履歴の形）
+tests/common/  test_changelog.js（更新履歴の形）, test_build.js（組み立て：データの埋め込みと CSP）
 docs/          仕様.md（計算の仕様・データの説明・推測で決めたこと）, 実機テスト.md（実際に出撃して確かめるチェック表）
 dist/          ビルド成果物（単一HTML。そのまま開ける／置ける）。コミットしない
 .github/       CI・Pages の workflow、PR と Issue のひな形
@@ -62,7 +67,8 @@ python3 scripts/sheet_to_json.py       # raw_sheet.py → data/weapons・armors�
 python3 scripts/enhance_to_json.py     # raw_enhance.py → data/enhance.json
 ```
 
-テンプレートの置き換え（build_html.py）：`__FILE:パス__` はファイルの中身、`__JSON:パス__` は JSON を1行にして入れる。パスはリポジトリのルートから。
+テンプレートの置き換え（build_html.py）：`__FILE:パス__` はファイルの中身、`__JSON:パス__` は JSON を1行にして（`<` は `\u003c` にして）入れる。パスはリポジトリのルートから。
+組み立てたあと `<meta charset="utf-8">` の直後に CSP を入れる（テンプレートにはこの meta をちょうど1つ置く）。
 各ツールの `engine.js` は `module.exports` 付きなので Node からそのまま require できる。
 `src/calc/search.js` は engine の関数をグローバルとして使う（Node では先に `Object.assign(global, require("./engine.js"))`）。
 

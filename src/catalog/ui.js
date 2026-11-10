@@ -70,8 +70,17 @@
   // ===== 状態（localStorage に保存） =====
   const KEY = "yuke-catalog-v1";
   const st = {tab:"w", game:"all", rar:"", dun:"", abi:false, calc:false, q:"", sort:{}, rfor:null, full:false};   // rfor：共鳴を絞る装備 {kind, name}
-  try{ Object.assign(st, JSON.parse(localStorage.getItem(KEY) || "{}")); }catch(e){}
-  if (!TABS[st.tab]) st.tab = "w";
+  // 保存内容は形を確かめてから使う（こわれた部分は初めの状態のまま）
+  try{
+    const s = JSON.parse(localStorage.getItem(KEY) || "{}") || {}, has = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+    if (typeof s.tab === "string" && has(TABS, s.tab)) st.tab = s.tab;
+    if (["all", "in", "out"].includes(s.game)) st.game = s.game;
+    ["rar", "dun", "q"].forEach(k => { if (typeof s[k] === "string") st[k] = s[k]; });
+    ["abi", "calc", "full"].forEach(k => { if (typeof s[k] === "boolean") st[k] = s[k]; });
+    if (s.sort && typeof s.sort === "object") Object.keys(TABS).forEach(t => { const x = s.sort[t];
+      if (x && typeof x.key === "string" && (x.dir === "asc" || x.dir === "desc")) st.sort[t] = {key:x.key, dir:x.dir}; });
+    if (s.rfor && typeof s.rfor.name === "string" && (s.rfor.kind === "weapon" || s.rfor.kind === "armor")) st.rfor = {kind:s.rfor.kind, name:s.rfor.name};
+  }catch(e){}
   const save = () => { try{ localStorage.setItem(KEY, JSON.stringify(st)); }catch(e){} };
 
   let shownTab = null;

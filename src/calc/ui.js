@@ -127,19 +127,23 @@
   }
   function load(){
     let s=null; try{ s = JSON.parse(localStorage.getItem("yuke-calc-v2")||"null"); }catch(e){}
+    if (!s || typeof s !== "object" || Array.isArray(s)) s = null;      // こわれた保存内容は使わない
     if(!s){ s = {w:String(W.findIndex(x=>x.name==="正宗")),we:"0",a:String(A.findIndex(x=>x.name==="ハイランドメイル")),ae:"60",i1:String(I.findIndex(x=>x.name==="生命の木の大葉")),i2:String(I.findIndex(x=>x.name==="体力の木の大葉"))}; }
-    if (s.names) PICKS.forEach(k=>{ const n = s.names[k]; if (n !== undefined) s[k] = n ? String(listFor(k).findIndex(g=>g.name===n)) : ""; });
+    if (s.names && typeof s.names === "object") PICKS.forEach(k=>{ const n = s.names[k]; if (typeof n === "string") s[k] = n ? String(listFor(k).findIndex(g=>g.name===n)) : ""; });
     else ["i1","i2"].forEach(k=>{ if (s[k]) s[k] = String(I.findIndex(g=>g.name===OLD_ITEMS[+s[k]])); });
     FIELDS.forEach(k=>{ if(s[k]!==undefined) $(k).value = s[k] === "-1" ? "" : s[k]; });
-    if (s.mode) Object.assign(mode, s.mode);
-    if (s.sweep) SWEEP.forEach(k=>$(k+"x").checked = s.sweep.includes(k));
-    if (s.xs) $("xs").value = s.xs;
+    ["w","a"].forEach(t=>{ const m = s.mode && s.mode[t]; if (m === "plain" || m === "synth") mode[t] = m; });
+    if (Array.isArray(s.sweep)) SWEEP.forEach(k=>$(k+"x").checked = s.sweep.includes(k));
+    // 選択肢の欄は、選択肢にある値だけ入れる
+    const setSel = (id, v) => { if ([...$(id).options].some(o => o.value === v)) $(id).value = v; };
+    if (s.xs) setSel("xs", s.xs);
     if (s.xlv) $("xlv").value = s.xlv;
     if (s.xn4 !== undefined) $("xn4").checked = s.xn4;
     if (s.xsw !== undefined) $("xsw").checked = s.xsw;
     if (s.xsa !== undefined) $("xsa").checked = s.xsa;
-    if (s.xcap) $("xcap").value = s.xcap;
-    ["xfw","xfwe","xfa","xfae"].forEach(k => { if (s[k] !== undefined) $(k).value = s[k]; });
+    if (s.xcap) setSel("xcap", s.xcap);
+    ["xfw","xfa"].forEach(k => { if (typeof s[k] === "string") setSel(k, s[k]); });
+    ["xfwe","xfae"].forEach(k => { if (s[k] !== undefined) $(k).value = s[k]; });
   }
   function syncControls(){
     ["w","a"].forEach(t=>{
@@ -206,9 +210,12 @@
   const rnd = I.filter(isRandom).map(x => x.name);
   $("ci-note").hidden = !rnd.length;
   $("ci-note").textContent = `${rnd.join("・")}は効果がランダムで計算に入れられないので、候補に入れていません。`;
+  // 保存内容は形を確かめてから使う（こわれた部分は初めの状態に戻す。強化値は0以上の整数だけ）
+  const strs = v => Array.isArray(v) ? v.filter(x => typeof x === "string") : [];
+  const enhs = v => Object.fromEntries(Object.entries(v && typeof v === "object" ? v : {}).filter(([, x]) => Number.isInteger(x) && x >= 0));
   let off = {w:[], a:[], i:[], enh:{w:{}, a:{}}};
-  try{ off = Object.assign(off, JSON.parse(localStorage.getItem(CK)||"{}")); }catch(e){}
-  off.enh = Object.assign({w:{}, a:{}}, off.enh);
+  try{ const s = JSON.parse(localStorage.getItem(CK) || "{}") || {};
+    off = {w:strs(s.w), a:strs(s.a), i:strs(s.i), enh:{w:enhs(s.enh && s.enh.w), a:enhs(s.enh && s.enh.a)}}; }catch(e){}
   const candsOf = t => CL[t].filter(x => !off[t].includes(x.name));
   const saveCands = () => { try{ localStorage.setItem(CK, JSON.stringify(off)); }catch(e){} };
   function fillCands(t){

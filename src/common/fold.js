@@ -4,7 +4,7 @@
 (function(){
   const KEY = "yuke-fold-v1";
   let closed = {};
-  try{ closed = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; }catch(e){}
+  try{ const s = JSON.parse(localStorage.getItem(KEY) || "{}"); if (s && typeof s === "object" && !Array.isArray(s)) closed = s; }catch(e){}
   document.querySelectorAll(".win[data-fold]").forEach(sec => {
     const k = sec.dataset.fold, h = sec.querySelector("h2");
     const b = document.createElement("button");

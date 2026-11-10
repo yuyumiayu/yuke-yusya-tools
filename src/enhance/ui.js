@@ -13,7 +13,17 @@
   // ===== 入力 =====
   const st = {kind:"weapon", g:"正宗", ba:100, bb:100, lv:30, ore:60, bless:3, tg:240, rq:REVERSE_PCT, ps:"", pl:""};
   const KEY = "yuke-enhance-v1";
-  try{ Object.assign(st, JSON.parse(localStorage.getItem(KEY) || "{}")); }catch(e){}
+  // 保存内容は形を確かめてから使う（こわれた部分は初めの状態のまま。数字の範囲は readInputs でそろえる）
+  try{
+    const s = JSON.parse(localStorage.getItem(KEY) || "{}") || {};
+    if (s.kind === "weapon" || s.kind === "armor") st.kind = s.kind;
+    if (typeof s.g === "string") st.g = s.g;
+    ["ba", "bb", "lv", "tg", "rq"].forEach(k => { if (Number.isFinite(s[k])) st[k] = s[k]; });
+    if ([20, 40, 60].includes(s.ore)) st.ore = s.ore;
+    if (s.bless === 0 || s.bless === 3) st.bless = s.bless;
+    if (typeof s.ps === "string") st.ps = s.ps;
+    if (s.pl === "" || Number.isFinite(s.pl)) st.pl = s.pl;
+  }catch(e){}
   const save = () => { try{ localStorage.setItem(KEY, JSON.stringify(st)); }catch(e){} };
 
   const list = () => E.filter(x => x.kind === st.kind);
