@@ -103,6 +103,36 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
 .xres .v{font-family:"DotGothic16",monospace;font-size:18px;color:var(--gold)}
 .xres small{display:block;color:var(--muted)}
 .note{font-size:12.5px;color:var(--ink-soft);margin:16px 6px 0;line-height:1.7}
+/* 比較（A：いまの装備、B：比較用に残した装備） */
+.cmpbar{margin-top:12px;padding-top:12px;border-top:1px dashed #ffffff33}
+.cmpbar .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.cmpbar button{font:inherit;font-size:13px;color:var(--text);background:transparent;border:2px solid var(--muted);border-radius:6px;padding:6px 12px;cursor:pointer;min-height:38px}
+.cmpbar button.go{color:var(--gold);border-color:var(--gold)}
+.cmpbar .cur{font-size:13px;color:var(--muted);margin:0 0 8px;line-height:1.6}
+.cmpbar .cur b{color:var(--text);font-weight:400}
+.bdg{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:4px;font-family:"DotGothic16",monospace;font-size:14px;margin-right:6px;vertical-align:-2px}
+.bdg.a{background:var(--gold);color:var(--win)} .bdg.b{background:#9fb4ff;color:var(--win)}
+.vsb{font-size:13px;color:var(--muted);margin:-2px 0 6px}
+.cmpgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cset{border:2px solid var(--muted);border-radius:8px;padding:10px 12px;min-width:0}
+.cset.a{border-color:var(--gold)} .cset.b{border-color:#9fb4ff}
+.cset .ct{font-size:13px;color:var(--muted);margin-bottom:4px}
+.cset .cs{display:flex;align-items:baseline;gap:6px}
+.cset .cs .n{font-family:"DotGothic16",monospace;font-size:40px;line-height:1.1;color:var(--gold)}
+.cset.b .cs .n{color:#9fb4ff}
+.cset .cs .of{font-family:"DotGothic16",monospace;color:var(--muted)}
+.cset ul{list-style:none;margin:6px 0 4px;padding:0;font-size:13px;line-height:1.7}
+.cset ul span{color:var(--muted);margin-right:6px}
+.cset .c4{font-size:12.5px;margin:0}
+.cmph{font-family:"DotGothic16",sans-serif;font-weight:400;font-size:15px;margin:16px 0 6px;color:var(--text)}
+.cdiff{list-style:none;margin:0;padding:0;font-size:13px}
+.cdiff li{display:grid;grid-template-columns:auto 1fr auto;gap:4px 10px;align-items:center;padding:5px 0;border-top:1px dashed #ffffff26}
+.cdiff li.none{display:block;color:var(--muted)}
+.cdiff .who{font-family:"DotGothic16",monospace;white-space:nowrap}
+.cdiff .y{color:var(--ok)} .cdiff .n{color:var(--muted)}
+.cdiff small{display:block;color:var(--muted)}
+.cdiff .pt{font-family:"DotGothic16",monospace;white-space:nowrap}
+@media (max-width:520px){ .cmpgrid{gap:6px} .cset{padding:8px} .cset .cs .n{font-size:32px} .cset ul{font-size:12px} }
 @media (prefers-reduced-motion:no-preference){ .bar i{transition:width .25s} }
 </style>
 </head>
@@ -148,11 +178,18 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
     </div>
     <p class="effects" id="fx"></p>
     <p class="effects" id="rx"></p>
+    <div class="cmpbar">
+      <div id="cmp0"><div class="row"><button type="button" class="go" id="cmpkeep">いまの装備を比較用に残す（B）</button></div>
+        <p class="guide" style="margin-top:6px">残したあと装備を変えると、いまの装備（A）と残した装備（B）を並べて比べられます。</p></div>
+      <div id="cmp1" hidden><p class="cur" id="cmpcur"></p>
+        <div class="row"><button type="button" class="go" id="cmpset">いまの装備を B にする</button><button type="button" id="cmpswap">A と B を入れ替える</button><button type="button" id="cmpoff">比較をやめる</button></div></div>
+    </div>
   </section>
 
   <section class="win" aria-labelledby="h-f">
     <h2 id="h-f">鍛錬の森 4F点数</h2>
     <div class="score" id="sc"><span class="n" id="scn">0</span><span class="of">/ 99</span></div>
+    <p class="vsb" id="vsb" hidden></p>
     <p class="cut" id="c4"></p>
     <p class="cut" id="c8"></p>
     <div class="bars" id="bars"></div>
@@ -161,6 +198,13 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
       <ul class="crit" id="crit"></ul>
     </details>
     <p class="guide">目安：40点未満は死亡率2%以上、50点前後で1%前後。70点台でも死ぬことはある（wiki「鍛錬の森・武器防具組み合わせ例」の基準）。</p>
+  </section>
+
+  <section class="win span" aria-labelledby="h-c" id="cmp" data-fold="calc-cmp" hidden>
+    <h2 id="h-c">比較（A と B）</h2>
+    <div class="cmpgrid" id="cmpcards"></div>
+    <h3 class="cmph" id="cmpdh"></h3>
+    <ul class="cdiff" id="cmpdiff"></ul>
   </section>
 
   <section class="win span" aria-labelledby="h-x" id="sweep" data-fold="calc-sweep">
