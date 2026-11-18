@@ -172,6 +172,16 @@ console.log(`${total-bad}/${total} rows match`);
   const okB = oB1 === "99:豪腕の木の葉,99:豪腕の木の大葉,99:体力の木の大葉,92:なし" && oB2 === "97:なし,97:力餅,95:毒草";
   console.log(okB?"OK":"NG", "総当たり 同じ点数なら下位互換・なしが上", oB1, "／", oB2); if(!okB) bad++;
 }
+// ===== 目標ステータス（data/targets.json） =====
+{
+  const T = require("../../data/targets.json"), KS = ["hp","atk","def","eva","luk"];
+  const ok = Array.isArray(T) && T.length > 0 && T.every(t => typeof t.name === "string" && t.name && Number.isInteger(t.lv) && t.lv >= 1 && t.lv <= 99
+    && t.need && Object.keys(t.need).length > 0 && Object.entries(t.need).every(([k, v]) => KS.includes(k) && Number.isInteger(v) && v > 0));
+  // 例：竜神の剣+75・ハイランドメイル+60・生命の木の大葉・体力の木の大葉は、王家の墓 12階（Lv18）に届く
+  const r = build(w("竜神の剣"), 75, a("ハイランドメイル"), 60, [i("生命の木の大葉"), i("体力の木の大葉")], []), s = r.at(18);
+  const ok2 = s.hp === 315 && s.atk === 316 && s.def === 415;
+  console.log(ok && ok2 ? "OK" : "NG", "目標ステータス：形（名前・Lv1〜99・必要な値）と、Lv18 の値", T.length + "件", s.hp, s.atk, s.def); if(!(ok && ok2)) bad++;
+}
 // ===== 今のゲームにあるか（in_game、#16） =====
 {
   const D = f => require(`../../data/${f}.json`);

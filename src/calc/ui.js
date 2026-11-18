@@ -3,6 +3,7 @@
   const A = JSON.parse(document.getElementById("data-a").textContent).filter(x=>x.base.def!==null);
   const I = JSON.parse(document.getElementById("data-i").textContent);
   const R = JSON.parse(document.getElementById("data-r").textContent);
+  const TG = JSON.parse(document.getElementById("data-t").textContent);   // 目標ステータス
   const $ = id => document.getElementById(id);
   const LBL = {hp:"HP",atk:"攻",def:"防",eva:"回",luk:"運"};
   const KEY_LV = new Set([1,8,10,12,14,50]);
@@ -183,13 +184,12 @@
     else { mode[t] = "plain"; $(t).value = v ? idx(v.name) : ""; $(t+"e").value = v ? v.e : 0; }
   }
   const putItem = (k, n) => { const j = n ? I.findIndex(g => g.name === n) : -1; $(k).value = j < 0 ? "" : String(j); };
-  function renderCmp(ra, fa){
+  const setB = () => ({ws:gearOf("w", cmpB.w), as:gearOf("a", cmpB.a), its:cmpB.i.map(n => n && I.find(g => g.name === n) || null)});
+  function renderCmp(ra, fa, B, rb){
     const on = !!cmpB;
     $("cmp0").hidden = on; $("cmp1").hidden = !on; $("cmp").hidden = !on; $("vsb").hidden = !on;
     if (!on) return;
-    const A = {ws:cur.ws, as:cur.as, its:[cur.i1, cur.i2]};
-    const B = {ws:gearOf("w", cmpB.w), as:gearOf("a", cmpB.a), its:cmpB.i.map(n => n && I.find(g => g.name === n) || null)};
-    const rb = build(B.ws.g, B.ws.e, B.as.g, B.as.e, B.its, resonances(B.ws.g, B.as.g, R)), fb = forest(rb);
+    const A = {ws:cur.ws, as:cur.as, its:[cur.i1, cur.i2]}, fb = forest(rb);
     const gt = s => s.g ? `${esc(s.g.name)} +${s.e}` : "なし";
     const it = s => s.its.filter(Boolean).map(x => esc(x.name)).join("・") || "なし";
     const d = fa.score - fb.score, dPt = `${d > 0 ? "+" : "−"}${Math.abs(d)}点`;
@@ -211,6 +211,24 @@
       `<span>${LBL[x.key]} ${x.conds.map(([L, v]) => `${lv(L)}≥${v}`).join(" かつ ")}<small>${x.note}（A ${x.vals.join("・")} ／ B ${y.vals.join("・")}）</small></span>` +
       `<span class="pt ${x.ok ? "ok" : "ng"}">${x.ok ? "+" : "−"}${x.pt}点</span></li>`).join("")
       : `<li class="none">採点の項目は、どれも同じです。</li>`;
+  }
+
+  // ===== 目標ステータス（data/targets.json） =====
+  // 目標のレベルでの値を A（と B）について出す。届かない値は赤にして、足りない分を添える
+  function renderGoals(ra, rb){
+    $("goal").hidden = !TG.length;
+    const sets = [["a", ra], ...(rb ? [["b", rb]] : [])];
+    $("goals").innerHTML = TG.map(t => {
+      const ks = K.filter(k => t.need[k] != null);
+      const rows = sets.map(([c, r]) => {
+        const s = r.at(t.lv), ok = ks.every(k => s[k] >= t.need[k]);
+        return `<tr>${rb ? `<td class="ab"><span class="bdg ${c}">${c.toUpperCase()}</span></td>` : ""}` +
+          ks.map(k => s[k] >= t.need[k] ? `<td>${s[k]}</td>` : `<td class="ng">${s[k]}<small>−${t.need[k] - s[k]}</small></td>`).join("") +
+          `<td class="r ${ok ? "ok" : "ng"}">${ok ? "達成" : "未達"}</td></tr>`;
+      }).join("");
+      return `<div class="gt"><h3>${esc(t.name)}<span>Lv${t.lv}</span></h3><table class="stat"><thead><tr>${rb ? '<th class="ab"></th>' : ""}` +
+        ks.map(k => `<th>${LBL[k]}≥${t.need[k]}</th>`).join("") + `<th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
+    }).join("");
   }
 
   let cur = null;                                             // 今の選択（総当たりで固定する欄に使う）
@@ -253,7 +271,9 @@
     let h = "";
     for (let L=r.start; L<=99; L++){ const s = r.at(L); h += `<tr class="${KEY_LV.has(L)||L===r.start?"key":""}"><td>${L}${L===r.start && L>1 ? "（出発）" : ""}</td>${K.map(k=>`<td>${s[k]}</td>`).join("")}</tr>`; }
     $("lv").innerHTML = h;
-    renderCmp(r, f);
+    const B = cmpB && setB(), rb = B && build(B.ws.g, B.ws.e, B.as.g, B.as.e, B.its, resonances(B.ws.g, B.as.g, R));
+    renderCmp(r, f, B, rb);
+    renderGoals(r, rb);
     sweepInfo();
     save();
   }
