@@ -188,7 +188,9 @@
     else { mode[t] = "plain"; $(t).value = v ? idx(v.name) : ""; $(t+"e").value = v ? v.e : 0; }
   }
   const putItem = (k, n) => { const j = n ? I.findIndex(g => g.name === n) : -1; $(k).value = j < 0 ? "" : String(j); };
-  const putSet = x => { putGear("w", x.w); putGear("a", x.a); putItem("i1", x.i[0]); putItem("i2", x.i[1]); };
+  // セットを欄に入れる。使っていない方のモード（そのまま／合成）の欄は空にする（前のセットの装備を残さない）
+  const clearGear = t => { [t, t+"1", t+"2"].forEach(id => $(id).value = ""); $(t+"e").value = $(t+"se").value = 0; };
+  const putSet = x => { ["w", "a"].forEach(t => { clearGear(t); putGear(t, x[t]); }); putItem("i1", x.i[0]); putItem("i2", x.i[1]); };
   const setOf = x => ({ws:gearOf("w", x.w), as:gearOf("a", x.a), its:x.i.map(n => n && I.find(g => g.name === n) || null)});
   // A・B：{s:装備, r, f}。B がなければ null。切り替えのボタン、森の欄の差、比較の欄を出す
   function renderAB(A, B){
