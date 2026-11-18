@@ -14,7 +14,7 @@
 | ツール一覧（入口） | `src/index/` | `dist/index.html` | https://yuyumiayu.github.io/yuke-yusya-tools/ |
 
 - 成長予測のステータス計算は、いったん完成（メンテナー判断）。
-- 各ページの選択内容は localStorage に保存。成長予測は `yuke-calc-v2`（選択と、比較用に残した装備 `cmp`）・`yuke-calc-cands`（総当たりの候補）・`yuke-calc-speed`（総当たりの速さの実測）、
+- 各ページの選択内容は localStorage に保存。成長予測は `yuke-calc-v2`（選択と、A・B の装備 `ab`。前の形の `cmp` も読む）・`yuke-calc-cands`（総当たりの候補）・`yuke-calc-speed`（総当たりの速さの実測）、
   強化屋は `yuke-enhance-v1`、装備図鑑は `yuke-catalog-v1`（タブ・絞り込み・タブごとの並べ替え）、欄の折りたたみは全ツール共通で `yuke-fold-v1`（たたんだ欄のキー）。キーを変えると、使っている人の保存内容が消えるので注意。
 
 ## 公開・権利まわり
