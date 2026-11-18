@@ -517,7 +517,7 @@
   }));
   $("xlv").addEventListener("focusout", () => { editing = null; $("xlv").value = xlvVal(); save(); });
 
-  // 比較：A・B の切り替え（欄の装備を持ってから、もう一方を欄に入れる）、A をコピーして B を作る、B を消す
+  // 比較：A・B の切り替え（欄の装備を持ってから、もう一方を欄に入れる）、B を作る（A をコピー／空欄から）、B を消す
   document.querySelectorAll("[data-set]").forEach(b => b.addEventListener("click", () => {
     const k = b.dataset.set; if (k === active) return;
     sets[shown()] = snapNow();
@@ -525,6 +525,7 @@
     active = k; render();
   }));
   $("mkB").addEventListener("click", () => { sets.b = snapNow(); render(); });
+  $("mkB0").addEventListener("click", () => { sets.b = {w:null, a:null, i:[null, null]}; putSet(sets.b); render(); });
   $("delB").addEventListener("click", () => { sets.b = null; putSet(sets.a); active = "a"; render(); });
 
   load(); render();
