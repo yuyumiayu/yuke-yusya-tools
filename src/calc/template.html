@@ -155,7 +155,6 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
 <div class="wrap">
 <header>
   __FILE:src/common/back.html__  <h1>ゆけ！勇者 成長予測</h1>
-  <p>装備と道具を選ぶと、Lv99までの予測ステータスと鍛錬の森の点数を出します。</p>
 </header>
 
 <div class="grid">
@@ -212,7 +211,7 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
       <summary>採点の内訳を見る</summary>
       <ul class="crit" id="crit"></ul>
     </details>
-    <p class="guide">目安：40点未満は死亡率2%以上、50点前後で1%前後。70点台でも死ぬことはある（wiki「鍛錬の森・武器防具組み合わせ例」の基準）。</p>
+    <p class="guide">目安：40点未満は死亡率2%以上、50点前後で1%前後。</p>
   </section>
 
   <section class="win" aria-labelledby="h-g" id="goal" data-fold="calc-goal">
@@ -230,12 +229,11 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
 
   <section class="win span" aria-labelledby="h-x" id="sweep" data-fold="calc-sweep">
     <h2 id="h-x">総当たり</h2>
-    <p class="guide" style="margin-top:0">入れ替える欄を選ぶと、その欄だけを候補で入れ替えて探します（上の「そうび」の「総当たり」のチェックと同じ）。ほかの欄は「そうび」の選択のままです。</p>
     <h3 class="xh">入れ替える欄</h3>
     <div class="xslots" role="group" aria-label="入れ替える欄">
       <button type="button" data-sw="w" aria-pressed="false">武器</button><button type="button" data-sw="a" aria-pressed="false">防具</button><button type="button" data-sw="i1" aria-pressed="false">道具1</button><button type="button" data-sw="i2" aria-pressed="false">道具2</button>
     </div>
-    <p class="guide" style="margin:0">候補はチェックを外すと、次に開いたときも外れたままです。見出し（☆1・大葉など）を押すと、そのまとまりをまとめて切り替えます。武器・防具は、強化値を入れたものはその値、空欄なら強化値MAXで計算します。</p>
+    <p class="guide" style="margin:0">見出し（☆1・大葉など）を押すと、そのまとまりをまとめて切り替えます。</p>
     <div class="xslot" id="xsl-w">
       <p class="xoff" id="xo-w"></p>
       <div class="xbody"><div class="xhead">武器<small>入れ替える</small></div>
@@ -262,7 +260,6 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
     <div class="xcommon">
     <div id="xsyn">
       <div class="xopt" style="margin-top:0"><label>合成の合計レア度の上限 <select id="xcap"><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6" selected>6（今の上限）</option><option value="7">7（過去の上限）</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select></label></div>
-      <p class="guide" style="margin-top:0">合成は、候補の中の違う装備2つを候補と同じ強化値（空欄ならMAX）で合成し、神の祝福+3で計算します。片方の素材を固定すると、その素材と候補の装備1つを合成したものを探します（素の候補も入ります）。</p>
     </div>
     <p class="xwarn" id="xfm" hidden></p>
     <div class="xopt">
@@ -270,9 +267,8 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
       <label id="xlvl">レベル <input id="xlv" type="number" min="1" max="99" value="50" inputmode="numeric"></label>
       <label><input type="checkbox" id="xn4" checked> 4F切捨基準を満たすものだけ</label>
     </div>
-    <p class="guide" style="margin-top:0">同じ武器・防具で点数（値）も同じなら、道具なしや、下位互換の道具を使う組を上に並べます（例：体力の木の大葉より豪腕の木の大葉）。</p>
     <p class="xcount" id="xc"></p>
-    <p class="xwarn" id="xw" hidden><span aria-hidden="true">⚠</span> 時間がかかります。候補を絞るか、総当たりする欄を減らすと短くなります。</p>
+    <p class="xwarn" id="xw" hidden>候補か、総当たりする欄を減らすと短くなります。</p>
     <div class="xrun"><button type="button" id="xgo">探す</button><button type="button" id="xstop" hidden>やめる</button><span class="bar xbar"><i id="xp" style="width:0"></i></span></div>
     <p class="guide" id="xmsg" aria-live="polite"></p>
     <ol class="xres" id="xr"></ol>
@@ -290,7 +286,7 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
   </section>
 </div>
 
-<p class="note">成長値は平均値です。合成は合成屋のwiki記載の仕様（基本値・補正はステータスごとに高い方、強化値は平均の切り上げ）で計算しています。レベルごとの値は端数を切り上げ、アビリティによる増加分も切り上げています。武器を装備しないと攻、防具を装備しないと防に神様の加護（+2〜3）が付きます。計算では平均の+2.5にしています。共鳴はステータスに効くもの（ステータスアップは除く）だけ入れています。◆は森の採点に使うレベルです。</p>
+<p class="note">成長値は平均値です。共鳴はステータスに効くもの（ステータスアップは除く）だけ入れています。◆は森の採点に使うレベルです。</p>
 <section class="log" id="log" data-tool="calc" aria-label="更新履歴"></section>
 __FILE:src/common/footer.html__
 </div>
