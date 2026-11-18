@@ -124,7 +124,7 @@
     s.xlv = String(xlvVal());
     // 装備・道具は名前でも保存する（データの行が増減しても選択がずれないように）
     s.names = {}; PICKS.forEach(k=>{ const g = pick(k); s.names[k] = g ? g.name : ""; });
-    s.cmp = cmpB;                                             // 比較用に残した装備（B）
+    s.ab = {a:sets.a, b:sets.b, on:active};                   // A・B の装備と、選んでいる方（欄に出ているのは選んでいる方）
     try{ localStorage.setItem("yuke-calc-v2", JSON.stringify(s)); }catch(e){}
   }
   function load(){
@@ -146,7 +146,10 @@
     if (s.xcap) setSel("xcap", s.xcap);
     ["xfw","xfa"].forEach(k => { if (typeof s[k] === "string") setSel(k, s[k]); });
     ["xfwe","xfae"].forEach(k => { if (s[k] !== undefined) $(k).value = s[k]; });
-    cmpB = snapOK(s.cmp) ? s.cmp : null;
+    // 前の形（cmp：比較用に残した B。欄は A）も読む
+    const ab = s.ab && typeof s.ab === "object" ? s.ab : null;
+    sets = {a: ab && snapOK(ab.a) ? ab.a : null, b: ab ? (snapOK(ab.b) ? ab.b : null) : (snapOK(s.cmp) ? s.cmp : null)};
+    active = ab && ab.on === "b" ? "b" : "a";
   }
   function syncControls(){
     ["w","a"].forEach(t=>{
@@ -155,13 +158,14 @@
     });
   }
 
-  // ===== 比較（A：いまの装備、B：比較用に残した装備） =====
-  // B は装備の名前と強化値で持つ（データの行が増減してもずれない）。武器・防具は null（なし）、
-  // {name, e}（そのまま）、{parts:[素材1, 素材2], e}（合成。e は祝福込み）。道具は名前か null
-  let cmpB = null;
+  // ===== 比較（A・B の2セット） =====
+  // そうびの欄に出すのは選んでいる方（active）。もう一方は装備の名前と強化値で持つ（データの行が増減してもずれない）。
+  // 武器・防具は null（なし）、{name, e}（そのまま）、{parts:[素材1, 素材2], e}（合成。e は祝福込み）。道具は名前か null
+  let sets = {a:null, b:null}, active = "a";
+  const shown = () => active === "b" && !sets.b ? "a" : active;   // B がないまま B を選んでいるときは、欄は A のまま
   const gearSnap = s => !s.g ? null : s.g.parts ? {parts:[...s.g.parts], e:s.e} : {name:s.g.name, e:s.e};
   const snapNow = () => ({w:gearSnap(cur.ws), a:gearSnap(cur.as), i:[cur.i1, cur.i2].map(x => x ? x.name : null)});
-  // 保存内容から読むときは形を確かめる（合わなければ B はなし）
+  // 保存内容から読むときは形を確かめる（合わなければ、そのセットはなし）
   function snapOK(x){
     const g = v => v === null || (!!v && typeof v === "object" && Number.isInteger(v.e) && v.e >= 0 &&
       (typeof v.name === "string" || (Array.isArray(v.parts) && v.parts.length === 2 && v.parts.every(n => typeof n === "string"))));
@@ -177,40 +181,43 @@
     }
     const g = find(v.name); return g ? {g, e:lim(v.e, maxOf(g))} : {g:null, e:0};
   }
-  // 装備を「そうび」の欄に入れる（A と B を入れ替えるときと、総当たりの「反映」で使う）
+  // 装備を「そうび」の欄に入れる（A と B を切り替えるときと、総当たりの「反映」で使う）
   function putGear(t, v){
     const L = listOf(t), idx = n => { const k = L.findIndex(g => g.name === n); return k < 0 ? "" : String(k); };
     if (v && v.parts){ mode[t] = "synth"; v.parts.forEach((n, j) => $(t+(j+1)).value = idx(n)); $(t+"se").value = v.e; }
     else { mode[t] = "plain"; $(t).value = v ? idx(v.name) : ""; $(t+"e").value = v ? v.e : 0; }
   }
   const putItem = (k, n) => { const j = n ? I.findIndex(g => g.name === n) : -1; $(k).value = j < 0 ? "" : String(j); };
-  const setB = () => ({ws:gearOf("w", cmpB.w), as:gearOf("a", cmpB.a), its:cmpB.i.map(n => n && I.find(g => g.name === n) || null)});
-  function renderCmp(ra, fa, B, rb){
-    const on = !!cmpB;
-    $("cmp0").hidden = on; $("cmp1").hidden = !on; $("cmp").hidden = !on; $("vsb").hidden = !on;
-    if (!on) return;
-    const A = {ws:cur.ws, as:cur.as, its:[cur.i1, cur.i2]}, fb = forest(rb);
+  const putSet = x => { putGear("w", x.w); putGear("a", x.a); putItem("i1", x.i[0]); putItem("i2", x.i[1]); };
+  const setOf = x => ({ws:gearOf("w", x.w), as:gearOf("a", x.a), its:x.i.map(n => n && I.find(g => g.name === n) || null)});
+  // A・B：{s:装備, r, f}。B がなければ null。切り替えのボタン、森の欄の差、比較の欄を出す
+  function renderAB(A, B){
+    const sh = shown(), empty = active === "b" && !sets.b;
+    $("taba").innerHTML = `<b>A</b>${A.f.score}点`; $("tabb").innerHTML = B ? `<b>B</b>${B.f.score}点` : "<b>B</b>なし";
+    ["a", "b"].forEach(k => $("tab"+k).setAttribute("aria-selected", String(active === k)));
+    $("eqbody").hidden = empty; $("eqnew").hidden = !empty; $("delb").hidden = !(active === "b" && sets.b);
+    $("vsb").hidden = $("cmp").hidden = !B;
+    if (!B) return;
+    const [me, ot, OT] = sh === "a" ? [A, B, "B"] : [B, A, "A"], d = me.f.score - ot.f.score;
+    $("vsb").innerHTML = d === 0 ? `${OT} と同じ点数` : `${OT} より <span class="${d > 0 ? "ok" : "ng"}">${Math.abs(d)}点${d > 0 ? "高い" : "低い"}</span>`;
     const gt = s => s.g ? `${esc(s.g.name)} +${s.e}` : "なし";
     const it = s => s.its.filter(Boolean).map(x => esc(x.name)).join("・") || "なし";
-    const d = fa.score - fb.score, dPt = `${d > 0 ? "+" : "−"}${Math.abs(d)}点`;
-    $("cmpcur").innerHTML = `<span class="bdg b">B</span>比較に残している装備：<b>${gt(B.ws)} ／ ${gt(B.as)} ／ ${it(B)}</b>`;
-    $("vsb").innerHTML = `<span class="bdg b">B</span>${fb.score}点（${d === 0 ? "A と同じ" : `A が <span class="${d > 0 ? "ok" : "ng"}">${dPt}</span>`}）`;
-    const card = (c, label, s, r, f) => `<div class="cset ${c}"><div class="ct"><span class="bdg ${c}">${c.toUpperCase()}</span>${label}</div>` +
-      `<div class="cs"><span class="n">${f.score}</span><span class="of">/ 99</span></div>` +
-      `<ul><li><span>武器</span>${gt(s.ws)}</li><li><span>防具</span>${gt(s.as)}</li><li><span>道具</span>${it(s)}</li></ul>` +
-      (r.start > 1 ? `<p class="c4">出発 Lv${r.start}（経験値+${r.exp}）</p>` : "") +
-      `<p class="c4 ${f.ok4 ? "ok" : "ng"}">${f.ok4 ? "4F切捨基準クリア" : "4F切捨基準に届かない"}</p></div>`;
-    $("cmpcards").innerHTML = card("a", "いまの装備", A, ra, fa) + card("b", "比較に残した装備", B, rb, fb);
+    const card = (k, x) => `<div class="cset${sh === k ? " on" : ""}"><div class="ct"><span class="bdg">${k.toUpperCase()}</span></div>` +
+      `<div class="cs"><span class="n">${x.f.score}</span><span class="of">/ 99</span></div>` +
+      `<ul><li><span>武器</span>${gt(x.s.ws)}</li><li><span>防具</span>${gt(x.s.as)}</li><li><span>道具</span>${it(x.s)}</li></ul>` +
+      (x.r.start > 1 ? `<p class="c4">出発 Lv${x.r.start}（経験値+${x.r.exp}）</p>` : "") +
+      `<p class="c4 ${x.f.ok4 ? "ok" : "ng"}">${x.f.ok4 ? "4F切捨基準クリア" : "4F切捨基準に届かない"}</p></div>`;
+    $("cmpcards").innerHTML = card("a", A) + card("b", B);
     // 片方だけが満たす採点の項目。「Lv1」の条件は出発時レベルで判定するので、出発時レベルが上がっているときは「出発時」と書く
     // （ほかの条件は Lv8 以上、出発時レベルは Lv6 まで）
-    const lv = L => L < 8 && (ra.start > 1 || rb.start > 1) ? "出発時" : "Lv" + L;
+    const lv = L => L < 8 && (A.r.start > 1 || B.r.start > 1) ? "出発時" : "Lv" + L;
     const yn = ok => `<span class="${ok ? "y" : "n"}">${ok ? "✓" : "・"}</span>`;
-    const diffs = fa.crit.map((x, k) => [x, fb.crit[k]]).filter(([x, y]) => x.ok !== y.ok);
-    $("cmpdh").textContent = `点数が違う項目（${d === 0 ? "同じ点数" : "A が " + dPt}）`;
+    const diffs = A.f.crit.map((x, k) => [x, B.f.crit[k]]).filter(([x, y]) => x.ok !== y.ok);
+    $("cmpdh").textContent = "点数が違う項目";
     $("cmpdiff").innerHTML = diffs.length ? diffs.map(([x, y]) => `<li><span class="who">A${yn(x.ok)} B${yn(y.ok)}</span>` +
       `<span>${LBL[x.key]} ${x.conds.map(([L, v]) => `${lv(L)}≥${v}`).join(" かつ ")}<small>${x.note}（A ${x.vals.join("・")} ／ B ${y.vals.join("・")}）</small></span>` +
       `<span class="pt ${x.ok ? "ok" : "ng"}">${x.ok ? "+" : "−"}${x.pt}点</span></li>`).join("")
-      : `<li class="none">採点の項目は、どれも同じです。</li>`;
+      : `<li class="none">なし</li>`;
   }
 
   // ===== 目標ステータス（data/targets.json） =====
@@ -222,7 +229,7 @@
       const ks = K.filter(k => t.need[k] != null);
       const rows = sets.map(([c, r]) => {
         const s = r.at(t.lv), ok = ks.every(k => s[k] >= t.need[k]);
-        return `<tr>${rb ? `<td class="ab"><span class="bdg ${c}">${c.toUpperCase()}</span></td>` : ""}` +
+        return `<tr>${rb ? `<td class="ab"><span class="bdg">${c.toUpperCase()}</span></td>` : ""}` +
           ks.map(k => s[k] >= t.need[k] ? `<td>${s[k]}</td>` : `<td class="ng">${s[k]}<small>−${t.need[k] - s[k]}</small></td>`).join("") +
           `<td class="r ${ok ? "ok" : "ng"}">${ok ? "達成" : "未達"}</td></tr>`;
       }).join("");
@@ -271,9 +278,15 @@
     let h = "";
     for (let L=r.start; L<=99; L++){ const s = r.at(L); h += `<tr class="${KEY_LV.has(L)||L===r.start?"key":""}"><td>${L}${L===r.start && L>1 ? "（出発）" : ""}</td>${K.map(k=>`<td>${s[k]}</td>`).join("")}</tr>`; }
     $("lv").innerHTML = h;
-    const B = cmpB && setB(), rb = B && build(B.ws.g, B.ws.e, B.as.g, B.as.e, B.its, resonances(B.ws.g, B.as.g, R));
-    renderCmp(r, f, B, rb);
-    renderGoals(r, rb);
+    // 欄に出ている方は欄から、もう一方は持っている装備から計算する
+    const sh = shown(), ok = sh === "a" ? "b" : "a";
+    sets[sh] = snapNow();
+    if (!sets.a) sets.a = sets[sh];
+    const here = {s:{ws:cur.ws, as:cur.as, its:[cur.i1, cur.i2]}, r, f};
+    const other = sets[ok] && (x => { const s = setOf(x), ro = build(s.ws.g, s.ws.e, s.as.g, s.as.e, s.its, resonances(s.ws.g, s.as.g, R)); return {s, r:ro, f:forest(ro)}; })(sets[ok]);
+    const A = sh === "a" ? here : other, B = sh === "a" ? other : here;
+    renderAB(A, B);
+    renderGoals(A.r, B && B.r);
     sweepInfo();
     save();
   }
@@ -426,6 +439,7 @@
     $("xr").onclick = e => {
       const b = e.target.closest("button[data-k]"); if (!b) return;
       const x = list[+b.dataset.k];
+      if (active === "b" && !sets.b) sets.b = snapNow();          // B を選んでいて B がまだないときは、A をコピーした B に入れる
       // 合成の結果は、素材2つと合成後の強化値（祝福+3込み）を入れる
       const put = (t, name, e, parts) => putGear(t, parts ? {parts, e} : name ? {name, e} : null);
       if ($("wx").checked) put("w", x.w, x.we, x.wParts);
@@ -503,14 +517,15 @@
   }));
   $("xlv").addEventListener("focusout", () => { editing = null; $("xlv").value = xlvVal(); save(); });
 
-  // 比較：いまの装備を B に残す・B を上書きする・A と B を入れ替える・やめる
-  ["cmpkeep", "cmpset"].forEach(id => $(id).addEventListener("click", () => { cmpB = snapNow(); render(); }));
-  $("cmpoff").addEventListener("click", () => { cmpB = null; render(); });
-  $("cmpswap").addEventListener("click", () => {
-    const a = snapNow(), b = cmpB;
-    putGear("w", b.w); putGear("a", b.a); putItem("i1", b.i[0]); putItem("i2", b.i[1]);
-    cmpB = a; render();
-  });
+  // 比較：A・B の切り替え（欄の装備を持ってから、もう一方を欄に入れる）、A をコピーして B を作る、B を消す
+  document.querySelectorAll("[data-set]").forEach(b => b.addEventListener("click", () => {
+    const k = b.dataset.set; if (k === active) return;
+    sets[shown()] = snapNow();
+    if (sets[k]) putSet(sets[k]);
+    active = k; render();
+  }));
+  $("mkB").addEventListener("click", () => { sets.b = snapNow(); render(); });
+  $("delB").addEventListener("click", () => { sets.b = null; putSet(sets.a); active = "a"; render(); });
 
   load(); render();
 })();

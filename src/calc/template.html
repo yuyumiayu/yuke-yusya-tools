@@ -103,23 +103,28 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
 .xres .v{font-family:"DotGothic16",monospace;font-size:18px;color:var(--gold)}
 .xres small{display:block;color:var(--muted)}
 .note{font-size:12.5px;color:var(--ink-soft);margin:16px 6px 0;line-height:1.7}
-/* 比較（A：いまの装備、B：比較用に残した装備） */
-.cmpbar{margin-top:12px;padding-top:12px;border-top:1px dashed #ffffff33}
-.cmpbar .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.cmpbar button{font:inherit;font-size:13px;color:var(--text);background:transparent;border:2px solid var(--muted);border-radius:6px;padding:6px 12px;cursor:pointer;min-height:38px}
-.cmpbar button.go{color:var(--gold);border-color:var(--gold)}
-.cmpbar .cur{font-size:13px;color:var(--muted);margin:0 0 8px;line-height:1.6}
-.cmpbar .cur b{color:var(--text);font-weight:400}
-.bdg{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:4px;font-family:"DotGothic16",monospace;font-size:14px;margin-right:6px;vertical-align:-2px}
-.bdg.a{background:var(--gold);color:var(--win)} .bdg.b{background:#9fb4ff;color:var(--win)}
+/* 比較（A・B の2セット。そうびの見出しの右で切り替える。選んでいる方は金色） */
+.eqh{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 10px}
+.eqh h2{margin:0}
+.abseg{display:inline-flex;border:2px solid var(--muted);border-radius:6px;overflow:hidden}
+.abseg button{font:inherit;font-size:12.5px;color:var(--muted);background:transparent;border:0;padding:3px 12px;cursor:pointer;min-height:30px}
+.abseg button b{font-family:"DotGothic16",monospace;font-weight:400;font-size:14px;margin-right:4px}
+.abseg button[aria-selected=true]{background:var(--gold);color:var(--win)}
+.eqnew{justify-content:center;padding:18px 0 6px}
+.eqnew:not([hidden]){display:flex}
+.eqnew button,.delb button{font:inherit;font-size:13.5px;background:transparent;border:2px solid;border-radius:6px;padding:7px 14px;cursor:pointer}
+.eqnew button{color:var(--gold);border-color:var(--gold)}
+.delb{margin-top:12px;padding-top:10px;border-top:1px dashed #ffffff33;text-align:right}
+.delb button{font-size:13px;color:var(--muted);border-color:var(--muted);padding:5px 12px}
+.bdg{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:4px;border:1px solid var(--muted);color:var(--text);font-family:"DotGothic16",monospace;font-size:14px;margin-right:6px;vertical-align:-2px}
 .vsb{font-size:13px;color:var(--muted);margin:-2px 0 6px}
 .cmpgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .cset{border:2px solid var(--muted);border-radius:8px;padding:10px 12px;min-width:0}
-.cset.a{border-color:var(--gold)} .cset.b{border-color:#9fb4ff}
+.cset.on{border-color:var(--gold)}
 .cset .ct{font-size:13px;color:var(--muted);margin-bottom:4px}
 .cset .cs{display:flex;align-items:baseline;gap:6px}
-.cset .cs .n{font-family:"DotGothic16",monospace;font-size:40px;line-height:1.1;color:var(--gold)}
-.cset.b .cs .n{color:#9fb4ff}
+.cset .cs .n{font-family:"DotGothic16",monospace;font-size:40px;line-height:1.1}
+.cset.on .cs .n{color:var(--gold)}
 .cset .cs .of{font-family:"DotGothic16",monospace;color:var(--muted)}
 .cset ul{list-style:none;margin:6px 0 4px;padding:0;font-size:13px;line-height:1.7}
 .cset ul span{color:var(--muted);margin-right:6px}
@@ -155,7 +160,9 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
 
 <div class="grid">
   <section class="win" aria-labelledby="h-eq">
-    <h2 id="h-eq">そうび</h2>
+    <div class="eqh"><h2 id="h-eq">そうび</h2>
+      <div class="abseg" role="tablist" aria-label="装備のセット"><button type="button" role="tab" id="taba" data-set="a"></button><button type="button" role="tab" id="tabb" data-set="b"></button></div></div>
+    <div id="eqbody">
     <div class="field">
       <div class="labrow"><label for="w">武器</label>
         <label class="sweep"><input type="checkbox" id="wx"> 総当たり</label>
@@ -188,12 +195,9 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
     </div>
     <p class="effects" id="fx"></p>
     <p class="effects" id="rx"></p>
-    <div class="cmpbar">
-      <div id="cmp0"><div class="row"><button type="button" class="go" id="cmpkeep">いまの装備を比較用に残す（B）</button></div>
-        <p class="guide" style="margin-top:6px">残したあと装備を変えると、いまの装備（A）と残した装備（B）を並べて比べられます。</p></div>
-      <div id="cmp1" hidden><p class="cur" id="cmpcur"></p>
-        <div class="row"><button type="button" class="go" id="cmpset">いまの装備を B にする</button><button type="button" id="cmpswap">A と B を入れ替える</button><button type="button" id="cmpoff">比較をやめる</button></div></div>
+    <div class="delb" id="delb" hidden><button type="button" id="delB">B を消す</button></div>
     </div>
+    <div class="eqnew" id="eqnew" hidden><button type="button" id="mkB">A をコピーして B を作る</button></div>
   </section>
 
   <div class="rcol">
