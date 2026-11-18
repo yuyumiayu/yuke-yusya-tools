@@ -110,7 +110,7 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
 .abseg button{font:inherit;font-size:12.5px;color:var(--muted);background:transparent;border:0;padding:3px 12px;cursor:pointer;min-height:30px}
 .abseg button b{font-family:"DotGothic16",monospace;font-weight:400;font-size:14px;margin-right:4px}
 .abseg button[aria-selected=true]{background:var(--gold);color:var(--win)}
-.eqnew{justify-content:center;padding:18px 0 6px}
+.eqnew{justify-content:center;flex-wrap:wrap;gap:10px;padding:18px 0 6px}
 .eqnew:not([hidden]){display:flex}
 .eqnew button,.delb button{font:inherit;font-size:13.5px;background:transparent;border:2px solid;border-radius:6px;padding:7px 14px;cursor:pointer}
 .eqnew button{color:var(--gold);border-color:var(--gold)}
@@ -196,7 +196,7 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
     <p class="effects" id="rx"></p>
     <div class="delb" id="delb" hidden><button type="button" id="delB">B を消す</button></div>
     </div>
-    <div class="eqnew" id="eqnew" hidden><button type="button" id="mkB">A をコピーして B を作る</button></div>
+    <div class="eqnew" id="eqnew" hidden><button type="button" id="mkB">A をコピーして B を作る</button><button type="button" id="mkB0">空欄から B を作る</button></div>
   </section>
 
   <div class="rcol">
