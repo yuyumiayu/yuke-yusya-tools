@@ -177,7 +177,7 @@
     readInputs(); writeInputs(); save();
     const g = gear();
     $("gh").textContent = `上限 +${g.max} ／ +1あたり ${n0(g.cost)}G` + (g.note ? ` ／ ${g.note}` : "");
-    $("lvh").textContent = st.lv >= 2 ? `クリティカル率 ${st.lv}%（判定1回ごとに、この確率で+2）` : "Lv1 ではクリティカルは起きません（Lv2 から）";
+    $("lvh").textContent = st.lv >= 2 ? `クリティカル率 ${st.lv}%` : "Lv1 ではクリティカルは起きません";
     $("bbh").textContent = st.bb === 0 ? "素材の+0 は+1 として扱われます（判定1回）" : "";
     const opt = {a:st.ba, b:st.bb, max:g.max, lv:st.lv, bless:st.bless, cost:g.cost, ore:st.ore};
     const r = enhance(opt);
@@ -239,7 +239,7 @@
   }
   function renderProgress(){
     const out = $("pout");
-    if (!st.ps){ out.innerHTML = `<p class="guide">始めた日時を入れてください（年は4桁、ほかは数字だけでよい）。</p>`; return; }
+    if (!st.ps){ out.innerHTML = `<p class="guide">始めた日時を入れてください。</p>`; return; }
     const g = gear(), start = new Date(st.ps).getTime(), now = Date.now();
     if (isNaN(start)){ out.innerHTML = ""; return; }
     if (start > now){ out.innerHTML = `<p class="perr">始めた日時が今より後になっています。</p>`; return; }
@@ -248,7 +248,7 @@
       (pr.next ? `<dt>次の判定</dt><dd>${when(pr.next)}</dd>` : "") +
       `<dt>${pr.done ? "完了" : "完了予定"}</dt><dd>${when(pr.end)}</dd></dl>`;
     if (pr.k === undefined){
-      h += `<p class="guide">最新ログの数字を入れると、クリティカルを何回引いたかが出ます。` + (pr.n === 0 ? "（まだ1回目の判定前です）" : "") + `</p>`;
+      if (pr.n === 0) h += `<p class="guide">まだ1回目の判定前です。</p>`;
     } else if (pr.error){
       h += `<p class="perr">この数字だと、判定 ${pr.n} 回でのクリティカルが ${pr.k} 回になって合いません。始めた日時・ベース・素材・強化鉱・最新ログの数字を確かめてください。</p>`;
     } else {
@@ -263,7 +263,7 @@
         (detail ? `<p class="guide" style="margin-top:0">${detail}</p>` : "") +
         `<dl class="facts" style="margin-top:8px"><dt>最終の見込み</dt><dd>` + (pr.done ? `+${st.pl}（完了）` :
           `期待値 +${pr.final.mean.toFixed(1)}（80%の範囲 +${pr.final.lo}〜+${pr.final.hi}、${bl}）`) + `</dd>` +
-        (pr.done ? "" : `<dt>はじめの見込み</dt><dd>期待値 +${enhance({a:st.ba, b:st.bb, max:g.max, lv:st.lv, bless:st.bless}).mean.toFixed(1)}（始める前の計算、${bl}）</dd>`) + `</dl>`;
+        (pr.done ? "" : `<dt>はじめの見込み</dt><dd>期待値 +${enhance({a:st.ba, b:st.bb, max:g.max, lv:st.lv, bless:st.bless}).mean.toFixed(1)}（${bl}）</dd>`) + `</dl>`;
     }
     out.innerHTML = h;
   }

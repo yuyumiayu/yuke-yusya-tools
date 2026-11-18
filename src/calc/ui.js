@@ -265,7 +265,7 @@
     $("sc").classList.toggle("off", !f.ok4);
     const cutTxt = arr => arr.map(c=>`${c.name} ${c.conds.map(([L,v],j)=>`Lv${L} ${c.vals[j]}/${v}`).join("・")}`).join("、");
     $("c4").innerHTML = f.ok4 ? `<b class="ok">4F切捨基準クリア</b>`
-      : `<b class="ng">4F切捨基準に届かない</b>（wikiの表では空欄＝推奨外）<br><span class="ng">${cutTxt(f.cut4.filter(c=>!c.ok))}</span>`;
+      : `<b class="ng">4F切捨基準に届かない</b><br><span class="ng">${cutTxt(f.cut4.filter(c=>!c.ok))}</span>`;
     $("c8").innerHTML = (f.ok8 ? `<b class="ok">8F切捨基準クリア</b>` : `<b class="ng">8F切捨基準に届かない</b>`) + `<br><span style="color:var(--muted)">${cutTxt(f.cut8)}</span>`;
     const maxes = {hp:26, atk:37, def:36};
     $("bars").innerHTML = ["hp","atk","def"].map(k=>`<span>${LBL[k]}</span><span class="bar"><i style="width:${f.sub[k]/maxes[k]*100}%"></i></span><span class="v">${f.sub[k]}/${maxes[k]}</span>`).join("");
@@ -304,7 +304,7 @@
   const CL = {w:W, a:A, i:I.filter(x => !isRandom(x))};
   const rnd = I.filter(isRandom).map(x => x.name);
   $("ci-note").hidden = !rnd.length;
-  $("ci-note").textContent = `${rnd.join("・")}は効果がランダムで計算に入れられないので、候補に入れていません。`;
+  $("ci-note").textContent = `${rnd.join("・")}は効果がランダムなので入れていません。`;
   // 保存内容は形を確かめてから使う（こわれた部分は初めの状態に戻す。強化値は0以上の整数だけ）
   const strs = v => Array.isArray(v) ? v.filter(x => typeof x === "string") : [];
   const enhs = v => Object.fromEntries(Object.entries(v && typeof v === "object" ? v : {}).filter(([, x]) => Number.isInteger(x) && x >= 0));
@@ -414,7 +414,7 @@
     $("xlvl").hidden = $("xs").value === "forest";
     if (running) return;
     const p = spec(), n = v => v.toLocaleString("ja-JP");
-    if (!p.any){ $("xc").textContent = "入れ替える欄を選んでください（上のボタンか、「そうび」の「総当たり」のチェック）。"; $("xc").classList.remove("long"); $("xw").hidden = true; $("xgo").disabled = true; return; }
+    if (!p.any){ $("xc").textContent = "入れ替える欄を選んでください。"; $("xc").classList.remove("long"); $("xw").hidden = true; $("xgo").disabled = true; return; }
     const sec = p.total * perCombo();
     const est = sec < 1 ? "1秒未満" : sec < 90 ? `約${Math.ceil(sec)}秒` : `約${Math.ceil(sec/60)}分`;
     const long = sec >= LONG_SEC;
@@ -454,7 +454,7 @@
     const list = mergeResults(lists, sp.top);
     if (!stopped) learnSpeed(running && running.total, Date.now() - t0);
     showResults(list, sp);
-    $("xmsg").textContent = (stopped ? "途中でやめました。ここまでの上位です。" : `${((Date.now()-t0)/1000).toFixed(1)}秒で終わりました。`) +
+    $("xmsg").textContent = (stopped ? "途中でやめました。ここまでの上位です。" : "") +
       (list.length ? "" : "条件に合う組み合わせがありません。");
     stopRun();
   }
