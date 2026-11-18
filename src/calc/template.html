@@ -133,6 +133,16 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
 .cdiff small{display:block;color:var(--muted)}
 .cdiff .pt{font-family:"DotGothic16",monospace;white-space:nowrap}
 @media (max-width:520px){ .cmpgrid{gap:6px} .cset{padding:8px} .cset .cs .n{font-size:32px} .cset ul{font-size:12px} }
+/* 目標ステータス（森の欄の下） */
+.rcol{display:grid;gap:18px;align-content:start;min-width:0}
+.gt+.gt{margin-top:14px}
+.gt h3{font-weight:400;font-size:15px;color:var(--text);margin:0 0 4px}
+.gt h3 span{font-family:"DotGothic16",monospace;font-size:13px;color:var(--muted);margin-left:8px}
+.gt th,.gt td{text-align:right}
+.gt .ab{text-align:left;width:2em}
+.gt td{font-size:16px}
+.gt td.ng{color:var(--ng)} .gt td small{font-size:11.5px;margin-left:3px}
+.gt td.r{font-family:inherit;font-size:13px}
 @media (prefers-reduced-motion:no-preference){ .bar i{transition:width .25s} }
 </style>
 </head>
@@ -186,6 +196,7 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
     </div>
   </section>
 
+  <div class="rcol">
   <section class="win" aria-labelledby="h-f">
     <h2 id="h-f">鍛錬の森 4F点数</h2>
     <div class="score" id="sc"><span class="n" id="scn">0</span><span class="of">/ 99</span></div>
@@ -199,6 +210,12 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
     </details>
     <p class="guide">目安：40点未満は死亡率2%以上、50点前後で1%前後。70点台でも死ぬことはある（wiki「鍛錬の森・武器防具組み合わせ例」の基準）。</p>
   </section>
+
+  <section class="win" aria-labelledby="h-g" id="goal" data-fold="calc-goal">
+    <h2 id="h-g">目標ステータス</h2>
+    <div id="goals"></div>
+  </section>
+  </div>
 
   <section class="win span" aria-labelledby="h-c" id="cmp" data-fold="calc-cmp" hidden>
     <h2 id="h-c">比較（A と B）</h2>
@@ -278,6 +295,7 @@ __FILE:src/common/footer.html__
 <script id="data-a" type="application/json">__JSON:data/armors.json__</script>
 <script id="data-i" type="application/json">__JSON:data/items.json__</script>
 <script id="data-r" type="application/json">__JSON:data/resonances.json__</script>
+<script id="data-t" type="application/json">__JSON:data/targets.json__</script>
 <script id="core">
 __FILE:src/calc/engine.js__
 __FILE:src/calc/search.js__

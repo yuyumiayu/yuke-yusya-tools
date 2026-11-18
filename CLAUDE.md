@@ -36,7 +36,7 @@
 
 - 作業は作業用ブランチで行い、Pull Request で main にマージする（main は保護。CI が通り、メンテナーが承認したらマージ）。
 - データ（ゆけ!勇者 @ ウィキの情報）の追加・修正は、元の表（`scripts/raw_sheet.py`・`scripts/raw_enhance.py`）を直して変換スクリプトで `data/*.json` を作り直す。
-  共鳴（`data/resonances.json`）と、wiki の注釈（`data/notes.json`、*2 などの本文。武器・防具・道具・共鳴で番号が別）は元の表がないので JSON を直接直す。
+  共鳴（`data/resonances.json`）と、wiki の注釈（`data/notes.json`、*2 などの本文。武器・防具・道具・共鳴で番号が別）、目標ステータス（`data/targets.json`）は元の表がないので JSON を直接直す。
   今のゲームにあるかどうか（`in_game`）は `scripts/sheet_to_json.py` の `NOT_IN_GAME`（今のゲームにないものの名前）で決める。
   まとまった表を入れ替えるときは CSV を `data/source/` に置き、変換スクリプトをそのとき用意する。出典が分かるようにする。
 - ツールを足すときは `src/<ツール名>/template.html` を作り、`scripts/build_html.py` の `TOOLS` に1行足し、`src/index/template.html` と README の表にリンクを足す。
@@ -44,7 +44,7 @@
 ## 構成とコマンド
 
 ```
-data/          weapons.json(50) armors.json(41) items.json(46) resonances.json(47) enhance.json(89) notes.json（注釈） changelog.json（更新履歴）  … マスタ
+data/          weapons.json(50) armors.json(41) items.json(46) resonances.json(47) enhance.json(89) notes.json（注釈） targets.json（目標ステータス） changelog.json（更新履歴）  … マスタ
 src/common/    base.css（色・RPGウィンドウ・入力欄など全ツール共通の見た目）, footer.html（非公式の表示・出典・報告先）, back.html（ツール一覧へ戻るリンク。公開ページの絶対URL）, fold.js（`data-fold` を付けた欄を見出しで折りたたむ）, changelog.js（更新履歴を出す）
 src/calc/      成長予測：engine.js（計算）, search.js（総当たり）, ui.js（画面）, template.html
 src/enhance/   強化屋：engine.js（計算）, ui.js（画面とグラフ）, template.html
