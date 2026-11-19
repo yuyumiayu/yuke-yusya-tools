@@ -125,6 +125,7 @@
     // 装備・道具は名前でも保存する（データの行が増減しても選択がずれないように）
     s.names = {}; PICKS.forEach(k=>{ const g = pick(k); s.names[k] = g ? g.name : ""; });
     s.ab = {a:sets.a, b:sets.b, on:active};                   // A・B の装備と、選んでいる方（欄に出ているのは選んでいる方）
+    s.lvd = lvDiff;                                           // レベル別の予測でもう一方との差を出すか
     try{ localStorage.setItem("yuke-calc-v2", JSON.stringify(s)); }catch(e){}
   }
   function load(){
@@ -150,6 +151,7 @@
     const ab = s.ab && typeof s.ab === "object" ? s.ab : null;
     sets = {a: ab && snapOK(ab.a) ? ab.a : null, b: ab ? (snapOK(ab.b) ? ab.b : null) : (snapOK(s.cmp) ? s.cmp : null)};
     active = ab && ab.on === "b" ? "b" : "a";
+    lvDiff = s.lvd === true;
   }
   function syncControls(){
     ["w","a"].forEach(t=>{
@@ -162,7 +164,8 @@
   // そうびの欄に出すのは選んでいる方（active）。もう一方は装備の名前と強化値で持つ（データの行が増減してもずれない）。
   // 武器・防具は null（なし）、{name, e}（そのまま）、{parts:[素材1, 素材2], e}（合成。e は祝福込み）。道具は名前か null
   let sets = {a:null, b:null}, active = "a";
-  const shown = () => active === "b" && !sets.b ? "a" : active;   // B がないまま B を選んでいるときは、欄は A のまま
+  const shown = () => active === "b" && !sets.b ? "a" : active;
+  let lvDiff = false;                                          // レベル別の予測でもう一方との差を出すか   // B がないまま B を選んでいるときは、欄は A のまま
   const gearSnap = s => !s.g ? null : s.g.parts ? {parts:[...s.g.parts], e:s.e} : {name:s.g.name, e:s.e};
   const snapNow = () => ({w:gearSnap(cur.ws), a:gearSnap(cur.as), i:[cur.i1, cur.i2].map(x => x ? x.name : null)});
   // 保存内容から読むときは形を確かめる（合わなければ、そのセットはなし）
@@ -277,15 +280,21 @@
     if (K.some(k=>r.resBase[k])) rows.splice(1, 0, ["うち共鳴", r.resBase, sgn]);
     if (r.start > 1) rows.splice(rows.length-1, 0, [`出発時 Lv${r.start}`, r.at(r.start), String]);
     $("st").innerHTML = rows.map(([n,v,f2])=>`<tr><td class="lbl">${n}</td>${K.map(k=>`<td>${f2(v[k])}</td>`).join("")}</tr>`).join("");
-    let h = "";
-    for (let L=r.start; L<=99; L++){ const s = r.at(L); h += `<tr class="${KEY_LV.has(L)||L===r.start?"key":""}"><td>${L}${L===r.start && L>1 ? "（出発）" : ""}</td>${K.map(k=>`<td>${s[k]}</td>`).join("")}</tr>`; }
-    $("lv").innerHTML = h;
     // 欄に出ている方は欄から、もう一方は持っている装備から計算する
     const sh = shown(), ok = sh === "a" ? "b" : "a";
     sets[sh] = snapNow();
     if (!sets.a) sets.a = sets[sh];
     const here = {s:{ws:cur.ws, as:cur.as, its:[cur.i1, cur.i2]}, r, f};
     const other = sets[ok] && (x => { const s = setOf(x), ro = build(s.ws.g, s.ws.e, s.as.g, s.as.e, s.its, resonances(s.ws.g, s.as.g, R)); return {s, r:ro, f:forest(ro)}; })(sets[ok]);
+    // レベル別の予測。B があるときは「A だけ／B との差」を切り替える。差は選んでいる方−もう一方で、値の下に小さく出す（0なら出さない）
+    $("lvsw").hidden = !other;
+    $("lvone").textContent = `${sh.toUpperCase()} だけ`; $("lvdiff").textContent = `${ok.toUpperCase()} との差`;
+    $("lvone").setAttribute("aria-pressed", String(!lvDiff)); $("lvdiff").setAttribute("aria-pressed", String(lvDiff));
+    const ro = lvDiff && other ? other.r : null;
+    const dif = (v, w) => { const d = v - w; return d ? `<small class="${d > 0 ? "ok" : "ng"}">${d > 0 ? "+" : "−"}${Math.abs(d)}</small>` : ""; };
+    let h = "";
+    for (let L=r.start; L<=99; L++){ const s = r.at(L), o = ro && ro.at(L); h += `<tr class="${KEY_LV.has(L)||L===r.start?"key":""}"><td>${L}${L===r.start && L>1 ? "（出発）" : ""}</td>${K.map(k=>`<td>${s[k]}${o ? dif(s[k], o[k]) : ""}</td>`).join("")}</tr>`; }
+    $("lv").innerHTML = h;
     const A = sh === "a" ? here : other, B = sh === "a" ? other : here;
     renderAB(A, B);
     renderGoals(A.r, B && B.r);
@@ -520,6 +529,7 @@
   $("xlv").addEventListener("focusout", () => { editing = null; $("xlv").value = xlvVal(); save(); });
 
   // 比較：A・B の切り替え（欄の装備を持ってから、もう一方を欄に入れる）、B を作る（A をコピー／空欄から）、B を消す
+  document.querySelectorAll("[data-lvd]").forEach(b => b.addEventListener("click", () => { lvDiff = b.dataset.lvd === "1"; render(); }));
   document.querySelectorAll("[data-set]").forEach(b => b.addEventListener("click", () => {
     const k = b.dataset.set; if (k === active) return;
     sets[shown()] = snapNow();
