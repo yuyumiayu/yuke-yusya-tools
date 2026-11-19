@@ -42,6 +42,8 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
 .lv tbody tr:nth-child(even){background:var(--row)}
 .lv tr.key td{color:var(--gold)}
 .lv tr.key td:first-child::after{content:" ◆";font-size:10px}
+.lv td small{display:block;font-size:10.5px;line-height:1.1}   /* もう一方との差 */
+.lvsw{margin:0 0 8px}
 /* 総当たり */
 .sweep{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;color:var(--muted);margin-left:auto;cursor:pointer}
 .sweep input{accent-color:var(--gold);width:16px;height:16px}
@@ -109,7 +111,7 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
 .abseg{display:inline-flex;border:2px solid var(--muted);border-radius:6px;overflow:hidden}
 .abseg button{font:inherit;font-size:12.5px;color:var(--muted);background:transparent;border:0;padding:3px 12px;cursor:pointer;min-height:30px}
 .abseg button b{font-family:"DotGothic16",monospace;font-weight:400;font-size:14px;margin-right:4px}
-.abseg button[aria-selected=true]{background:var(--gold);color:var(--win)}
+.abseg button[aria-selected=true],.abseg button[aria-pressed=true]{background:var(--gold);color:var(--win)}
 .eqnew{justify-content:center;flex-wrap:wrap;gap:10px;padding:18px 0 6px}
 .eqnew:not([hidden]){display:flex}
 .eqnew button,.delb button{font:inherit;font-size:13.5px;background:transparent;border:2px solid;border-radius:6px;padding:7px 14px;cursor:pointer}
@@ -282,6 +284,7 @@ td.lbl{font-family:inherit;font-size:13px;color:var(--muted)}
 
   <section class="win" aria-labelledby="h-l" data-fold="calc-levels">
     <h2 id="h-l">レベル別の予測</h2>
+    <div class="lvsw" id="lvsw" hidden><div class="abseg" role="group" aria-label="レベル別の予測の出し方"><button type="button" id="lvone" data-lvd="0"></button><button type="button" id="lvdiff" data-lvd="1"></button></div></div>
     <div class="lvbox"><table class="lv"><thead><tr><th>Lv</th><th>HP</th><th>攻</th><th>防</th><th>回</th><th>運</th></tr></thead><tbody id="lv"></tbody></table></div>
   </section>
 </div>
