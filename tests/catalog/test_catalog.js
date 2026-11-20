@@ -17,5 +17,13 @@ for (const [k, [rows, fields]] of Object.entries(SRC)){
   check(!extra.length && !missing.length && have.every(n => String(N[k][n]).trim()),
     `注釈（${k}）：データの番号と注釈がそろっている`, `注釈${have.length}件／データ${used.size}件` + (extra.length ? ` 余り:${extra}` : "") + (missing.length ? ` 不足:${missing}` : ""));
 }
+// 共鳴の「ない」の説明は、片方だけ今のゲームにない共鳴があるときだけ置く（メンテナー判断）。なくなったら説明を消す
+{
+  const g = {}; [...SRC.weapon[0], ...SRC.armor[0]].forEach(x => { g[x.name] = x.in_game; });
+  const one = SRC.resonance[0].filter(r => (g[r.weapon] === false) !== (g[r.armor] === false)).map(r => r.name);
+  const html = require("fs").readFileSync(require("path").join(__dirname, "../../src/catalog/template.html"), "utf8");
+  check(one.length > 0 === html.includes('id="note-res"'), "共鳴の「ない」の説明：片方だけ今のゲームにない共鳴があるときだけ出す",
+    one.length ? `今は ${one.join("・")}` : "片方だけの共鳴がなくなったので、src/catalog/template.html の note-res を消す");
+}
 console.log(bad ? `${bad} NG` : "all OK");
 process.exitCode = bad ? 1 : 0;
