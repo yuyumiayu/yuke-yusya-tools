@@ -63,7 +63,7 @@
       {key:"rname", label:"共鳴", val:x => x.name, cls:"l", show:x => notes(x.name + (x.name_note || ""), "r")},
       {key:"effect", label:"効果", val:x => x.effect, cls:"wrap", show:x => notes(x.effect, "r")},
       {key:"calc", label:"ステータス", val:x => x.calc ? 1 : 0, cls:"l",
-        show:x => x.calc ? `<span class="tag">${x.calc.pending ? "未反映" : "効く"}</span>` : ""},
+        show:x => x.calc ? `<span class="tag">${x.calc.pending ? "未反映" : "影響あり"}</span>` : ""},
     ]},
   };
 
