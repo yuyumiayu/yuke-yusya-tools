@@ -65,6 +65,9 @@ console.log(`${total-bad}/${total} rows match`);
     ["鉄の剣×銀の鎧（共鳴なし）", lv1(w("鉄の剣"), a("銀の鎧")), [], {luk:5}],
     ["正宗×太陽の鎧＋力餅（倍率の足し算）", lv1(w("正宗"), a("太陽の鎧"), [i("力餅")]), [], {atk:86}],
   ];
+  // ステータスアップは実機の値（ディフェンダー+4×オフェンサー+5、道具なしで Lv1 HP30・攻81・防83）
+  { const res = resonances(w("ディフェンダー"), a("オフェンサー"), R), s = build(w("ディフェンダー"), 4, a("オフェンサー"), 5, [], res).at(1);
+    cases.push(["ディフェンダー+4×オフェンサー+5（実機）", {names: res.map(r=>r.name), s}, ["ステータスアップ"], {hp:30, atk:81, def:83, eva:5, luk:5}]); }
   for (const [label, got, names, exp] of cases){
     const ok = JSON.stringify(got.names)===JSON.stringify(names) && Object.keys(exp).every(k=>got.s[k]===exp[k]);
     console.log(ok?"OK":"NG", "共鳴", label, got.names.join("/"), JSON.stringify(got.s)); if(!ok) bad++;
