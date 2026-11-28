@@ -49,8 +49,13 @@ function build(weapon, wEnh, armor, aEnh, items, res){
   const zero = vec(()=>0);
   // 負ステータス耐性：装備・道具の負の基本値・成長補正を0にする（倍率を掛ける前）
   const pos = res.some(r => r.calc && r.calc.no_negative) ? (v => vec(k => Math.max(0, v[k]))) : (v => v);
-  const wB = weapon ? mul(add(pos(weapon.base), {atk:wEnh}), m.wBase) : zero;
-  const aB = armor ? mul(add(pos(armor.base), {def:aEnh}), m.aBase) : zero;
+  const wB0 = weapon ? mul(add(pos(weapon.base), {atk:wEnh}), m.wBase) : zero;
+  const aB0 = armor ? mul(add(pos(armor.base), {def:aEnh}), m.aBase) : zero;
+  // ステータスアップ（ディフェンダー×オフェンサー）：武器・防具の基本値（強化値込み、アビリティ倍率のあと）の攻・防を1.3倍、端数は切り捨て
+  // （実機で確認：ディフェンダー+4×オフェンサー+5 で Lv1 攻81・防83）
+  const gm = Object.assign({}, ...res.map(r => (r.calc && r.calc.gear_mul) || {}));
+  const gmul = v => vec(k => gm[k] ? Math.floor(clean(v[k] * gm[k])) : v[k]);
+  const wB = gmul(wB0), aB = gmul(aB0);
   const wG = weapon ? mul(pos(weapon.growth), m.wGrow) : zero;
   const aG = armor ? mul(pos(armor.growth), m.aGrow) : zero;
   // 共鳴の出発時補正（生命アップ・運アップ・基本値アップ）は倍率の外で足す
